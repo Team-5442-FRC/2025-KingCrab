@@ -39,7 +39,7 @@ public class RobotContainer {
     // private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric()
     //         .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
 
-    private final Telemetry logger = new Telemetry(MaxSpeed);
+    public static final Telemetry logger = new Telemetry(driveConstants.MaxSpeed);
 
     public static CommandXboxController joystick = new CommandXboxController(0);
     public static XboxController xbox1 = new XboxController(0);
