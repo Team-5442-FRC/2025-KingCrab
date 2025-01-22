@@ -25,15 +25,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.Telemetry;
+import frc.robot.Constants.visionConstants;
 
 
 public class Vision extends SubsystemBase {
   
-  ArrayList<Object> cameras = new ArrayList<Object>();
+  ArrayList<CalculatedCamera> cameras = new ArrayList<CalculatedCamera>();
 
   
-    public final static PhotonCamera ThriftyCamera = new PhotonCamera("Thrifty_Camera");
-    public final static PhotonCamera MicrosoftCamera = new PhotonCamera("Microsoft_Camera");
+    public final static CalculatedPhotonVision MicrosoftCamera = new CalculatedPhotonVision("Mircosoft_Camera",visionConstants.cameraOffset);
+    public final static CalculatedPhotonVision ThriftyCamera = new CalculatedPhotonVision("Thrifty_Camera",visionConstants.cameraOffset);
 
     PhotonPoseEstimator microsoftPoseEstimator = new PhotonPoseEstimator(AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape), PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, new Transform3d(new Translation3d(0,0,0), new Rotation3d(0,0,0)));
     PhotonPoseEstimator thriftyPoseEstimator = new PhotonPoseEstimator(AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape), PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, new Transform3d(new Translation3d(0,0,0), new Rotation3d(0,0,0)));
@@ -52,30 +53,14 @@ public class Vision extends SubsystemBase {
     double fR = 0;
     double tot = 0;
 
-    for (Object camera: cameras) {
-      if (camera instanceof CalculatedLimelight) {
-        if(((CalculatedLimelight)camera).hasTarget()) {
-          fX += ((CalculatedLimelight)camera).getFieldPose().getX() * ((CalculatedLimelight)camera).getTrust();
-          fY += ((CalculatedLimelight)camera).getFieldPose().getY() * ((CalculatedLimelight)camera).getTrust();
-          fR += ((CalculatedLimelight)camera).getFieldPose().getRotation().getRadians() * ((CalculatedLimelight)camera).getTrust();
-          tot += ((CalculatedLimelight)camera).getTrust();
+    for (CalculatedCamera camera: cameras) {
+        if (camera.hasTarget()) {
+          fX += camera.getFieldPose().getX() * camera.getTrust();
+          fY += camera.getFieldPose().getY() * camera.getTrust();
+          fR += camera.getFieldPose().getRotation().getRadians() * camera.getTrust();
+          tot += camera.getTrust();
         }
       }
-      if (camera instanceof PhotonCamera) {
-        var result = ((PhotonCamera)camera).getLatestResult();
-        if(result.hasTargets()) {
-          Pose3d robotPose3d = PhotonUtils.estimateFieldToRobotAprilTag(
-            result.getBestTarget().bestCameraToTarget,
-            AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape).getTagPose(0).get(), //TODO Choose which target its looking at
-            new Transform3d(new Translation3d(0,0,0), new Rotation3d(0,0,0))
-          );
-          fX += robotPose3d.getX();
-          fY += robotPose3d.getY();
-          fR += robotPose3d.getRotation().getZ();
-          tot += 1; //TODO Calculate Trust
-        }
-      }
-    }
     fX /= tot;
     fY /= tot;
     fR /= tot;
@@ -84,13 +69,6 @@ public class Vision extends SubsystemBase {
   
   @Override
   public void periodic() {
-    var VisionResult = Vision.MicrosoftCamera.getLatestResult();
-    SmartDashboard.putBoolean("Has Targets", VisionResult.hasTargets());
 
-    // VisionResult.getMultiTagResult()
-    Optional<EstimatedRobotPose> pose = microsoftPoseEstimator.update(VisionResult);
-    SmartDashboard.putString("Pose: ", pose.toString());
-
-    Pose3d robotPose = PhotonUtils.estimateFieldToRobotAprilTag(VisionResult.getTargets().get(0).getBestCameraToTarget(), AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape).getTagPose(0).get(), new Transform3d(new Translation3d(0,0,0), new Rotation3d(0,0,0)));
-  }
+    }
 }
