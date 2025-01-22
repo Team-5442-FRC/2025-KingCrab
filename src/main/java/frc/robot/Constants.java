@@ -18,7 +18,7 @@ public class Constants {
     public static final class driveConstants {
 
         public final static double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
-        public final static double MaxAngularRate = RotationsPerSecond.of(4.5).in(RadiansPerSecond); // 4.5 rotations per second max angular velocity
+        public final static double MaxAngularRate = RotationsPerSecond.of(4 * Math.PI).in(RadiansPerSecond); // 2 rotations per second max angular velocity
 
         // public final static double MaxSpeed = 5; //Max targeted speed in M/S (15 NORMALLY)
         // public final static double MaxAngularRate = 1.5 * Math.PI * 3; //Max targeted rotations / second -- 3/4ths of a rotation for now
