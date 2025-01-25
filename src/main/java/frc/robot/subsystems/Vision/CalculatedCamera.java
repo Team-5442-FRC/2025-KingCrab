@@ -5,6 +5,8 @@
 package frc.robot.subsystems.Vision;
 
 import edu.wpi.first.math.geometry.Pose2d;
+
+/** It's like a blank recipe sheet for pies. */
 public class CalculatedCamera {
 
   ////// Values \\\\\
@@ -24,6 +26,8 @@ public class CalculatedCamera {
   public boolean hasTarget() {
     return false;
   }
+
+  public void updateResult() {};
 
   /** Returns the ID of the currently visible target, or -1 if none are present. */
   public long getTargetID() {

@@ -11,12 +11,15 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import frc.robot.Constants.visionConstants;
 
-/** Converts most of the important NetworkTables values to more friendly formats. */
+/** Converts most of the important NetworkTables values to more friendly formats.
+ * It's also like the instructions for making a key lime pie.
+*/
 public class CalculatedLimelight extends CalculatedCamera{
 
   ///// Values \\\\\
   NetworkTableInstance inst = NetworkTableInstance.getDefault();
   String key;
+  NetworkTable table;
 
 
 
@@ -25,10 +28,15 @@ public class CalculatedLimelight extends CalculatedCamera{
     super(key);
     this.key = key;
   }
+
+  @Override
+  public void updateResult() {
+    table = inst.getTable(key);
+  }
   
   /** Returns the Limelight NetworkTable for this camera. */
   public NetworkTable getNetworkTable() {
-    return inst.getTable(key);
+    return table;
   }
 
   /** Returns true if there is a target in view. */
@@ -72,8 +80,8 @@ public class CalculatedLimelight extends CalculatedCamera{
 
     return new Pose2d(
       new Translation2d(
-        fieldTable[0], // X position (right/left from camera perspective)
-        fieldTable[2]  // Z position (forward/back from camera perspective)
+        fieldTable[2], // X position (right/left from camera perspective)
+        fieldTable[0]  // Z position (forward/back from camera perspective)
       ),
       Rotation2d.fromDegrees(fieldTable[5]) // Rotation (pitch)
     );

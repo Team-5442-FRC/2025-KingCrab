@@ -30,11 +30,13 @@ import frc.robot.Constants.visionConstants;
 
 public class Vision extends SubsystemBase {
   
-  ArrayList<CalculatedCamera> cameras = new ArrayList<CalculatedCamera>();
+  ArrayList<CalculatedCamera> cameras = new ArrayList<CalculatedCamera>(); // the binder binder of binding binders like melvin sneedly invented at his 5th grade invention convention
 
   
-    public final static CalculatedPhotonVision MicrosoftCamera = new CalculatedPhotonVision("Mircosoft_Camera",visionConstants.cameraOffset);
+    public final static CalculatedPhotonVision MicrosoftCamera = new CalculatedPhotonVision("Microsoft_Camera",visionConstants.cameraOffset);
     public final static CalculatedPhotonVision ThriftyCamera = new CalculatedPhotonVision("Thrifty_Camera",visionConstants.cameraOffset);
+    public final static CalculatedPhotonVision GenoCamera = new CalculatedPhotonVision("Geno_Camera", visionConstants.cameraOffset); // geno camera
+    public final static CalculatedLimelight LimelightMain = new CalculatedLimelight("limelight-main");
 
     PhotonPoseEstimator microsoftPoseEstimator = new PhotonPoseEstimator(AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape), PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, new Transform3d(new Translation3d(0,0,0), new Rotation3d(0,0,0)));
     PhotonPoseEstimator thriftyPoseEstimator = new PhotonPoseEstimator(AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape), PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, new Transform3d(new Translation3d(0,0,0), new Rotation3d(0,0,0)));
@@ -44,6 +46,7 @@ public class Vision extends SubsystemBase {
   public Vision() {
     cameras.add(MicrosoftCamera);
     cameras.add(ThriftyCamera);
+    cameras.add(GenoCamera);
   }
   
 
@@ -54,13 +57,14 @@ public class Vision extends SubsystemBase {
     double tot = 0;
 
     for (CalculatedCamera camera: cameras) {
-        if (camera.hasTarget()) {
-          fX += camera.getFieldPose().getX() * camera.getTrust();
-          fY += camera.getFieldPose().getY() * camera.getTrust();
-          fR += camera.getFieldPose().getRotation().getRadians() * camera.getTrust();
-          tot += camera.getTrust();
-        }
+      camera.updateResult();
+      if (camera.hasTarget()) {
+        fX += camera.getFieldPose().getX() * camera.getTrust();
+        fY += camera.getFieldPose().getY() * camera.getTrust();
+        fR += camera.getFieldPose().getRotation().getRadians() * camera.getTrust();
+        tot += camera.getTrust();
       }
+    }
     fX /= tot;
     fY /= tot;
     fR /= tot;
@@ -69,6 +73,17 @@ public class Vision extends SubsystemBase {
   
   @Override
   public void periodic() {
+    SmartDashboard.putBoolean("Microsoft_Camera HasTarget", MicrosoftCamera.hasTarget());
+    SmartDashboard.putBoolean("Thrifty_Camera HasTarget", ThriftyCamera.hasTarget());
+    SmartDashboard.putBoolean("Geno_Camera HasTarget", GenoCamera.hasTarget());
 
-    }
+    SmartDashboard.putNumber("camera position x" , getFieldPose().getX());
+    SmartDashboard.putNumber("camera position y" , getFieldPose().getY());
+    SmartDashboard.putNumber("camera position r" , getFieldPose().getRotation().getDegrees());
+
+    SmartDashboard.putNumber("Microsoft_Camera Trust", MicrosoftCamera.getTrust());
+    SmartDashboard.putNumber("Thrifty_Camera Trust", ThriftyCamera.getTrust());
+    SmartDashboard.putNumber("Geno_Camera Trust", GenoCamera.getTrust());
+    SmartDashboard.putNumber("limelight-main Trust", LimelightMain.getTrust());
+  }
 }
