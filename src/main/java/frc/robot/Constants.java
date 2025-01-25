@@ -44,7 +44,10 @@ public class Constants {
     public static final class visionConstants {
 
         public final static double AngleDistrust = 10; // How much the angle should impact vision trust
-        public final static Transform3d cameraOffset = new Transform3d(0, 0, 0, new Rotation3d(0,0,0));
+        public final static Transform3d microsoftCameraOffset = new Transform3d(0, 0, 0, new Rotation3d(0,0,0));
+        public final static Transform3d thriftyCameraOffset   = new Transform3d(0, 0, 0, new Rotation3d(0,0,0));
+        public final static Transform3d genoCameraOffset      = new Transform3d(0, 0, 0, new Rotation3d(0,0,0));
+        public final static Transform3d limelightCameraOffset = new Transform3d(0, 0, 0, new Rotation3d(0,0,0)); // Probably not needed
     
     }
 }
