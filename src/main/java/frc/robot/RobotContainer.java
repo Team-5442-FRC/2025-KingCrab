@@ -6,6 +6,8 @@ package frc.robot;
 
 import static edu.wpi.first.units.Units.*;
 
+import org.photonvision.PhotonCamera;
+
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
@@ -22,6 +24,7 @@ import frc.robot.Constants.driveConstants;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.DriveModes;
+import frc.robot.subsystems.Vision.Vision;
 
 public class RobotContainer {
     private double MaxSpeed = driveConstants.MaxSpeed;
@@ -36,13 +39,18 @@ public class RobotContainer {
     // private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric()
     //         .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
 
-    private final Telemetry logger = new Telemetry(MaxSpeed);
+    public static final Telemetry logger = new Telemetry(driveConstants.MaxSpeed);
 
     public static CommandXboxController joystick = new CommandXboxController(0);
     public static XboxController xbox1 = new XboxController(0);
     public static XboxController xbox2 = new XboxController(1);
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+
+    public final static PhotonCamera camera = new PhotonCamera("PC_Camera");
+
+    public static final Vision vision = new Vision();
+
 
     /* Path follower */
     private final SendableChooser<Command> autoChooser;
