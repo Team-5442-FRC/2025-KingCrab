@@ -27,6 +27,7 @@ public class CalculatedLimelight extends CalculatedCamera{
   public CalculatedLimelight(String key) {
     super(key);
     this.key = key;
+    updateResult();
   }
 
   @Override
