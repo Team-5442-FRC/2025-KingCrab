@@ -41,6 +41,11 @@ public class Constants {
 
     }
 
+    public static final class elevatorConstants {
+        public final static double armRightLimit = 0; //TODO add correct limit
+        public final static double armLeftLimit = 0; //TODO add correct limit
+    }
+
     public static final class visionConstants {
 
         public final static double AngleDistrust = 10; // How much the angle should impact vision trust
