@@ -100,6 +100,12 @@ public class RobotContainer {
         drivetrain.registerTelemetry(logger::telemeterize);
     }
 
+    /** Function that returns a given speed, as long as it is above the deadzone set in Constants. */
+    public static double Deadzone(double speed) {
+        if (Math.abs(speed) > driveConstants.ControllerDeadzone) return speed;
+        return 0;
+    }
+
     public Command getAutonomousCommand() {
         /* Run the path selected from the auto chooser */
         return autoChooser.getSelected();
