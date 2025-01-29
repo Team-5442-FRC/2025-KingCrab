@@ -41,6 +41,13 @@ public class Constants {
 
     }
 
+    public static final class intakeConstants {
+
+        public final static double MinAngle = 0; // Degrees
+        public final static double MaxAngle = 90; // Degrees
+
+    }
+
     public static final class visionConstants {
 
         public final static double AngleDistrust = 10; // How much the angle should impact vision trust
