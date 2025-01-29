@@ -45,7 +45,17 @@ public class Constants {
 
         public final static double MinAngle = 0; // Degrees
         public final static double MaxAngle = 90; // Degrees
+      
+    }
 
+    public static final class elevatorConstants {
+      
+        public final static double armRightLimit = 0; //TODO add correct limit y-axis
+        public final static double armLeftLimit = 0; //TODO add correct limit y-axis
+
+        public final static double armTopLimit = 0; //TODO add correct limit z-axis
+        public final static double armBottomLimit = 0; //TODO add correct limit z-axis
+      
     }
 
     public static final class visionConstants {
