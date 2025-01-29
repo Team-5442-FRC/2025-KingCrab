@@ -16,7 +16,7 @@ public class Intake extends SubsystemBase {
   double pivotSpeed;
   double targetAngle;
   double currentAngle;
-  PIDController pivotPID = new PIDController(0.00001, 0, 0);
+  PIDController pivotPID = new PIDController(intakeConstants.IntakePIDkp, intakeConstants.IntakePIDki, intakeConstants.IntakePIDkd);
 
   /** Creates a new Intake. */
   public Intake() {}

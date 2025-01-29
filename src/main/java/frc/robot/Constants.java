@@ -45,7 +45,11 @@ public class Constants {
 
         public final static double MinAngle = 0; // Degrees
         public final static double MaxAngle = 90; // Degrees
-      
+        
+        public final static double IntakePIDkp = 0.00001; // Proportion 
+        public final static double IntakePIDki = 0; // Integral 
+        public final static double IntakePIDkd = 0; // Derivative
+
     }
 
     public static final class elevatorConstants {
