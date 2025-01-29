@@ -54,6 +54,9 @@ public class RobotContainer {
     public static VictorSP rightMotor = new VictorSP(0); // TODO update this motor channel
     public static SparkMax pivotMotor = new SparkMax(0, MotorType.kBrushless); // TODO update motor channel-
 
+    public static SparkMax upAndDownMotor = new SparkMax(0, MotorType.kBrushless); // TODO update motor channel-
+    public static SparkMax side2SideMotor = new SparkMax(0, MotorType.kBrushless); // TODO update motor channel-
+
     public final static PhotonCamera camera = new PhotonCamera("PC_Camera");
 
     public static final Vision vision = new Vision();
