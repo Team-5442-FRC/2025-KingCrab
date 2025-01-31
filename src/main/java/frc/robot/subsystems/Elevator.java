@@ -5,13 +5,14 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.elevatorConstants;
 import frc.robot.subsystems.DriveModes;
 
-public class ElevatorSubsystem extends SubsystemBase {
+public class Elevator extends SubsystemBase {
   
 boolean side2SideManualMode;
 boolean upAndDownManualMode;
@@ -25,7 +26,7 @@ PIDController upAndDownPID = new PIDController(.00001, 0, 0);
 PIDController side2sidePID = new PIDController(.00001, 0, 0);
 
   /** Creates a new ElevatorSubsystem. */
-  public ElevatorSubsystem() {}
+  public Elevator() {}
 
   @Override
   public void periodic() {
@@ -93,11 +94,11 @@ PIDController side2sidePID = new PIDController(.00001, 0, 0);
   }
 
   public double getHeight() {
-    return 0; //TODO Find formula to calculate
+    return RobotContainer.upAndDownMotor.getAbsoluteEncoder().getPosition(); //TODO Find formula to calculate
   }
 
   public double setSideToSide() {
-    return 0; //TODO Find formula to calculate
+    return RobotContainer.side2SideMotor.getAbsoluteEncoder().getPosition(); //TODO Find formula to calculate
   }
 }
 
