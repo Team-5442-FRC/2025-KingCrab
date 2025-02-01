@@ -45,7 +45,21 @@ public class Constants {
 
         public final static double MinAngle = 0; // Degrees
         public final static double MaxAngle = 90; // Degrees
-      
+        
+        public final static double IntakePIDkp = 0.00001; // Proportion
+        public final static double IntakePIDki = 0; // Integral 
+        public final static double IntakePIDkd = 0; // Derivative
+
+        public final static double PivotGearRatio = 25; // Motor rotations to get one output rotation
+        public final static double PivotAngleUp = 90;
+        public final static double PivotAngleAlgae = 15;
+        public final static double PivotAngleFloor = 0;
+
+        public final static double LeftSpeed = 0.5;
+        public final static double RightSpeed = 0.8;
+        public final static double LeftReverseSpeed = -0.1;
+        public final static double RightReverseSpeed = -0.1;
+
     }
 
     public static final class elevatorConstants {
