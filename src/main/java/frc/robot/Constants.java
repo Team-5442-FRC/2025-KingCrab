@@ -76,20 +76,22 @@ public class Constants {
     }
 
     public static final class armConstants {
-        public final static double extendForwardLimit = 0; //TODO add the right limits
-        public final static double extendBackwardLimit = 0; //TODO add the right limits
+        public final static double ExtendForwardLimit = 0; //TODO add the right limits
+        public final static double ExtendBackwardLimit = 0; //TODO add the right limits
 
-        public final static double rotateUpLimit = 172; //TODO add the right limits
-        public final static double rotateDownLimit = 78; //TODO add the right limits
+        public final static double RotateUpLimit = 172; //TODO add the right limits
+        public final static double RotateDownLimit = 78; //TODO add the right limits
 
-        public final static double extendPIDkp = 0.00001;
-        public final static double extendPIDki = 0;
-        public final static double extendPIDkd = 0;
+        public final static double ExtendPIDkp = 0.00001;
+        public final static double ExtendPIDki = 0;
+        public final static double ExtendPIDkd = 0;
 
-        public final static double rotatePIDkp = 0.00001;
-        public final static double rotatePIDki = 0;
-        public final static double rotatePIDkd = 0;
+        public final static double RotatePIDkp = 0.00001;
+        public final static double RotatePIDki = 0;
+        public final static double RotatePIDkd = 0;
 
+        public final static double ExtendSpeedFactor = 1;
+        public final static double RotateSpeedFactor = 1;
     }
 
     public static final class visionConstants {
