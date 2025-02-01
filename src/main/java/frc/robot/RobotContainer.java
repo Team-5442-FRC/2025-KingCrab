@@ -28,6 +28,8 @@ import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.DriveModes;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Vision.Vision;
 
 public class RobotContainer {
@@ -51,12 +53,17 @@ public class RobotContainer {
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
+    public static Intake intake = new Intake();
     public static VictorSP leftMotor = new VictorSP(0); // TODO update this motor channel
     public static VictorSP rightMotor = new VictorSP(0); // TODO update this motor channel
     public static SparkMax pivotMotor = new SparkMax(0, MotorType.kBrushless); // TODO update motor channel-
 
     public static Climber climber = new Climber();
     public static SparkMax climberMotor = new SparkMax(0, MotorType.kBrushless);
+
+    public static Elevator elevator = new Elevator();
+    public static SparkMax upAndDownMotor = new SparkMax(0, MotorType.kBrushless); // TODO update motor channel-
+    public static SparkMax side2SideMotor = new SparkMax(0, MotorType.kBrushless); // TODO update motor channel-
 
     public final static PhotonCamera camera = new PhotonCamera("PC_Camera");
 
