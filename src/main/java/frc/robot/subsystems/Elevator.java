@@ -70,8 +70,8 @@ PIDController side2sidePID = new PIDController(.00001, 0, 0);
 
   public void moveUpAndDown (double speed) {
     //Calculate if user is in control
-    if (Math.abs(RobotContainer.Deadzone(RobotContainer.xbox1.getLeftY())) > 0) upAndDownManualMode = true;
-    else if (upAndDownManualMode && Math.abs(RobotContainer.Deadzone(RobotContainer.xbox1.getLeftY())) > 0) {
+    if (Math.abs(RobotContainer.Deadzone(speed)) > 0) upAndDownManualMode = true;
+    else if (upAndDownManualMode && Math.abs(RobotContainer.Deadzone(speed)) > 0) {
       upAndDownTargetPos = upAndDownCurrentPos;
       upAndDownManualMode = false; 
     }
@@ -97,8 +97,9 @@ PIDController side2sidePID = new PIDController(.00001, 0, 0);
     return RobotContainer.upAndDownMotor.getAbsoluteEncoder().getPosition(); //TODO Find formula to calculate
   }
 
-  public double setSideToSide() {
+  public double getSideToSide() {
     return RobotContainer.side2SideMotor.getAbsoluteEncoder().getPosition(); //TODO Find formula to calculate
   }
+  
 }
 
