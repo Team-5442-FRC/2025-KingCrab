@@ -27,6 +27,7 @@ import frc.robot.Constants.driveConstants;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.DriveModes;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Vision.Vision;
 
 public class RobotContainer {
@@ -50,6 +51,7 @@ public class RobotContainer {
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
+    public static Intake intake = new Intake();
     public static VictorSP leftMotor = new VictorSP(0); // TODO update this motor channel
     public static VictorSP rightMotor = new VictorSP(0); // TODO update this motor channel
     public static SparkMax pivotMotor = new SparkMax(0, MotorType.kBrushless); // TODO update motor channel-
