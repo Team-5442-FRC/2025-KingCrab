@@ -21,13 +21,13 @@ public class Arm extends SubsystemBase {
   double targetAngle;
   double rotateSpeed;
 
-  PIDController extendPID = new PIDController(armConstants.rotatePIDkp, armConstants.rotatePIDki, armConstants.rotatePIDkd);
-  PIDController rotatePID = new PIDController(armConstants.extendPIDkp, armConstants.rotatePIDki, armConstants.rotatePIDkd);
+  PIDController extendPID = new PIDController(armConstants.RotatePIDkp, armConstants.RotatePIDki, armConstants.RotatePIDkd);
+  PIDController rotatePID = new PIDController(armConstants.ExtendPIDkp, armConstants.RotatePIDki, armConstants.RotatePIDkd);
 
   @Override
   public void periodic() {
-    RobotContainer.extendMotor.set(extendSpeed);
-    RobotContainer.rotateMotor.set(rotateSpeed);
+    RobotContainer.extendMotor.set(extendSpeed * armConstants.ExtendSpeedFactor);
+    RobotContainer.rotateMotor.set(rotateSpeed * armConstants.RotateSpeedFactor);
   }
 
   public void extend(double speed){
@@ -40,27 +40,27 @@ public class Arm extends SubsystemBase {
     }
 
     if (manualExtendMode) {
-      if (speed>0 && getExtension() > armConstants.extendForwardLimit) {
+      if (speed>0 && getExtension() > armConstants.ExtendForwardLimit) {
         speed = 0;
-        targetExtend = armConstants.extendForwardLimit;
+        targetExtend = armConstants.ExtendForwardLimit;
       }
 
-      if (speed<0 && getExtension() > armConstants.extendBackwardLimit) {
+      if (speed<0 && getExtension() > armConstants.ExtendBackwardLimit) {
         speed = 0;
-        targetExtend = armConstants.extendBackwardLimit;
+        targetExtend = armConstants.ExtendBackwardLimit;
       }
     }
 
     if (!manualExtendMode || speed==0){
-      speed = extendPID.calculate(targetExtend - getExtension());
+    speed = extendPID.calculate(targetExtend - getExtension());
     }
     
     this.extendSpeed = speed;
   }
 
   public void setTargetExtend(double targetExtend){
-    if (targetExtend>armConstants.extendForwardLimit) targetExtend = armConstants.extendForwardLimit;
-    else if (targetExtend>armConstants.extendBackwardLimit) targetExtend = armConstants.extendBackwardLimit;
+    if (targetExtend>armConstants.ExtendForwardLimit) targetExtend = armConstants.ExtendForwardLimit;
+    else if (targetExtend>armConstants.ExtendBackwardLimit) targetExtend = armConstants.ExtendBackwardLimit;
     this.targetExtend = targetExtend;
   }
 
@@ -80,14 +80,14 @@ public class Arm extends SubsystemBase {
     }
 
     if (manualRotateMode) {
-      if (speed>0 && getAngle() > armConstants.rotateUpLimit) {
+      if (speed>0 && getAngle() > armConstants.RotateUpLimit) {
         speed = 0;
-        targetAngle = armConstants.rotateUpLimit;
+        targetAngle = armConstants.RotateUpLimit;
       }
       
-      if (speed<0 && getAngle() > armConstants.rotateDownLimit) {
+      if (speed<0 && getAngle() > armConstants.RotateDownLimit) {
         speed = 0;
-        targetAngle = armConstants.rotateDownLimit;
+        targetAngle = armConstants.RotateDownLimit;
       }
     }
     
@@ -99,12 +99,12 @@ public class Arm extends SubsystemBase {
   }
 
   public void setTargetAngle(double targetAngle){
-    if (targetAngle>armConstants.rotateUpLimit) targetAngle = armConstants.rotateUpLimit;
-    else if (targetAngle>armConstants.rotateDownLimit) targetAngle = armConstants.rotateDownLimit;
+    if (targetAngle>armConstants.RotateUpLimit) targetAngle = armConstants.RotateUpLimit;
+    else if (targetAngle>armConstants.RotateDownLimit) targetAngle = armConstants.RotateDownLimit;
     this.targetAngle = targetAngle;
   }
 
   public double getAngle(){
-    return 0; /*Again, the arm will always be pointed straight forward*/
+    return 0; /*The arm will always be extended forward (real)*/
   }
 }
