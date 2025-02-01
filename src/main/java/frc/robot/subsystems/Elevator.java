@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
@@ -93,11 +94,12 @@ PIDController side2sidePID = new PIDController(.00001, 0, 0);
   }
 
   public double getHeight() {
-    return 0; //TODO Find formula to calculate
+    return RobotContainer.upAndDownMotor.getAbsoluteEncoder().getPosition(); //TODO Find formula to calculate
   }
 
-  public double setSideToSide() {
-    return 0; //TODO Find formula to calculate
+  public double getSideToSide() {
+    return RobotContainer.side2SideMotor.getAbsoluteEncoder().getPosition(); //TODO Find formula to calculate
   }
+  
 }
 
