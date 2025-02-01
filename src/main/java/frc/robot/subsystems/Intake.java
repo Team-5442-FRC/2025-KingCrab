@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.intakeConstants;
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 
 public class Intake extends SubsystemBase {
@@ -16,7 +17,7 @@ public class Intake extends SubsystemBase {
   double pivotSpeed;
   double targetAngle;
   double currentAngle;
-  PIDController pivotPID = new PIDController(0.00001, 0, 0);
+  PIDController pivotPID = new PIDController(intakeConstants.IntakePIDkp, intakeConstants.IntakePIDki, intakeConstants.IntakePIDkd);
 
   /** Creates a new Intake. */
   public Intake() {}
@@ -24,6 +25,8 @@ public class Intake extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    currentAngle = RobotContainer.pivotMotor.getAlternateEncoder().getPosition() / intakeConstants.PivotGearRatio;
+    
     RobotContainer.leftMotor.set(leftSpeed);
     RobotContainer.rightMotor.set(rightSpeed);
 
