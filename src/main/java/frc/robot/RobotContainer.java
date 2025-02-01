@@ -4,18 +4,12 @@
 
 package frc.robot;
 
-import static edu.wpi.first.units.Units.*;
-
 import org.photonvision.PhotonCamera;
 
-import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
-import com.ctre.phoenix6.swerve.SwerveRequest;
-
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkMax;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -25,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Constants.driveConstants;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.DriveModes;
 import frc.robot.subsystems.Vision.Vision;
@@ -53,6 +48,10 @@ public class RobotContainer {
     public static VictorSP leftMotor = new VictorSP(0); // TODO update this motor channel
     public static VictorSP rightMotor = new VictorSP(0); // TODO update this motor channel
     public static SparkMax pivotMotor = new SparkMax(0, MotorType.kBrushless); // TODO update motor channel-
+
+    public static Arm arm = new Arm();
+    public static SparkMax extendMotor = new SparkMax(0, MotorType.kBrushless); //TODO change deviceId value
+    public static SparkMax rotateMotor = new SparkMax(0, MotorType.kBrushless); //TODO change deviceId value
 
     public final static PhotonCamera camera = new PhotonCamera("PC_Camera");
 

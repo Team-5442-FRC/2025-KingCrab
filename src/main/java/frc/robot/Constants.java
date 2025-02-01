@@ -58,6 +58,23 @@ public class Constants {
       
     }
 
+    public static final class armConstants {
+        public final static double extendForwardLimit = 0; //TODO add the right limits
+        public final static double extendBackwardLimit = 0; //TODO add the right limits
+
+        public final static double rotateUpLimit = 172; //TODO add the right limits
+        public final static double rotateDownLimit = 78; //TODO add the right limits
+
+        public final static double extendPIDkp = 0.00001;
+        public final static double extendPIDki = 0;
+        public final static double extendPIDkd = 0;
+
+        public final static double rotatePIDkp = 0.00001;
+        public final static double rotatePIDki = 0;
+        public final static double rotatePIDkd = 0;
+
+    }
+
     public static final class visionConstants {
 
         public final static double AngleDistrust = 10; // How much the angle should impact vision trust
