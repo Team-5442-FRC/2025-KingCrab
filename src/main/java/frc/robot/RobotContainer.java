@@ -10,7 +10,10 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.Joystick.AxisType;
+import edu.wpi.first.wpilibj.Joystick.ButtonType;
 import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -42,7 +45,7 @@ public class RobotContainer {
 
     public static final Telemetry logger = new Telemetry(driveConstants.MaxSpeed);
 
-    public static CommandXboxController joystick = new CommandXboxController(0);
+    public static CommandXboxController joystick = new CommandXboxController(0); 
     public static XboxController xbox1 = new XboxController(0);
     public static XboxController xbox2 = new XboxController(1);
 
