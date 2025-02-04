@@ -52,9 +52,9 @@ public class RobotContainer {
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
     public static Intake intake = new Intake();
-    public static VictorSP leftMotor = new VictorSP(0); // TODO update this motor channel
-    public static VictorSP rightMotor = new VictorSP(0); // TODO update this motor channel
-    public static SparkMax pivotMotor = new SparkMax(0, MotorType.kBrushless); // TODO update motor channel-
+    // public static VictorSP leftMotor = new VictorSP(0); // TODO update this motor channel
+    // public static VictorSP rightMotor = new VictorSP(0); // TODO update this motor channel
+    // public static SparkMax pivotMotor = new SparkMax(0, MotorType.kBrushless); // TODO update motor channel-
 
     public static Arm arm = new Arm();
     public static SparkMax extendMotor = new SparkMax(0, MotorType.kBrushless); //TODO change deviceId value
