@@ -57,15 +57,15 @@ public class RobotContainer {
     // public static SparkMax pivotMotor = new SparkMax(0, MotorType.kBrushless); // TODO update motor channel-
 
     public static Arm arm = new Arm();
-    public static SparkMax extendMotor = new SparkMax(0, MotorType.kBrushless); //TODO change deviceId value
-    public static SparkMax rotateMotor = new SparkMax(0, MotorType.kBrushless); //TODO change deviceId value
+    public static SparkMax extendMotor = new SparkMax(20, MotorType.kBrushless); //TODO change deviceId value
+    public static SparkMax rotateMotor = new SparkMax(21, MotorType.kBrushless); //TODO change deviceId value
   
     public static Climber climber = new Climber();
-    public static SparkMax climberMotor = new SparkMax(0, MotorType.kBrushless);
+    public static SparkMax climberMotor = new SparkMax(22, MotorType.kBrushless);
 
     public static Elevator elevator = new Elevator();
-    public static SparkMax upAndDownMotor = new SparkMax(0, MotorType.kBrushless); // TODO update motor channel-
-    public static SparkMax side2SideMotor = new SparkMax(0, MotorType.kBrushless); // TODO update motor channel-
+    public static SparkMax upAndDownMotor = new SparkMax(23, MotorType.kBrushless); // TODO update motor channel-
+    public static SparkMax side2SideMotor = new SparkMax(24, MotorType.kBrushless); // TODO update motor channel-
 
     public final static PhotonCamera camera = new PhotonCamera("PC_Camera");
 
@@ -89,9 +89,9 @@ public class RobotContainer {
             // Drivetrain will execute this command periodically
             drivetrain.applyRequest(() ->
                 DriveModes.driveField
-                    // .withVelocityX(-joystick.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
-                    // .withVelocityY(-joystick.getLeftX() * MaxSpeed) // Drive left with negative X (left)
-                    // .withRotationalRate(-joystick.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
+                     .withVelocityX(-joystick.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
+                     .withVelocityY(-joystick.getLeftX() * MaxSpeed) // Drive left with negative X (left)
+                     .withRotationalRate(-joystick.getRightX() * driveConstants.MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
         );
 

@@ -16,10 +16,10 @@ public class DriveModes {
     public static final SwerveRequest.FieldCentric driveField = new SwerveRequest.FieldCentric()
             .withDeadband(driveConstants.MaxSpeed * 0.1)
             .withRotationalDeadband(driveConstants.MaxAngularRate * 0.1) // Add a 10% deadband
-            .withDriveRequestType(DriveRequestType.OpenLoopVoltage) // Use open-loop control for drive motors
-            .withVelocityX(Sine(RobotContainer.joystick.getLeftX(), RobotContainer.joystick.getLeftY()) * driveConstants.MaxSpeed) // Drive forward with negative Y (forward)
-            .withVelocityY(Cosine(RobotContainer.joystick.getLeftX(), RobotContainer.joystick.getLeftY()) * driveConstants.MaxSpeed) // Drive left with negative X (left)
-            .withRotationalRate(-Math.pow(Deadzone(RobotContainer.joystick.getRightX()), driveConstants.Linearity) * driveConstants.MaxAngularRate); // Drive counterclockwise with negative X (left)
+            .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
+            // .withVelocityX(Sine(RobotContainer.joystick.getLeftX(), RobotContainer.joystick.getLeftY()) * driveConstants.MaxSpeed) // Drive forward with negative Y (forward)
+            // .withVelocityY(Cosine(RobotContainer.joystick.getLeftX(), RobotContainer.joystick.getLeftY()) * driveConstants.MaxSpeed) // Drive left with negative X (left)
+            // .withRotationalRate(-Math.pow(Deadzone(RobotContainer.joystick.getRightX()), driveConstants.Linearity) * driveConstants.MaxAngularRate); // Drive counterclockwise with negative X (left)
     
     public static final SwerveRequest.RobotCentric driveRobot = new SwerveRequest.RobotCentric()
             .withDeadband(driveConstants.MaxSpeed * 0.1)
