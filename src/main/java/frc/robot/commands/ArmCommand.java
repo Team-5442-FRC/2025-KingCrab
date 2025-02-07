@@ -22,7 +22,9 @@ public class ArmCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    //Set the extend speed to the x-axis of the right stick
     RobotContainer.arm.extend(RobotContainer.xbox2.getRightX());
+    //Set the rotate speed to the y-axis of the right stick
     RobotContainer.arm.rotate(RobotContainer.xbox2.getRightY());
   }
 

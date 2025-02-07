@@ -79,8 +79,8 @@ public class Constants {
         public final static double ExtendForwardLimit = 0; //TODO add the right limits
         public final static double ExtendBackwardLimit = 0; //TODO add the right limits
 
-        public final static double RotateUpLimit = 172; //TODO add the right limits
-        public final static double RotateDownLimit = 78; //TODO add the right limits
+        public final static double RotateUpLimit = 170; //Hard limits TODO add the right limits
+        public final static double RotateDownLimit = 10; //Hard Limits TODO add the right limits
 
         public final static double ExtendPIDkp = 0.00001;
         public final static double ExtendPIDki = 0;
