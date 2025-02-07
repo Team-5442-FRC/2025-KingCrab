@@ -47,6 +47,7 @@ PIDController side2sidePID = new PIDController(.00001, 0, 0);
     if (upAndDownTargetPos > elevatorConstants.ArmTopLimit) {
       upAndDownTargetPos = elevatorConstants.ArmTopLimit;
     }
+    //if it wants to move past the limit, this won't let it
     if (upAndDownTargetPos < elevatorConstants.ArmBottomLimit) {
       upAndDownTargetPos = elevatorConstants.ArmBottomLimit;
     }
@@ -63,10 +64,12 @@ PIDController side2sidePID = new PIDController(.00001, 0, 0);
     //Limits the movement of side to side motion from user movement to inside the limits
     if(side2SideManualMode) {
       side2SideSpeed = RobotContainer.Deadzone(speed);
+      //if it's past the right limit and still moving right, stop moving and move back left
       if ((side2SideSpeed>0) && (side2SideCurrentPos>=elevatorConstants.ArmRightLimit)) {
         side2SideSpeed = 0;
         side2SideTargtePos = elevatorConstants.ArmRightLimit;
       }
+      //if it's past the left limit and still moving left, stop moving and move back right
       if ((side2SideSpeed<0) && (side2SideCurrentPos<=elevatorConstants.ArmLeftLimit)) {
         side2SideSpeed = 0;
         side2SideTargtePos = elevatorConstants.ArmLeftLimit;
@@ -88,10 +91,13 @@ PIDController side2sidePID = new PIDController(.00001, 0, 0);
     //Determine speed when in manual mode  
     if(upAndDownManualMode) {
       upAndDownSpeed = RobotContainer.Deadzone(speed);
+      //if it's past the top limit and still moving up, stop moving and move back down
       if ((upAndDownSpeed>0) && (upAndDownCurrentPos>=elevatorConstants.ArmTopLimit)) {
         upAndDownSpeed = 0;
         upAndDownTargetPos = elevatorConstants.ArmTopLimit;
       }
+
+      //if it's below the bottom limit and still moving down, stop moving and move back up
       if ((upAndDownSpeed<0) && (upAndDownCurrentPos<=elevatorConstants.ArmBottomLimit)) {
         upAndDownSpeed = 0;
         upAndDownTargetPos = elevatorConstants.ArmBottomLimit;
@@ -102,7 +108,7 @@ PIDController side2sidePID = new PIDController(.00001, 0, 0);
     if (!upAndDownManualMode) upAndDownSpeed = upAndDownPID.calculate(upAndDownTargetPos - upAndDownCurrentPos);
   }
 
-  public double getHeight() {
+  public static double getHeight() {
     return RobotContainer.upAndDownMotor.getAbsoluteEncoder().getPosition(); //TODO Find formula to calculate
   }
 

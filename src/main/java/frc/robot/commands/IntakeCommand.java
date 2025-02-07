@@ -25,13 +25,13 @@ public class IntakeCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (RobotContainer.xbox2.getAButton()) RobotContainer.intake.setIntakeSpeed(intakeConstants.LeftSpeed, intakeConstants.RightSpeed);
-    else if (RobotContainer.xbox2.getXButton()) RobotContainer.intake.setIntakeSpeed(intakeConstants.LeftReverseSpeed, intakeConstants.RightReverseSpeed);
-    else RobotContainer.intake.setIntakeSpeed(0, 0);
+    if (RobotContainer.xbox2.getAButton()) RobotContainer.intake.setIntakeSpeed(intakeConstants.LeftSpeed, intakeConstants.RightSpeed); // If the A button is pressed on the second xbox, the intake motors will be set to the constant intake speed
+    else if (RobotContainer.xbox2.getXButton()) RobotContainer.intake.setIntakeSpeed(intakeConstants.LeftReverseSpeed, intakeConstants.RightReverseSpeed); // If the X button is pressed on the second xbox, the intake motors will be set to the constant reverse intake speed
+    else RobotContainer.intake.setIntakeSpeed(0, 0); // If a button is not pressed, the intake speed will be set to 0
 
-    if (RobotContainer.xbox2.getPOV() == 0) RobotContainer.intake.setPivotAngle(intakeConstants.PivotAngleUp);
-    else if (RobotContainer.xbox2.getPOV() == 90) RobotContainer.intake.setPivotAngle(intakeConstants.PivotAngleAlgae);
-    else if (RobotContainer.xbox2.getPOV() == 180) RobotContainer.intake.setPivotAngle(intakeConstants.PivotAngleFloor);
+    if (RobotContainer.xbox2.getPOV() == 0) RobotContainer.intake.setPivotAngle(intakeConstants.PivotAngleUp); // If the top button of the plus is pressed on the second xbox, the angle of the pivot will be set to the up position
+    else if (RobotContainer.xbox2.getPOV() == 90) RobotContainer.intake.setPivotAngle(intakeConstants.PivotAngleAlgae); // If the right button is pressed, the angle will be set to the algae position
+    else if (RobotContainer.xbox2.getPOV() == 180) RobotContainer.intake.setPivotAngle(intakeConstants.PivotAngleFloor); // If the bottom button is pressed, the angle will be set to the floor position
     
   }
 

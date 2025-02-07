@@ -25,6 +25,7 @@ public class ElevatorCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    //send in the inputs from the controller, calculate the speed each motor should be moving at, and set the motors to that speed
     RobotContainer.elevator.moveSide2Side(RobotContainer.xbox2.getLeftX());
     RobotContainer.elevator.moveUpAndDown(RobotContainer.xbox2.getLeftY());
   }
