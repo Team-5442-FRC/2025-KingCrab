@@ -18,6 +18,8 @@ import frc.robot.generated.TunerConstants;
 /** Add your docs here. */
 public class Constants {
 
+    public final static double centerToArm = 5.25;
+
     public static final class driveConstants {
 
         public final static double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed

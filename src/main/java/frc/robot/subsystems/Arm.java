@@ -95,7 +95,7 @@ public class Arm extends SubsystemBase {
       speed = rotatePID.calculate(targetAngle - getAngle());
     }
     
-    this.extendSpeed = speed;
+    this.rotateSpeed = speed;
   }
 
   public void setTargetAngle(double targetAngle){
