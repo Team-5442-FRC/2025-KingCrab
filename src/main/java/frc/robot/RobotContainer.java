@@ -81,41 +81,39 @@ public class RobotContainer {
 
         configureBindings();
     }
-
+    
+    // Note that X is defined as forward according to WPILib convention,
+    // and Y is defined as to the left according to WPILib convention.
     private void configureBindings() {
-        // Note that X is defined as forward according to WPILib convention,
-        // and Y is defined as to the left according to WPILib convention.
         drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
             drivetrain.applyRequest(() ->
                 DriveModes.driveField
-                     .withVelocityX(-joystick.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
-                     .withVelocityY(-joystick.getLeftX() * MaxSpeed) // Drive left with negative X (left)
-                     .withRotationalRate(-joystick.getRightX() * driveConstants.MaxAngularRate) // Drive counterclockwise with negative X (left)
+                    .withVelocityX(Sine(joystick.getLeftX(), joystick.getLeftY()) * driveConstants.MaxSpeed) // Drive forward with negative Y (forward)
+                    .withVelocityY(Cosine(joystick.getLeftX(), joystick.getLeftY()) * driveConstants.MaxSpeed) // Drive left with negative X (left)
+                    .withRotationalRate(-Math.pow(Deadzone(joystick.getRightX()), driveConstants.Linearity) * driveConstants.MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
         );
 
-        joystick.a().whileTrue(drivetrain.applyRequest(() -> DriveModes.brake));
-        // joystick.b().whileTrue(drivetrain.applyRequest(() ->
-        //     point.withModuleDirection(new Rotation2d(-joystick.getLeftY(), -joystick.getLeftX()))
-        // ));
+        joystick.leftBumper().whileTrue(drivetrain.applyRequest(() -> 
+            DriveModes.driveRobot
+                .withVelocityX(Sine(RobotContainer.joystick.getLeftX(), RobotContainer.joystick.getLeftY()) * driveConstants.MaxSpeed) // Drive forward with negative Y (forward)
+                .withVelocityY(Cosine(RobotContainer.joystick.getLeftX(), RobotContainer.joystick.getLeftY()) * driveConstants.MaxSpeed) // Drive left with negative X (left)
+                .withRotationalRate(-Math.pow(Deadzone(RobotContainer.joystick.getRightX()), driveConstants.Linearity) * driveConstants.MaxAngularRate) // Drive counterclockwise with negative X (left)
+        ));
 
-        // joystick.pov(0).whileTrue(drivetrain.applyRequest(() ->      //Can be enabled to make more precise movements
-        //     forwardStraight.withVelocityX(0.5).withVelocityY(0))
-        // );
-        // joystick.pov(180).whileTrue(drivetrain.applyRequest(() ->
-        //     forwardStraight.withVelocityX(-0.5).withVelocityY(0))
-        // );
+        joystick.a().whileTrue(drivetrain.applyRequest(() -> DriveModes.brake));
 
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
+        // What is this? We don't know! 2/6/25
         joystick.back().and(joystick.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
         joystick.back().and(joystick.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
         joystick.start().and(joystick.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
         joystick.start().and(joystick.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
 
         // reset the field-centric heading on left bumper press
-        joystick.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+        joystick.povDown().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }
@@ -124,6 +122,20 @@ public class RobotContainer {
     public static double Deadzone(double speed) {
         if (Math.abs(speed) > driveConstants.ControllerDeadzone) return speed;
         return 0;
+    }
+
+    ///// Controller Y value curving \\\\\
+    public static double Cosine(double x, double y) {
+        x = Deadzone(x);
+        y = Deadzone(y);
+        return Math.pow(Math.sqrt((x*x)+(y*y)), driveConstants.Linearity) * Math.cos(Math.atan2(y,x));
+    }
+
+    ///// Controller X value curving \\\\\
+    public static double Sine(double x, double y) {
+        x = Deadzone(x);
+        y = Deadzone(y);
+        return Math.pow(Math.sqrt((x*x)+(y*y)), driveConstants.Linearity) * Math.sin(Math.atan2(y,x));
     }
 
     public Command getAutonomousCommand() {
