@@ -30,18 +30,19 @@ PIDController side2sidePID = new PIDController(.00001, 0, 0);
 
   @Override
   public void periodic() {
-    RobotContainer.upAndDownMotor.set(upAndDownSpeed);
-    RobotContainer.side2SideMotor.set(side2SideSpeed);
+    RobotContainer.upAndDownMotor.set(upAndDownSpeed * elevatorConstants.UpAndDownSpeedFactor);
+    RobotContainer.side2SideMotor.set(side2SideSpeed * elevatorConstants.Side2SideSpeedFactor);
   }
 
   public void setTargetPos(double side2SideTargtePos) {
+  
     //if it wants to move past the limit, this won't let it
-    if (side2SideTargtePos > elevatorConstants.armTopLimit) {
-      side2SideTargtePos = elevatorConstants.armTopLimit;
+    if (side2SideTargtePos > elevatorConstants.ArmTopLimit) {
+      side2SideTargtePos = elevatorConstants.ArmTopLimit;
     }
     //if it wants to move past the limit, this won't let it
-    if (upAndDownTargetPos < elevatorConstants.armBottomLimit) {
-      upAndDownTargetPos = elevatorConstants.armBottomLimit;
+    if (upAndDownTargetPos < elevatorConstants.ArmBottomLimit) {
+      upAndDownTargetPos = elevatorConstants.ArmBottomLimit;
     }
   }
 
@@ -57,14 +58,14 @@ PIDController side2sidePID = new PIDController(.00001, 0, 0);
     if(side2SideManualMode) {
       side2SideSpeed = RobotContainer.Deadzone(speed);
       //if it's past the right limit and still moving right, stop moving and move back left
-      if ((side2SideSpeed>0) && (side2SideCurrentPos>=elevatorConstants.armRightLimit)) {
+      if ((side2SideSpeed>0) && (side2SideCurrentPos>=elevatorConstants.ArmRightLimit)) {
         side2SideSpeed = 0;
-        side2SideTargtePos = elevatorConstants.armRightLimit;
+        side2SideTargtePos = elevatorConstants.ArmRightLimit;
       }
       //if it's past the left limit and still moving left, stop moving and move back right
-      if ((side2SideSpeed<0) && (side2SideCurrentPos<=elevatorConstants.armLeftLimit)) {
+      if ((side2SideSpeed<0) && (side2SideCurrentPos<=elevatorConstants.ArmLeftLimit)) {
         side2SideSpeed = 0;
-        side2SideTargtePos = elevatorConstants.armLeftLimit;
+        side2SideTargtePos = elevatorConstants.ArmLeftLimit;
       }
     }
 
@@ -84,14 +85,15 @@ PIDController side2sidePID = new PIDController(.00001, 0, 0);
     if(upAndDownManualMode) {
       upAndDownSpeed = RobotContainer.Deadzone(speed);
       //if it's past the top limit and still moving up, stop moving and move back down
-      if ((upAndDownSpeed>0) && (upAndDownCurrentPos>=elevatorConstants.armTopLimit)) {
+      if ((upAndDownSpeed>0) && (upAndDownCurrentPos>=elevatorConstants.ArmTopLimit)) {
         upAndDownSpeed = 0;
-        upAndDownTargetPos = elevatorConstants.armTopLimit;
+        upAndDownTargetPos = elevatorConstants.ArmTopLimit;
       }
+
       //if it's below the bottom limit and still moving down, stop moving and move back up
-      if ((upAndDownSpeed<0) && (upAndDownCurrentPos<=elevatorConstants.armBottomLimit)) {
+      if ((upAndDownSpeed<0) && (upAndDownCurrentPos<=elevatorConstants.ArmBottomLimit)) {
         upAndDownSpeed = 0;
-        upAndDownTargetPos = elevatorConstants.armBottomLimit;
+        upAndDownTargetPos = elevatorConstants.ArmBottomLimit;
       }
     }
     

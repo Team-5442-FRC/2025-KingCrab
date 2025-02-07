@@ -5,15 +5,14 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Robot;
 import frc.robot.RobotContainer;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class ClimberCommand extends Command {
-  /** Creates a new ClimberCommand. */
-  public ClimberCommand() {
+public class ArmCommand extends Command {
+  /** Creates a new ArmCommand. */
+  public ArmCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.climber); 
+    addRequirements(RobotContainer.arm);
   }
 
   // Called when the command is initially scheduled.
@@ -23,10 +22,8 @@ public class ClimberCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // tests input to see if the input is greater than the deadzone and sets the climb motor speed to its ascosatied button pressing amount
-//What if you press down both triggers?
-    if (RobotContainer.Deadzone(RobotContainer.xbox2.getRightTriggerAxis()) > 0) RobotContainer.climber.setClimbSpeed(RobotContainer.Deadzone(RobotContainer.xbox2.getRightTriggerAxis()));
-    else if (RobotContainer.Deadzone(RobotContainer.xbox2.getLeftTriggerAxis()) > 0) RobotContainer.climber.setClimbSpeed(-RobotContainer.Deadzone(RobotContainer.xbox2.getLeftTriggerAxis()));
+    RobotContainer.arm.extend(RobotContainer.xbox2.getRightX());
+    RobotContainer.arm.rotate(RobotContainer.xbox2.getRightY());
   }
 
   // Called once the command ends or is interrupted.
