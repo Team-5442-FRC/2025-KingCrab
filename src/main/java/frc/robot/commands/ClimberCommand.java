@@ -13,7 +13,7 @@ public class ClimberCommand extends Command {
   /** Creates a new ClimberCommand. */
   public ClimberCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.climber);
+    addRequirements(RobotContainer.climber); 
   }
 
   // Called when the command is initially scheduled.
@@ -23,6 +23,8 @@ public class ClimberCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    // tests input to see if the input is greater than the deadzone and sets the climb motor speed to its ascosatied button pressing amount
+//What if you press down both triggers?
     if (RobotContainer.Deadzone(RobotContainer.xbox2.getRightTriggerAxis()) > 0) RobotContainer.climber.setClimbSpeed(RobotContainer.Deadzone(RobotContainer.xbox2.getRightTriggerAxis()));
     else if (RobotContainer.Deadzone(RobotContainer.xbox2.getLeftTriggerAxis()) > 0) RobotContainer.climber.setClimbSpeed(-RobotContainer.Deadzone(RobotContainer.xbox2.getLeftTriggerAxis()));
   }
