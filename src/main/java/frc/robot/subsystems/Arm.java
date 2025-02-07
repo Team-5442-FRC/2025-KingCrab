@@ -4,10 +4,13 @@
 
 package frc.robot.subsystems;
 
+import java.util.ArrayList;
+
 //All of the imports needed
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.Vision.CalculatedCamera;
 import frc.robot.Constants.armConstants;
 
 public class Arm extends SubsystemBase {
@@ -101,15 +104,17 @@ public class Arm extends SubsystemBase {
         targetAngle = armConstants.RotateUpLimit;
       }
       
-      //If the speed is negative, and is trying to move past the limit, set it to 0 and set the target to the limit
-      if (speed<0 && getAngle() > armConstants.RotateDownLimit) {
+        double h = Elevator.getHeight();
+        double r = getExtension();
+        //If the speed is negative, and is trying to move past the limit, set it to 0 and set the target to the limit
+        if (speed < 0 && getAngle() < Math.acos(h/r) || targetAngle < armConstants.RotateDownLimit) {
         speed = 0;
-        targetAngle = armConstants.RotateDownLimit;
+        targetAngle = Math.max(Math.acos(h/r),armConstants.RotateDownLimit);
       }
     }
     
     //If it isn't in manual mode or if something caused the speed to be zero, refer to the PID to set the speed
-    if (!manualRotateMode || speed==0){
+    if (!manualRotateMode || speed == 0){
       speed = rotatePID.calculate(targetAngle - getAngle());
     }
     
@@ -119,11 +124,18 @@ public class Arm extends SubsystemBase {
 
   public void setTargetAngle(double targetAngle){
     //Checking if the target is within the limits
-    if (targetAngle>armConstants.RotateUpLimit) targetAngle = armConstants.RotateUpLimit;
-    else if (targetAngle>armConstants.RotateDownLimit) targetAngle = armConstants.RotateDownLimit;
+    double h = Elevator.getHeight();
+    double r = getExtension();
+    if (targetAngle > armConstants.RotateUpLimit) targetAngle = armConstants.RotateUpLimit;
+    else if (targetAngle < Math.acos(h/r) || targetAngle < armConstants.RotateDownLimit) targetAngle = Math.max(Math.acos(h/r),armConstants.RotateDownLimit);
     this.targetAngle = targetAngle;
   }
 
+  // public double calculateLowerAngleLimits(double height){
+  //   double lowerArmLimit = 0;
+  //   return lowerArmLimit;
+  // }
+  
   //TODO, need to do math to find it at some point
   public double getAngle(){
     return 0; /*The arm will always be extended forward (real)*/

@@ -93,7 +93,7 @@ PIDController side2sidePID = new PIDController(.00001, 0, 0);
     if (!upAndDownManualMode) upAndDownSpeed = upAndDownPID.calculate(upAndDownTargetPos - upAndDownCurrentPos);
   }
 
-  public double getHeight() {
+  public static double getHeight() {
     return RobotContainer.upAndDownMotor.getAbsoluteEncoder().getPosition(); //TODO Find formula to calculate
   }
 
