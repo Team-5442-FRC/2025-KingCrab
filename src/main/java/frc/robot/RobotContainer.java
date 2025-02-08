@@ -10,6 +10,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
@@ -59,13 +60,15 @@ public class RobotContainer {
     public static Arm arm = new Arm();
     public static SparkMax extendMotor = new SparkMax(20, MotorType.kBrushless); //TODO change deviceId value
     public static SparkMax rotateMotor = new SparkMax(21, MotorType.kBrushless); //TODO change deviceId value
-  
+    public static DutyCycleEncoder pivotEncoder = new DutyCycleEncoder(0);
+    
     public static Climber climber = new Climber();
     public static SparkMax climberMotor = new SparkMax(22, MotorType.kBrushless);
-
+    
     public static Elevator elevator = new Elevator();
     public static SparkMax upAndDownMotor = new SparkMax(23, MotorType.kBrushless); // TODO update motor channel-
     public static SparkMax side2SideMotor = new SparkMax(24, MotorType.kBrushless); // TODO update motor channel-
+    public static DutyCycleEncoder elevatorEncoder = new DutyCycleEncoder(1);
 
     public final static PhotonCamera camera = new PhotonCamera("PC_Camera");
 

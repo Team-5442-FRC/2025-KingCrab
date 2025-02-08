@@ -6,6 +6,8 @@ package frc.robot;
 
 import static edu.wpi.first.units.Units.*;
 
+import java.lang.reflect.Array;
+
 import com.pathplanner.lib.config.PIDConstants;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -74,41 +76,51 @@ public class Constants {
 
         public final static double Side2SideSpeedFactor = 1;
         public final static double UpAndDownSpeedFactor = 1;
-      
+
+        public final static double UpAndDownOffset = 0.888; //Rotations at the lowest point
+        public final static double PivotToFloorOffset = 10.75; //Inches from floor to pivot point at lowest position
+        public final static double InchesPerRotation = 11.3125; //TODO Do more research - Inches for every full rotation of the elevator encoder 
+
+        public final static double Side2SideOffset = 0;
     }
 
+    
     public static final class armConstants {
         public final static double ExtendForwardLimit = 0; //TODO add the right limits
         public final static double ExtendBackwardLimit = 0; //TODO add the right limits
-
+        
         public final static double RotateUpLimit = 170; //Hard limits TODO add the right limits
         public final static double RotateDownLimit = 10; //Hard Limits TODO add the right limits
-
+        
         public final static double ExtendPIDkp = 0.00001;
         public final static double ExtendPIDki = 0;
         public final static double ExtendPIDkd = 0;
-
+        
         public final static double RotatePIDkp = 0.00001;
         public final static double RotatePIDki = 0;
         public final static double RotatePIDkd = 0;
-
+        
         public final static double ExtendSpeedFactor = 1;
         public final static double RotateSpeedFactor = 1;
     }
-
+    
     public static final class visionConstants {
-
+        
         public final static double AngleDistrust = 10; // How much the angle should impact vision trust
         public final static Transform3d MicrosoftCameraOffset = new Transform3d(0, 0, 0, new Rotation3d(0,0,0));
         public final static Transform3d ThriftyCameraOffset   = new Transform3d(0, 0, 0, new Rotation3d(0,0,0));
         public final static Transform3d GenoCameraOffset      = new Transform3d(0, 0, 0, new Rotation3d(0,0,0));
         public final static Transform3d LimelightCameraOffset = new Transform3d(0, 0, 0, new Rotation3d(0,0,0)); // Probably not needed
-    
+        
     }
-
+    
     public static final class climberConstants {
-
+        
         public final static double MaxPosition = 1;
         public final static double MinPosition = -1;
+    }
+
+    public static final class fieldConstants {
+        public final static Pose3d[][] BluReefArray = new Pose3d[12][4];
     }
 }

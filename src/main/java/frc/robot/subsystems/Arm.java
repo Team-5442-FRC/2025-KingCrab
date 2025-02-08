@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 //All of the imports needed
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Vision.CalculatedCamera;
@@ -36,6 +37,8 @@ public class Arm extends SubsystemBase {
     //At all times, set the motor to the speed given
     RobotContainer.extendMotor.set(extendSpeed * armConstants.ExtendSpeedFactor);
     RobotContainer.rotateMotor.set(rotateSpeed * armConstants.RotateSpeedFactor);
+    
+    SmartDashboard.putNumber("Pivot Encoder", RobotContainer.pivotEncoder.get());
   }
 
   public void extend(double speed){
@@ -104,7 +107,7 @@ public class Arm extends SubsystemBase {
         targetAngle = armConstants.RotateUpLimit;
       }
       
-        double h = Elevator.getHeight();
+        double h = RobotContainer.elevator.getHeight();
         double r = getExtension();
         //If the speed is negative, and is trying to move past the limit, set it to 0 and set the target to the limit
         if (speed < 0 && getAngle() < Math.acos(h/r) || targetAngle < armConstants.RotateDownLimit) {
@@ -123,7 +126,7 @@ public class Arm extends SubsystemBase {
 
   public void setTargetAngle(double targetAngle){
     //Checking if the target is within the limits
-    double h = Elevator.getHeight();
+    double h = RobotContainer.elevator.getHeight();
     double r = getExtension();
     if (targetAngle > armConstants.RotateUpLimit) targetAngle = armConstants.RotateUpLimit;
     else if (targetAngle < Math.acos(h/r) || targetAngle < armConstants.RotateDownLimit) targetAngle = Math.max(Math.acos(h/r),armConstants.RotateDownLimit);

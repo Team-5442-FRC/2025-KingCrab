@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.elevatorConstants;
@@ -14,33 +15,53 @@ import frc.robot.subsystems.DriveModes;
 
 public class Elevator extends SubsystemBase {
   
-boolean side2SideManualMode;
-boolean upAndDownManualMode;
-double side2SideTargtePos;
-double upAndDownTargetPos;
-double side2SideCurrentPos;
-double upAndDownCurrentPos;
-double side2SideSpeed;
-double upAndDownSpeed;
+boolean side2SideManualMode = true;// This should set the target pos to the current pos since it is true
+boolean upAndDownManualMode = true;// "
+double side2SideTargtePos = 0;
+double upAndDownTargetPos = elevatorConstants.PivotToFloorOffset;
+double side2SideCurrentPos = 0;
+double upAndDownCurrentPos = elevatorConstants.PivotToFloorOffset;
+double side2SideSpeed = 0;
+double upAndDownSpeed = 0;
 PIDController upAndDownPID = new PIDController(.00001, 0, 0);
 PIDController side2sidePID = new PIDController(.00001, 0, 0);
+
+// Counters for encoder rotations
+double lastHeight = 0;
+double height = 0;
+int intHeight = 1;
+double combinedHeight = 0;
 
   /** Creates a new ElevatorSubsystem. */
   public Elevator() {}
 
   @Override
   public void periodic() {
+
+    height = RobotContainer.elevatorEncoder.get();
+    if (lastHeight > 0.75 && height < 0.25) intHeight += 1;
+    if (lastHeight < 0.25 && height > 0.75) intHeight -= 1;
+    combinedHeight = intHeight + height - elevatorConstants.UpAndDownOffset;
+    lastHeight = height;
+
+    upAndDownCurrentPos = getHeight();
+    side2SideCurrentPos = getSideToSide();
+    
     RobotContainer.upAndDownMotor.set(upAndDownSpeed * elevatorConstants.UpAndDownSpeedFactor);
     RobotContainer.side2SideMotor.set(side2SideSpeed * elevatorConstants.Side2SideSpeedFactor);
+    
+    SmartDashboard.putNumber("Elevator Encoder", RobotContainer.elevatorEncoder.get());
+    SmartDashboard.putNumber("Elevator Combined Height", combinedHeight);
   }
 
-  public void setTargetPos(double side2SideTargtePos) {
+  public void setSide2SidePos(double side2SideTargtePos) {
     if (side2SideTargtePos > elevatorConstants.ArmRightLimit) {
       side2SideTargtePos = elevatorConstants.ArmRightLimit;
     }
     if (side2SideTargtePos < elevatorConstants.ArmLeftLimit) {
       side2SideTargtePos = elevatorConstants.ArmLeftLimit;
     }
+    this.side2SideTargtePos = side2SideTargtePos;
   }
     
   public void setUpAndDownPos(double upAndDownTargetPos) {
@@ -51,12 +72,14 @@ PIDController side2sidePID = new PIDController(.00001, 0, 0);
     if (upAndDownTargetPos < elevatorConstants.ArmBottomLimit) {
       upAndDownTargetPos = elevatorConstants.ArmBottomLimit;
     }
+    this.upAndDownTargetPos = upAndDownTargetPos;
   }
 
   public void moveSide2Side(double speed) {
+
     //Calculates user input to determine if user is controlling it
     if (Math.abs(RobotContainer.Deadzone(speed))>0) side2SideManualMode = true;
-    else if (side2SideManualMode && Math.abs(RobotContainer.Deadzone(speed))>0) {
+    else if (side2SideManualMode && Math.abs(RobotContainer.Deadzone(speed)) == 0) {
       side2SideTargtePos = side2SideCurrentPos; 
       side2SideManualMode = false;
     }
@@ -83,7 +106,7 @@ PIDController side2sidePID = new PIDController(.00001, 0, 0);
   public void moveUpAndDown (double speed) {
     //Calculate if user is in control
     if (Math.abs(RobotContainer.Deadzone(speed)) > 0) upAndDownManualMode = true;
-    else if (upAndDownManualMode && Math.abs(RobotContainer.Deadzone(speed)) > 0) {
+    else if (upAndDownManualMode && Math.abs(RobotContainer.Deadzone(speed)) == 0) {
       upAndDownTargetPos = upAndDownCurrentPos;
       upAndDownManualMode = false; 
     }
@@ -108,8 +131,9 @@ PIDController side2sidePID = new PIDController(.00001, 0, 0);
     if (!upAndDownManualMode) upAndDownSpeed = upAndDownPID.calculate(upAndDownTargetPos - upAndDownCurrentPos);
   }
 
-  public static double getHeight() {
-    return RobotContainer.upAndDownMotor.getAbsoluteEncoder().getPosition(); //TODO Find formula to calculate
+  /**Height of the pivot point in inches from floor*/
+  public double getHeight() {
+    return (combinedHeight * elevatorConstants.InchesPerRotation) + elevatorConstants.PivotToFloorOffset;
   }
 
   public double getSideToSide() {

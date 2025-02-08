@@ -24,7 +24,7 @@ public class AutomaticMovement extends SubsystemBase {
 
   public void Skew(double angleToTarget) {
     RobotContainer.arm.setTargetExtend((RobotContainer.arm.getExtension() + Constants.centerToArm) * Math.cos(angleToTarget) - Constants.centerToArm);
-    RobotContainer.elevator.setTargetPos(-(RobotContainer.arm.getExtension() + Constants.centerToArm) * Math.sin(angleToTarget));
+    RobotContainer.elevator.setSide2SidePos(-(RobotContainer.arm.getExtension() + Constants.centerToArm) * Math.sin(angleToTarget));
   }
 
   @Override
