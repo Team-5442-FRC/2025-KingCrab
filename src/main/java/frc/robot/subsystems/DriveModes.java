@@ -19,8 +19,8 @@ public class DriveModes {
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
     
     public static final SwerveRequest.RobotCentric driveRobot = new SwerveRequest.RobotCentric()
-            .withDeadband(driveConstants.MaxSpeed * 0.1)
-            .withRotationalDeadband(driveConstants.MaxAngularRate * 0.1) // Add a 10% deadband
+            .withDeadband(driveConstants.MaxSpeed * driveConstants.SpeedDeadbandPercentage)
+            .withRotationalDeadband(driveConstants.MaxAngularRate * driveConstants.SpeedDeadbandPercentage) // Add a 10% deadband
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
     
     public static final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
