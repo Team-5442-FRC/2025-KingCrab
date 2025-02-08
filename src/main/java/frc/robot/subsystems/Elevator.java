@@ -35,10 +35,17 @@ PIDController side2sidePID = new PIDController(.00001, 0, 0);
   }
 
   public void setTargetPos(double side2SideTargtePos) {
-  
-    //if it wants to move past the limit, this won't let it
-    if (side2SideTargtePos > elevatorConstants.ArmTopLimit) {
-      side2SideTargtePos = elevatorConstants.ArmTopLimit;
+    if (side2SideTargtePos > elevatorConstants.ArmRightLimit) {
+      side2SideTargtePos = elevatorConstants.ArmRightLimit;
+    }
+    if (side2SideTargtePos < elevatorConstants.ArmLeftLimit) {
+      side2SideTargtePos = elevatorConstants.ArmLeftLimit;
+    }
+  }
+    
+  public void setUpAndDownPos(double upAndDownTargetPos) {
+    if (upAndDownTargetPos > elevatorConstants.ArmTopLimit) {
+      upAndDownTargetPos = elevatorConstants.ArmTopLimit;
     }
     //if it wants to move past the limit, this won't let it
     if (upAndDownTargetPos < elevatorConstants.ArmBottomLimit) {
