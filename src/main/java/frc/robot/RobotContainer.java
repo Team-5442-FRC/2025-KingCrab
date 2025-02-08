@@ -46,30 +46,38 @@ public class RobotContainer {
 
     public static final Telemetry logger = new Telemetry(driveConstants.MaxSpeed);
 
+    // Xbox variables
     public static CommandXboxController joystick = new CommandXboxController(0); 
     public static XboxController xbox1 = new XboxController(0);
     public static XboxController xbox2 = new XboxController(1);
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
+    // Intake variables
     public static Intake intake = new Intake();
     // public static VictorSP leftMotor = new VictorSP(0); // TODO update this motor channel
     // public static VictorSP rightMotor = new VictorSP(0); // TODO update this motor channel
     // public static SparkMax pivotMotor = new SparkMax(0, MotorType.kBrushless); // TODO update motor channel-
 
+    // Arm variables
     public static Arm arm = new Arm();
     public static SparkMax extendMotor = new SparkMax(20, MotorType.kBrushless); //TODO change deviceId value
     public static SparkMax rotateMotor = new SparkMax(21, MotorType.kBrushless); //TODO change deviceId value
+  
+    // Climber variables
     public static DutyCycleEncoder pivotEncoder = new DutyCycleEncoder(0);
     
     public static Climber climber = new Climber();
     public static SparkMax climberMotor = new SparkMax(22, MotorType.kBrushless);
+
+    // Elevator variables
     
     public static Elevator elevator = new Elevator();
     public static SparkMax upAndDownMotor = new SparkMax(23, MotorType.kBrushless); // TODO update motor channel-
     public static SparkMax side2SideMotor = new SparkMax(24, MotorType.kBrushless); // TODO update motor channel-
     public static DutyCycleEncoder elevatorEncoder = new DutyCycleEncoder(1);
 
+    // Camera 
     public final static PhotonCamera camera = new PhotonCamera("PC_Camera");
 
     public static final Vision vision = new Vision();
