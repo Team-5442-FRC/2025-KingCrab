@@ -48,10 +48,12 @@ double combinedHeight = 0;
     side2SideCurrentPos = getSideToSide();
     
     RobotContainer.upAndDownMotor.set(upAndDownSpeed * elevatorConstants.UpAndDownSpeedFactor);
-    RobotContainer.side2SideMotor.set(side2SideSpeed * elevatorConstants.Side2SideSpeedFactor);
+    // RobotContainer.side2SideMotor.set(side2SideSpeed * elevatorConstants.Side2SideSpeedFactor);
     
     SmartDashboard.putNumber("Elevator Encoder", RobotContainer.elevatorEncoder.get());
     SmartDashboard.putNumber("Elevator Combined Height", combinedHeight);
+    SmartDashboard.putNumber("Speed", upAndDownSpeed);
+    SmartDashboard.putNumber("Elevator Height", getHeight());
   }
 
   public void setSide2SidePos(double side2SideTargtePos) {
@@ -137,7 +139,7 @@ double combinedHeight = 0;
   }
 
   public double getSideToSide() {
-    return RobotContainer.side2SideMotor.getAbsoluteEncoder().getPosition(); //TODO Find formula to calculate
+    return 0; //TODO Find formula to calculate
   }
   
 }

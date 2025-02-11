@@ -71,11 +71,11 @@ public class Constants {
         public final static double ArmRightLimit = 0; //TODO add correct limit y-axis
         public final static double ArmLeftLimit = 0; //TODO add correct limit y-axis
 
-        public final static double ArmTopLimit = 0; //TODO add correct limit z-axis
-        public final static double ArmBottomLimit = 0; //TODO add correct limit z-axis
+        public final static double ArmTopLimit = 40; //TODO add correct limit z-axis
+        public final static double ArmBottomLimit = 10.75; //TODO add correct limit z-axis
 
         public final static double Side2SideSpeedFactor = 1;
-        public final static double UpAndDownSpeedFactor = 1;
+        public final static double UpAndDownSpeedFactor = 0.4;
 
         public final static double UpAndDownOffset = 0.888; //Rotations at the lowest point
         public final static double PivotToFloorOffset = 10.75; //Inches from floor to pivot point at lowest position

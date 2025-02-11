@@ -20,10 +20,10 @@ public class Climber extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
 
-    position = RobotContainer.climberMotor.getAbsoluteEncoder().getPosition();
+    // position = RobotContainer.climberMotor.getAbsoluteEncoder().getPosition();
 
     // sets speed to newley created speed
-    RobotContainer.climberMotor.set(speed);
+    // RobotContainer.climberMotor.set(speed);
   }
   // creates new speed and sets it the the prevousily metioned speed
   public void setClimbSpeed(double speed) {

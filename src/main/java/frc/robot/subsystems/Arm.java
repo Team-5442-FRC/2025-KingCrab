@@ -39,6 +39,8 @@ public class Arm extends SubsystemBase {
     RobotContainer.rotateMotor.set(rotateSpeed * armConstants.RotateSpeedFactor);
     
     SmartDashboard.putNumber("Pivot Encoder", RobotContainer.pivotEncoder.get());
+    SmartDashboard.putNumber("Pivot Radians", getAngle());
+    SmartDashboard.putNumber("Pivot Degrees", Math.toDegrees(getAngle()));
   }
 
   public void extend(double speed){
@@ -140,6 +142,6 @@ public class Arm extends SubsystemBase {
   
   //TODO, need to do math to find it at some point
   public double getAngle(){
-    return 0; /*The arm will always be extended forward (real)*/
+    return RobotContainer.pivotEncoder.get() * 2 * Math.PI; /*The arm will always be extended forward (real)*/
   }
 }

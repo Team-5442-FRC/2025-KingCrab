@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Constants.driveConstants;
+import frc.robot.commands.ElevatorCommand;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Climber;
@@ -58,23 +59,25 @@ public class RobotContainer {
     // public static VictorSP leftMotor = new VictorSP(0); // TODO update this motor channel
     // public static VictorSP rightMotor = new VictorSP(0); // TODO update this motor channel
     // public static SparkMax pivotMotor = new SparkMax(0, MotorType.kBrushless); // TODO update motor channel-
+    public static DutyCycleEncoder intakEncoder = new DutyCycleEncoder(2);
 
     // Arm variables
     public static Arm arm = new Arm();
-    public static SparkMax extendMotor = new SparkMax(20, MotorType.kBrushless); //TODO change deviceId value
-    public static SparkMax rotateMotor = new SparkMax(21, MotorType.kBrushless); //TODO change deviceId value
+    public static SparkMax extendMotor = new SparkMax(21, MotorType.kBrushless);
+    public static SparkMax rotateMotor = new SparkMax(22, MotorType.kBrushless);
+    public static DutyCycleEncoder pivotEncoder = new DutyCycleEncoder(0);
   
     // Climber variables
-    public static DutyCycleEncoder pivotEncoder = new DutyCycleEncoder(0);
     
     public static Climber climber = new Climber();
-    public static SparkMax climberMotor = new SparkMax(22, MotorType.kBrushless);
+    // public static SparkMax climberMotor = new SparkMax(25, MotorType.kBrushless);
 
     // Elevator variables
     
     public static Elevator elevator = new Elevator();
-    public static SparkMax upAndDownMotor = new SparkMax(23, MotorType.kBrushless); // TODO update motor channel-
-    public static SparkMax side2SideMotor = new SparkMax(24, MotorType.kBrushless); // TODO update motor channel-
+    public static ElevatorCommand elevatorCommand = new ElevatorCommand();
+    public static SparkMax upAndDownMotor = new SparkMax(20, MotorType.kBrushless);
+    // public static SparkMax side2SideMotor = new SparkMax(24, MotorType.kBrushless);
     public static DutyCycleEncoder elevatorEncoder = new DutyCycleEncoder(1);
 
     // Camera 
@@ -89,6 +92,8 @@ public class RobotContainer {
     public RobotContainer() {
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
         SmartDashboard.putData("Auto Mode", autoChooser);
+
+        elevator.setDefaultCommand(elevatorCommand);
 
         configureBindings();
     }
