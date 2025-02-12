@@ -28,10 +28,10 @@ public class Intake extends SubsystemBase {
     // This method will be called once per scheduler run
     // currentAngle = RobotContainer.pivotMotor.getAlternateEncoder().getPosition() / intakeConstants.PivotGearRatio; // Sets the current angle to the position of the motor divided by the gear ratio
     
-    // RobotContainer.leftMotor.set(leftSpeed);
-    // RobotContainer.rightMotor.set(rightSpeed);
+    RobotContainer.leftMotor.set(leftSpeed);
+    RobotContainer.rightMotor.set(rightSpeed);
 
-    pivotSpeed = pivotPID.calculate(targetAngle - currentAngle); // Calculates the pivot speed by subtracting the target angle from the current angle
+    // pivotSpeed = pivotPID.calculate(targetAngle - currentAngle); // Calculates the pivot speed by subtracting the target angle from the current angle
 
     // RobotContainer.pivotMotor.set(pivotSpeed); // Sets the motor to go the speed calculated
   }

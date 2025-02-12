@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Constants.driveConstants;
 import frc.robot.commands.ArmCommand;
 import frc.robot.commands.ElevatorCommand;
+import frc.robot.commands.IntakeCommand;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Climber;
@@ -57,8 +58,9 @@ public class RobotContainer {
 
     // Intake variables
     public static Intake intake = new Intake();
-    // public static VictorSP leftMotor = new VictorSP(0); // TODO update this motor channel
-    // public static VictorSP rightMotor = new VictorSP(0); // TODO update this motor channel
+    public static IntakeCommand intakeCommand = new IntakeCommand();
+    public static SparkMax leftMotor = new SparkMax(27, MotorType.kBrushless); // TODO update this motor channel
+    public static SparkMax rightMotor = new SparkMax(26, MotorType.kBrushless); // TODO update this motor channel
     // public static SparkMax pivotMotor = new SparkMax(0, MotorType.kBrushless); // TODO update motor channel-
     public static DutyCycleEncoder intakEncoder = new DutyCycleEncoder(2);
 
@@ -97,6 +99,7 @@ public class RobotContainer {
 
         elevator.setDefaultCommand(elevatorCommand);
         arm.setDefaultCommand(armCommand);
+        intake.setDefaultCommand(intakeCommand);
 
         configureBindings();
     }

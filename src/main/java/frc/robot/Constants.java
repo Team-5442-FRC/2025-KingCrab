@@ -59,10 +59,10 @@ public class Constants {
         public final static double PivotAngleAlgae = 15;
         public final static double PivotAngleFloor = 0;
 
-        public final static double LeftSpeed = 0.5;
-        public final static double RightSpeed = 0.8;
+        public final static double LeftSpeed = 0.6;
+        public final static double RightSpeed = -0.5;
         public final static double LeftReverseSpeed = -0.1;
-        public final static double RightReverseSpeed = -0.1;
+        public final static double RightReverseSpeed = 0.1;
 
     }
 
