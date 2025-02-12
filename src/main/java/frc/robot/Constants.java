@@ -86,23 +86,24 @@ public class Constants {
 
     
     public static final class armConstants {
-        public final static double ExtendForwardLimit = 0; //TODO add the right limits
-        public final static double ExtendBackwardLimit = 0; //TODO add the right limits
+        public final static double ExtendForwardLimit = 23; // 24.5 Actual, Inches; Maximum extention
+        public final static double ExtendBackwardLimit = 15.8; //Inches; Minimum extention
+        public final static double PivotToMinExtend = 15.8; // Inches; Distance from pivot point to end of pivot block (not manipulator)
         
-        public final static double RotateUpLimit = 170; //Hard limits TODO add the right limits
-        public final static double RotateDownLimit = 10; //Hard Limits TODO add the right limits
+        public final static double RotateUpLimit = Math.toRadians(135); //Hard limits (Was 170)
+        public final static double RotateDownLimit = Math.toRadians(80); //Hard Limits (Was 10)
         public final static double RotateEncoderOffset = 0.347; //Offset in rotations at level (90 degrees)
         
-        public final static double ExtendPIDkp = 0.00001;
+        public final static double ExtendPIDkp = 0.1;
         public final static double ExtendPIDki = 0;
         public final static double ExtendPIDkd = 0;
         
-        public final static double RotatePIDkp = 0.00001;
+        public final static double RotatePIDkp = 0.5;
         public final static double RotatePIDki = 0;
         public final static double RotatePIDkd = 0;
         
-        public final static double ExtendSpeedFactor = 1;
-        public final static double RotateSpeedFactor = 0.4;
+        public final static double ExtendSpeedFactor = 0.2;
+        public final static double RotateSpeedFactor = 0.1; // Was 0.1
     }
     
     public static final class visionConstants {

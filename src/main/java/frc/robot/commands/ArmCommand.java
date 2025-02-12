@@ -23,9 +23,12 @@ public class ArmCommand extends Command {
   @Override
   public void execute() {
     //Set the extend speed to the x-axis of the right stick
-    RobotContainer.arm.extend(RobotContainer.xbox2.getRightX());
+    RobotContainer.arm.extend(-RobotContainer.xbox2.getRightX());
     //Set the rotate speed to the y-axis of the right stick
     RobotContainer.arm.rotate(RobotContainer.xbox2.getRightY());
+
+    if (RobotContainer.xbox2.getPOV() == 90) RobotContainer.arm.setTargetExtend(19);
+    if (RobotContainer.xbox2.getPOV() == 270) RobotContainer.arm.setTargetExtend(17);
   }
 
   // Called once the command ends or is interrupted.

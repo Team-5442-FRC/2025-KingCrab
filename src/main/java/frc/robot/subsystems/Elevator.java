@@ -52,7 +52,7 @@ double combinedHeight = 0;
     
     SmartDashboard.putNumber("Elevator Encoder", RobotContainer.elevatorEncoder.get());
     SmartDashboard.putNumber("Elevator Combined Height", combinedHeight);
-    SmartDashboard.putNumber("Speed", upAndDownSpeed);
+    SmartDashboard.putNumber("Elevator Speed", upAndDownSpeed);
     SmartDashboard.putNumber("Elevator Height", getHeight());
   }
 
