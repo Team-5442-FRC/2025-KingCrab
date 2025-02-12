@@ -23,7 +23,7 @@ double side2SideCurrentPos = 0;
 double upAndDownCurrentPos = elevatorConstants.PivotToFloorOffset;
 double side2SideSpeed = 0;
 double upAndDownSpeed = 0;
-PIDController upAndDownPID = new PIDController(.00001, 0, 0);
+PIDController upAndDownPID = new PIDController(0.4, 0, 0.01);
 PIDController side2sidePID = new PIDController(.00001, 0, 0);
 
 // Counters for encoder rotations
@@ -47,7 +47,7 @@ double combinedHeight = 0;
     upAndDownCurrentPos = getHeight();
     side2SideCurrentPos = getSideToSide();
     
-    RobotContainer.upAndDownMotor.set(upAndDownSpeed * elevatorConstants.UpAndDownSpeedFactor);
+    RobotContainer.upAndDownMotor.set(upAndDownSpeed);
     // RobotContainer.side2SideMotor.set(side2SideSpeed * elevatorConstants.Side2SideSpeedFactor);
     
     SmartDashboard.putNumber("Elevator Encoder", RobotContainer.elevatorEncoder.get());
@@ -115,7 +115,7 @@ double combinedHeight = 0;
 
     //Determine speed when in manual mode  
     if(upAndDownManualMode) {
-      upAndDownSpeed = RobotContainer.Deadzone(speed);
+      upAndDownSpeed = RobotContainer.Deadzone(speed) * elevatorConstants.UpAndDownSpeedFactor;
       //if it's past the top limit and still moving up, stop moving and move back down
       if ((upAndDownSpeed>0) && (upAndDownCurrentPos>=elevatorConstants.ArmTopLimit)) {
         upAndDownSpeed = 0;
@@ -130,7 +130,7 @@ double combinedHeight = 0;
     }
     
     //PID to determine speed when in computer controlled mode
-    if (!upAndDownManualMode) upAndDownSpeed = upAndDownPID.calculate(upAndDownTargetPos - upAndDownCurrentPos);
+    if (!upAndDownManualMode) upAndDownSpeed = upAndDownPID.calculate(upAndDownCurrentPos - upAndDownTargetPos);
   }
 
   /**Height of the pivot point in inches from floor*/

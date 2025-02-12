@@ -35,10 +35,10 @@ public class Arm extends SubsystemBase {
   @Override
   public void periodic() {
     //At all times, set the motor to the speed given
-    RobotContainer.extendMotor.set(extendSpeed * armConstants.ExtendSpeedFactor);
-    RobotContainer.rotateMotor.set(rotateSpeed * armConstants.RotateSpeedFactor);
+    // RobotContainer.extendMotor.set(extendSpeed * armConstants.ExtendSpeedFactor);
+    RobotContainer.rotateMotor.set(rotateSpeed);
     
-    SmartDashboard.putNumber("Pivot Encoder", RobotContainer.pivotEncoder.get());
+    SmartDashboard.putNumber("Pivot Encoder", RobotContainer.pivotEncoder.get() - armConstants.RotateEncoderOffset);
     SmartDashboard.putNumber("Pivot Radians", getAngle());
     SmartDashboard.putNumber("Pivot Degrees", Math.toDegrees(getAngle()));
   }
@@ -123,7 +123,7 @@ public class Arm extends SubsystemBase {
       speed = rotatePID.calculate(targetAngle - getAngle());
     }
     
-    this.rotateSpeed = speed;
+    this.rotateSpeed = speed * armConstants.RotateSpeedFactor;
   }
 
   public void setTargetAngle(double targetAngle){
@@ -142,6 +142,6 @@ public class Arm extends SubsystemBase {
   
   //TODO, need to do math to find it at some point
   public double getAngle(){
-    return RobotContainer.pivotEncoder.get() * 2 * Math.PI; /*The arm will always be extended forward (real)*/
+    return (-(RobotContainer.pivotEncoder.get() - armConstants.RotateEncoderOffset) + 0.25) * 2 * Math.PI; /*The arm will always be extended forward (real)*/
   }
 }

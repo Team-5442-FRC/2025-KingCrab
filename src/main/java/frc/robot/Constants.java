@@ -71,7 +71,7 @@ public class Constants {
         public final static double ArmRightLimit = 0; //TODO add correct limit y-axis
         public final static double ArmLeftLimit = 0; //TODO add correct limit y-axis
 
-        public final static double ArmTopLimit = 40; //TODO add correct limit z-axis
+        public final static double ArmTopLimit = 60.75; //TODO add correct limit z-axis
         public final static double ArmBottomLimit = 10.75; //TODO add correct limit z-axis
 
         public final static double Side2SideSpeedFactor = 1;
@@ -91,6 +91,7 @@ public class Constants {
         
         public final static double RotateUpLimit = 170; //Hard limits TODO add the right limits
         public final static double RotateDownLimit = 10; //Hard Limits TODO add the right limits
+        public final static double RotateEncoderOffset = 0.347; //Offset in rotations at level (90 degrees)
         
         public final static double ExtendPIDkp = 0.00001;
         public final static double ExtendPIDki = 0;
@@ -101,7 +102,7 @@ public class Constants {
         public final static double RotatePIDkd = 0;
         
         public final static double ExtendSpeedFactor = 1;
-        public final static double RotateSpeedFactor = 1;
+        public final static double RotateSpeedFactor = 0.4;
     }
     
     public static final class visionConstants {
@@ -122,5 +123,7 @@ public class Constants {
 
     public static final class fieldConstants {
         public final static Pose3d[][] BluReefArray = new Pose3d[12][4];
+
+        public final static Pose3d tempPos = new Pose3d();
     }
 }

@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Constants.driveConstants;
+import frc.robot.commands.ArmCommand;
 import frc.robot.commands.ElevatorCommand;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Arm;
@@ -63,6 +64,7 @@ public class RobotContainer {
 
     // Arm variables
     public static Arm arm = new Arm();
+    public static ArmCommand armCommand = new ArmCommand();
     public static SparkMax extendMotor = new SparkMax(21, MotorType.kBrushless);
     public static SparkMax rotateMotor = new SparkMax(22, MotorType.kBrushless);
     public static DutyCycleEncoder pivotEncoder = new DutyCycleEncoder(0);
@@ -94,6 +96,7 @@ public class RobotContainer {
         SmartDashboard.putData("Auto Mode", autoChooser);
 
         elevator.setDefaultCommand(elevatorCommand);
+        arm.setDefaultCommand(armCommand);
 
         configureBindings();
     }
