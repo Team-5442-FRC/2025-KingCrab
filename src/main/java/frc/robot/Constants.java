@@ -110,5 +110,20 @@ public class Constants {
 
         public final static double MaxPosition = 1;
         public final static double MinPosition = -1;
+
     }
+
+    public static final class posManagerConstants {
+
+        //Reef level angles
+        public final static double L1Angle = 90;
+        public final static double L2Angle = 145;
+        public final static double L3Angle = 145;
+        public final static double L4Angle = 100;
+        public final static double ErrorAngle = 145; //TODO check with Aaron if this is acceptable
+
+        //Reef left-right length
+        public final static double ReefSideToSide = 1; //TODO find the correct length
+
+    } 
 }

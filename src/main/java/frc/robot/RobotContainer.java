@@ -77,6 +77,9 @@ public class RobotContainer {
 
     public static final Vision vision = new Vision();
 
+    // Position Manager
+    public static final boolean isAutomaticPositioningMode = false;
+
 
     /* Path follower */
     private final SendableChooser<Command> autoChooser;
