@@ -26,7 +26,7 @@ public class Arm extends SubsystemBase {
 
   //Versions of the above variables, just with the rotate functions
   boolean manualRotateMode = false;
-  double targetAngle = Math.PI/2; // Should be overwritten by manual mode on startup
+  double targetAngle = Math.toRadians(100); // Should be overwritten by manual mode on startup
   double rotateSpeed;
 
   //Initiallizing the PIDs
@@ -36,14 +36,14 @@ public class Arm extends SubsystemBase {
   @Override
   public void periodic() {
     //At all times, set the motor to the speed given
-    RobotContainer.extendMotor.set(extendSpeed);
-    RobotContainer.rotateMotor.set(rotateSpeed);
+    RobotContainer.extendMotor.set(-extendSpeed); // Inverted motor
+    RobotContainer.rotateMotor.set(-rotateSpeed); // Inverted motor
     
     SmartDashboard.putNumber("Pivot Encoder", RobotContainer.pivotEncoder.get() - armConstants.RotateEncoderOffset);
     SmartDashboard.putNumber("Pivot Radians", getAngle());
     SmartDashboard.putNumber("Pivot Degrees", Math.toDegrees(getAngle()));
     SmartDashboard.putNumber("Pivot Speed", rotateSpeed);
-    SmartDashboard.putNumber("Extend Encoder", getExtension());
+    SmartDashboard.putNumber("Extend Length", getExtension());
     SmartDashboard.putNumber("Extend Speed", extendSpeed);
   }
 
@@ -60,13 +60,13 @@ public class Arm extends SubsystemBase {
 
     if (manualExtendMode) {
       //If the speed is positive, and is trying to move past the limit, set it to 0 and set the target to the limit
-      if (speed<0 && getExtension() > armConstants.ExtendForwardLimit) {
+      if (speed>0 && getExtension() > armConstants.ExtendForwardLimit) {
         speed = 0;
         targetExtend = armConstants.ExtendForwardLimit;
       }
 
       //If the speed is negative, and is trying to move past the limit, set it to 0 and set the target to the limit
-      if (speed>0 && getExtension() < armConstants.ExtendBackwardLimit) {
+      if (speed<0 && getExtension() < armConstants.ExtendBackwardLimit) {
         speed = 0;
         targetExtend = armConstants.ExtendBackwardLimit;
       }
@@ -76,7 +76,7 @@ public class Arm extends SubsystemBase {
 
     //If it isn't in manual mode or if something caused the speed to be zero, refer to the PID to set the speed
     if (!manualExtendMode || speed==0){
-      speed = extendPID.calculate(targetExtend - getExtension());
+      speed = extendPID.calculate(getExtension() - targetExtend);
       if (speed>0 && getExtension() > armConstants.ExtendForwardLimit) speed = 0;
       if (speed<0 && getExtension() < armConstants.ExtendBackwardLimit) speed = 0;
     }
@@ -112,11 +112,11 @@ public class Arm extends SubsystemBase {
 
     if (manualRotateMode) {
       //If the speed is positive, and is trying to move past the limit, set it to 0 and set the target to the limit
-      if (speed<0 && getAngle() > armConstants.RotateUpLimit) {
+      if (speed>0 && getAngle() > armConstants.RotateUpLimit) {
         speed = 0;
         targetAngle = armConstants.RotateUpLimit;
       }
-      if (speed>0 && getAngle() < armConstants.RotateDownLimit) {
+      if (speed<0 && getAngle() < armConstants.RotateDownLimit) {
         speed = 0;
         targetAngle = armConstants.RotateDownLimit;
       }
@@ -134,9 +134,9 @@ public class Arm extends SubsystemBase {
     
     //If it isn't in manual mode or if something caused the speed to be zero, refer to the PID to set the speed
     if (!manualRotateMode || speed == 0){
-      speed = rotatePID.calculate(targetAngle - getAngle());
-      if (speed<0 && getAngle() > armConstants.RotateUpLimit) speed = 0;
-      if (speed>0 && getAngle() < armConstants.RotateDownLimit) speed = 0;
+      speed = rotatePID.calculate(getAngle() - targetAngle);
+      if (speed>0 && getAngle() > armConstants.RotateUpLimit) speed = 0;
+      if (speed<0 && getAngle() < armConstants.RotateDownLimit) speed = 0;
 
       if (getAngle() > 180 || getAngle() < 0) speed = 0;
     }

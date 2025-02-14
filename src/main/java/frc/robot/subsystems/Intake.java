@@ -6,6 +6,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.intakeConstants;
 import frc.robot.Constants;
@@ -13,11 +14,13 @@ import frc.robot.RobotContainer;
 
 public class Intake extends SubsystemBase {
 
-  double leftSpeed; // Initizlizes the variables
+  boolean isRelativeOffsetSet = false;
+  double relativeOffset = 0;
+
+  double leftSpeed;
   double rightSpeed;
   double pivotSpeed;
-  double targetAngle;
-  double currentAngle;
+  double targetAngle = intakeConstants.PivotAngleAlgae; // TODO Update position to inside frame!
   PIDController pivotPID = new PIDController(intakeConstants.IntakePIDkp, intakeConstants.IntakePIDki, intakeConstants.IntakePIDkd);
 
   /** Creates a new Intake. */
@@ -26,14 +29,28 @@ public class Intake extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    // currentAngle = RobotContainer.pivotMotor.getAlternateEncoder().getPosition() / intakeConstants.PivotGearRatio; // Sets the current angle to the position of the motor divided by the gear ratio
+
+    if (!isRelativeOffsetSet) {
+      relativeOffset = (RobotContainer.intakePivotMotor.getEncoder().getPosition() * intakeConstants.PivotGearRatio) -(RobotContainer.intakeEncoder.get() - intakeConstants.PivotEncoderOffset) - 0.25;
+      isRelativeOffsetSet = true;
+    }
     
     RobotContainer.leftMotor.set(leftSpeed);
     RobotContainer.rightMotor.set(rightSpeed);
 
-    // pivotSpeed = pivotPID.calculate(targetAngle - currentAngle); // Calculates the pivot speed by subtracting the target angle from the current angle
+    pivotSpeed = pivotPID.calculate(getPivotAngle() - targetAngle); // Calculates the pivot speed by subtracting the target angle from the current angle
+    if (pivotSpeed > 0 && getPivotAngle() > intakeConstants.PivotMaxAngle) pivotSpeed = 0; // If beyond upper limit, cancel movement
+    if (pivotSpeed < 0 && getPivotAngle() < intakeConstants.PivotMinAngle) pivotSpeed = 0; // If beyond lower limit, cancel movement
 
-    // RobotContainer.pivotMotor.set(pivotSpeed); // Sets the motor to go the speed calculated
+    RobotContainer.intakePivotMotor.set(pivotSpeed); // Sets the motor to go the speed calculated
+
+    SmartDashboard.putNumber("Intake Pivot Encoder", RobotContainer.intakeEncoder.get() - intakeConstants.PivotEncoderOffset);
+    SmartDashboard.putNumber("Intake Pivot Radians", getPivotAngle());
+    SmartDashboard.putNumber("Intake Pivot Degrees", Math.toDegrees(getPivotAngle()));
+    SmartDashboard.putNumber("Left Speed", leftSpeed);
+    SmartDashboard.putNumber("Right Speed", rightSpeed);
+    SmartDashboard.putNumber("Intake Pivot Speed", pivotSpeed);
+    SmartDashboard.putNumber("Intake Motor Encoder", RobotContainer.intakePivotMotor.getEncoder().getPosition() * intakeConstants.PivotGearRatio);
   }
 
   public void setIntakeSpeed(double leftSpeed, double rightSpeed){
@@ -48,4 +65,9 @@ public class Intake extends SubsystemBase {
     this.targetAngle = targetAngle; // Sets the class variable to the local variable
   }
 
+  /** Returns the pivot angle of the intake in radians. */
+  public double getPivotAngle() {
+    // return (RobotContainer.intakeEncoder.get() - intakeConstants.PivotEncoderOffset + 0.25) * (2 * Math.PI);
+    return ((RobotContainer.intakePivotMotor.getEncoder().getPosition() * intakeConstants.PivotGearRatio) - relativeOffset) * (2 * Math.PI);
+  }
 }

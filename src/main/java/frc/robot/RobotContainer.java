@@ -59,10 +59,10 @@ public class RobotContainer {
     // Intake variables
     public static Intake intake = new Intake();
     public static IntakeCommand intakeCommand = new IntakeCommand();
-    public static SparkMax leftMotor = new SparkMax(27, MotorType.kBrushless); // TODO update this motor channel
-    public static SparkMax rightMotor = new SparkMax(26, MotorType.kBrushless); // TODO update this motor channel
-    // public static SparkMax pivotMotor = new SparkMax(0, MotorType.kBrushless); // TODO update motor channel-
-    public static DutyCycleEncoder intakEncoder = new DutyCycleEncoder(2);
+    public static SparkMax leftMotor = new SparkMax(27, MotorType.kBrushless);
+    public static SparkMax rightMotor = new SparkMax(26, MotorType.kBrushless);
+    public static SparkMax intakePivotMotor = new SparkMax(24, MotorType.kBrushless);
+    public static DutyCycleEncoder intakeEncoder = new DutyCycleEncoder(2);
 
     // Arm variables
     public static Arm arm = new Arm();
@@ -81,7 +81,7 @@ public class RobotContainer {
     public static Elevator elevator = new Elevator();
     public static ElevatorCommand elevatorCommand = new ElevatorCommand();
     public static SparkMax upAndDownMotor = new SparkMax(20, MotorType.kBrushless);
-    // public static SparkMax side2SideMotor = new SparkMax(24, MotorType.kBrushless);
+    // public static SparkMax side2SideMotor = new SparkMax(24, MotorType.kBrushless); // TODO check motor channel
     public static DutyCycleEncoder elevatorEncoder = new DutyCycleEncoder(1);
 
     // Camera 
