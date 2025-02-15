@@ -14,6 +14,7 @@ import com.revrobotics.spark.SparkMax;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
@@ -59,6 +60,10 @@ public class RobotContainer {
     public static XboxController xbox2 = new XboxController(1);
     public static XboxController xbox3 = new XboxController(2); // Used for PID testing only
 
+    // Arduino "Controller"
+    public static GenericHID arduino = new GenericHID(2);
+  
+    // Drivetrain
     public static final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
     // Intake variables
