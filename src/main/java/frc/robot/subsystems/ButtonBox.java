@@ -25,8 +25,8 @@ public class ButtonBox extends SubsystemBase {
 
   public static int[] lookup(int value) {
     int level = (value % 4) + 1;
-    int row = (value + 1) / 4;
-    return new int[] {level,row};
+    int branch = (value) / 4;
+    return new int[] {level,branch};
   }
 
   @Override
