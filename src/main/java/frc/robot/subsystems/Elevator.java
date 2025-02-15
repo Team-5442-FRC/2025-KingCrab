@@ -23,7 +23,7 @@ double side2SideCurrentPos = 0;
 double upAndDownCurrentPos = elevatorConstants.PivotToFloorOffset;
 double side2SideSpeed = 0;
 double upAndDownSpeed = 0;
-PIDController upAndDownPID = new PIDController(.00001, 0, 0);
+PIDController upAndDownPID = new PIDController(0.4, 0, 0.02);
 PIDController side2sidePID = new PIDController(.00001, 0, 0);
 
 // Counters for encoder rotations
@@ -47,11 +47,13 @@ double combinedHeight = 0;
     upAndDownCurrentPos = getHeight();
     side2SideCurrentPos = getSideToSide();
     
-    RobotContainer.upAndDownMotor.set(upAndDownSpeed * elevatorConstants.UpAndDownSpeedFactor);
-    RobotContainer.side2SideMotor.set(side2SideSpeed * elevatorConstants.Side2SideSpeedFactor);
+    RobotContainer.upAndDownMotor.set(upAndDownSpeed);
+    // RobotContainer.side2SideMotor.set(side2SideSpeed);
     
     SmartDashboard.putNumber("Elevator Encoder", RobotContainer.elevatorEncoder.get());
     SmartDashboard.putNumber("Elevator Combined Height", combinedHeight);
+    SmartDashboard.putNumber("Elevator Speed", upAndDownSpeed);
+    SmartDashboard.putNumber("Elevator Height", getHeight());
   }
 
   public void setSide2SidePos(double side2SideTargtePos) {
@@ -86,7 +88,7 @@ double combinedHeight = 0;
 
     //Limits the movement of side to side motion from user movement to inside the limits
     if(side2SideManualMode) {
-      side2SideSpeed = RobotContainer.Deadzone(speed);
+      side2SideSpeed = RobotContainer.Deadzone(speed) * elevatorConstants.Side2SideSpeedFactor;
       //if it's past the right limit and still moving right, stop moving and move back left
       if ((side2SideSpeed>0) && (side2SideCurrentPos>=elevatorConstants.ArmRightLimit)) {
         side2SideSpeed = 0;
@@ -100,8 +102,12 @@ double combinedHeight = 0;
     }
 
     //PID to determine speed when in computer controlled mode
-    if (!side2SideManualMode) side2SideSpeed = side2sidePID.calculate(side2SideTargtePos - side2SideCurrentPos); 
-}
+    if (!side2SideManualMode) {
+      side2SideSpeed = side2sidePID.calculate(side2SideTargtePos - side2SideCurrentPos); 
+      if (side2SideSpeed > 0 && side2SideCurrentPos > elevatorConstants.ArmRightLimit) side2SideSpeed = 0;
+      if (side2SideSpeed < 0 && side2SideCurrentPos < elevatorConstants.ArmLeftLimit) side2SideSpeed = 0;
+    } 
+  }
 
   public void moveUpAndDown (double speed) {
     //Calculate if user is in control
@@ -113,7 +119,7 @@ double combinedHeight = 0;
 
     //Determine speed when in manual mode  
     if(upAndDownManualMode) {
-      upAndDownSpeed = RobotContainer.Deadzone(speed);
+      upAndDownSpeed = RobotContainer.Deadzone(speed) * elevatorConstants.UpAndDownSpeedFactor;
       //if it's past the top limit and still moving up, stop moving and move back down
       if ((upAndDownSpeed>0) && (upAndDownCurrentPos>=elevatorConstants.ArmTopLimit)) {
         upAndDownSpeed = 0;
@@ -128,7 +134,11 @@ double combinedHeight = 0;
     }
     
     //PID to determine speed when in computer controlled mode
-    if (!upAndDownManualMode) upAndDownSpeed = upAndDownPID.calculate(upAndDownTargetPos - upAndDownCurrentPos);
+    if (!upAndDownManualMode) {
+      upAndDownSpeed = upAndDownPID.calculate(upAndDownCurrentPos - upAndDownTargetPos);
+      if (upAndDownSpeed > 0 && upAndDownCurrentPos > elevatorConstants.ArmTopLimit) upAndDownSpeed = 0;
+      if (upAndDownSpeed < 0 && upAndDownCurrentPos < elevatorConstants.ArmBottomLimit) upAndDownSpeed = 0;
+    }
   }
 
   /**Height of the pivot point in inches from floor*/
@@ -137,7 +147,7 @@ double combinedHeight = 0;
   }
 
   public double getSideToSide() {
-    return RobotContainer.side2SideMotor.getAbsoluteEncoder().getPosition(); //TODO Find formula to calculate
+    return 0; //TODO Find formula to calculate
   }
   
 }
