@@ -4,12 +4,16 @@
 
 package frc.robot;
 
+import java.net.Socket;
+
 import org.photonvision.PhotonCamera;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
@@ -21,12 +25,16 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Constants.driveConstants;
+import frc.robot.commands.ArmCommand;
+import frc.robot.commands.ElevatorCommand;
+import frc.robot.commands.IntakeCommand;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.DriveModes;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Manipulator;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Vision.Vision;
 
@@ -49,28 +57,37 @@ public class RobotContainer {
     public static CommandXboxController joystick = new CommandXboxController(0); 
     public static XboxController xbox1 = new XboxController(0);
     public static XboxController xbox2 = new XboxController(1);
+    public static XboxController xbox3 = new XboxController(2); // Used for PID testing only
 
-    public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+    public static final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
     // Intake variables
     public static Intake intake = new Intake();
-    // public static VictorSP leftMotor = new VictorSP(0); // TODO update this motor channel
-    // public static VictorSP rightMotor = new VictorSP(0); // TODO update this motor channel
-    // public static SparkMax pivotMotor = new SparkMax(0, MotorType.kBrushless); // TODO update motor channel-
+    public static IntakeCommand intakeCommand = new IntakeCommand();
+    public static SparkMax leftMotor = new SparkMax(27, MotorType.kBrushless);
+    public static SparkMax rightMotor = new SparkMax(26, MotorType.kBrushless);
+    public static SparkMax intakePivotMotor = new SparkMax(24, MotorType.kBrushless);
+    public static DutyCycleEncoder intakeEncoder = new DutyCycleEncoder(2);
 
     // Arm variables
     public static Arm arm = new Arm();
-    public static SparkMax extendMotor = new SparkMax(20, MotorType.kBrushless); //TODO change deviceId value
-    public static SparkMax rotateMotor = new SparkMax(21, MotorType.kBrushless); //TODO change deviceId value
+    public static ArmCommand armCommand = new ArmCommand();
+    public static SparkMax extendMotor = new SparkMax(21, MotorType.kBrushless);
+    public static SparkMax rotateMotor = new SparkMax(22, MotorType.kBrushless);
+    public static DutyCycleEncoder pivotEncoder = new DutyCycleEncoder(0);
   
     // Climber variables
+    
     public static Climber climber = new Climber();
-    public static SparkMax climberMotor = new SparkMax(22, MotorType.kBrushless);
+    // public static SparkMax climberMotor = new SparkMax(25, MotorType.kBrushless);
 
     // Elevator variables
+    
     public static Elevator elevator = new Elevator();
-    public static SparkMax upAndDownMotor = new SparkMax(23, MotorType.kBrushless); // TODO update motor channel-
-    public static SparkMax side2SideMotor = new SparkMax(24, MotorType.kBrushless); // TODO update motor channel-
+    public static ElevatorCommand elevatorCommand = new ElevatorCommand();
+    public static SparkMax upAndDownMotor = new SparkMax(20, MotorType.kBrushless);
+    // public static SparkMax side2SideMotor = new SparkMax(24, MotorType.kBrushless); // TODO check motor channel
+    public static DutyCycleEncoder elevatorEncoder = new DutyCycleEncoder(1);
 
     // Camera 
     public final static PhotonCamera camera = new PhotonCamera("PC_Camera");
@@ -87,6 +104,10 @@ public class RobotContainer {
     public RobotContainer() {
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
         SmartDashboard.putData("Auto Mode", autoChooser);
+
+        elevator.setDefaultCommand(elevatorCommand);
+        arm.setDefaultCommand(armCommand);
+        intake.setDefaultCommand(intakeCommand);
 
         configureBindings();
     }
@@ -116,10 +137,10 @@ public class RobotContainer {
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
         // What is this? We don't know! 2/6/25
-        joystick.back().and(joystick.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
-        joystick.back().and(joystick.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
-        joystick.start().and(joystick.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
-        joystick.start().and(joystick.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
+        // joystick.back().and(joystick.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
+        // joystick.back().and(joystick.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
+        // joystick.start().and(joystick.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
+        // joystick.start().and(joystick.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
 
         // reset the field-centric heading on left bumper press
         joystick.povDown().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
