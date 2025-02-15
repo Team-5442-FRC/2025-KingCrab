@@ -19,7 +19,11 @@ public class PositionManager extends SubsystemBase {
   /** Creates a new PositionManager. */
   public PositionManager() {}
 
-  public void setReefTarget(boolean isReefRight, int reefLevel) {
+  public int reefSideToAprilTag(int reefSide) {
+    return 1;
+  }
+
+  public void setReefTarget(boolean isReefRight, int reefLevel, int reefSide) {
     this.isReefRight = isReefRight;
     this.reefLevel = reefLevel;
   }
@@ -48,23 +52,21 @@ public class PositionManager extends SubsystemBase {
   }
 
   public double calculateSideToSide(double y, boolean isReefRight) {
-    if (isReefRight) {
-      return -y + posManagerConstants.ReefSideToSide;
-    }
-    else {
-      return -y - posManagerConstants.ReefSideToSide;
-    }
+    if (isReefRight) return -y + posManagerConstants.ReefSideToSide;
+    else return -y - posManagerConstants.ReefSideToSide;
   }
 
   @Override
   public void periodic() {
     if (RobotContainer.isAutomaticPositioningMode) {
-      robotPose = RobotContainer.vision.getFieldPose();
+      robotPose = RobotContainer.vision.getTagRelativePose(0);
 
       targetPivot = calculateArmPivot(reefLevel);
       targetExtend = calculateArmExtend(reefLevel, robotPose.getX());
       targetHeight = calculateHeight(reefLevel, robotPose.getX(), robotPose.getY());
       targetSideToSide = calculateSideToSide(robotPose.getY(), isReefRight);
+
+      updatePositions(targetPivot, targetExtend, targetHeight, targetSideToSide);
     }
   }
 }
