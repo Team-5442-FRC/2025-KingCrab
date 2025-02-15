@@ -103,6 +103,19 @@ public class Constants {
         public final static double ExtendSpeedFactor = 1;
         public final static double RotateSpeedFactor = 1;
     }
+
+    public static final class manipulatorConstants {
+        public final static double manipulatorIntakeSpeed = 0;
+        public final static double manipulatorOutakeSpeed = 0;
+
+        public final static double WristPIDkp = .00001;
+        public final static double WristPIDki = 0;
+        public final static double WristPIDkd = 0;
+
+        public final static double WristSpeedFactor = 1;
+
+        public final static double WristAngleOffset = 0;
+    }
     
     public static final class visionConstants {
         

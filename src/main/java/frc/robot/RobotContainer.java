@@ -4,12 +4,15 @@
 
 package frc.robot;
 
+import java.net.Socket;
+
 import org.photonvision.PhotonCamera;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -28,6 +31,7 @@ import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.DriveModes;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Manipulator;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Vision.Vision;
 
@@ -58,11 +62,17 @@ public class RobotContainer {
     // public static VictorSP leftMotor = new VictorSP(0); // TODO update this motor channel
     // public static VictorSP rightMotor = new VictorSP(0); // TODO update this motor channel
     // public static SparkMax pivotMotor = new SparkMax(0, MotorType.kBrushless); // TODO update motor channel-
+    //public static DigitalInput intakeProximitySensor = new DigitalInput(1);
 
     // Arm variables
     public static Arm arm = new Arm();
     public static SparkMax extendMotor = new SparkMax(20, MotorType.kBrushless); //TODO change deviceId value
     public static SparkMax rotateMotor = new SparkMax(21, MotorType.kBrushless); //TODO change deviceId value
+
+    public static Manipulator manipulator = new Manipulator();
+    public static SparkMax wristMotor = new SparkMax(0, MotorType.kBrushless);
+    public static SparkMax manipulatorIntakeMotor = new SparkMax(0, MotorType.kBrushless);
+    public static DigitalInput manipulatorProximitySensor = new DigitalInput(0);
   
     // Climber variables
     public static DutyCycleEncoder pivotEncoder = new DutyCycleEncoder(0);
