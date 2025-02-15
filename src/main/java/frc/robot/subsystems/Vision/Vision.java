@@ -70,6 +70,23 @@ public class Vision extends SubsystemBase {
     fR /= tot;
     return new Pose2d(fX,fY, new Rotation2d(fR));
   }
+
+  public Pose2d getTagRelativePose(int aprilTag) {
+    Pose3d aprilPose = AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape).getTagPose(aprilTag).get();
+    Pose2d robotPose = getFieldPose();
+
+    double x0 = aprilPose.getX() - robotPose.getX();
+    double y0 = aprilPose.getY() - robotPose.getY();
+    
+    double distance = Math.sqrt((x0*x0)+(y0*y0));
+    
+    double angle0 = Math.atan2(y0,x0);
+    double angle = angle0 - aprilPose.getRotation().getZ();
+    double x = distance * Math.cos(angle);
+    double y = distance * Math.sin(angle);
+
+    return new Pose2d(x,y,new Rotation2d(angle));
+  }
   
   @Override
   public void periodic() {
