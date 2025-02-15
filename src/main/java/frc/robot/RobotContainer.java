@@ -4,12 +4,15 @@
 
 package frc.robot;
 
+import java.net.Socket;
+
 import org.photonvision.PhotonCamera;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -31,6 +34,7 @@ import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.DriveModes;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Manipulator;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Vision.Vision;
 
