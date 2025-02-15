@@ -8,8 +8,10 @@ package frc.robot.subsystems;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.intakeConstants;
 import frc.robot.Constants;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 
 public class Intake extends SubsystemBase {
@@ -33,6 +35,7 @@ public class Intake extends SubsystemBase {
     if (!isRelativeOffsetSet) {
       relativeOffset = (RobotContainer.intakePivotMotor.getEncoder().getPosition() * intakeConstants.PivotGearRatio) -(RobotContainer.intakeEncoder.get() - intakeConstants.PivotEncoderOffset) - 0.25;
       isRelativeOffsetSet = true;
+      targetAngle = getPivotAngle();
     }
     
     RobotContainer.leftMotor.set(leftSpeed);
@@ -51,6 +54,7 @@ public class Intake extends SubsystemBase {
     SmartDashboard.putNumber("Right Speed", rightSpeed);
     SmartDashboard.putNumber("Intake Pivot Speed", pivotSpeed);
     SmartDashboard.putNumber("Intake Motor Encoder", RobotContainer.intakePivotMotor.getEncoder().getPosition() * intakeConstants.PivotGearRatio);
+    SmartDashboard.putNumber("Intake Targeted Pivot", Math.toDegrees(targetAngle));
   }
 
   public void setIntakeSpeed(double leftSpeed, double rightSpeed){
@@ -59,8 +63,8 @@ public class Intake extends SubsystemBase {
   }
 
   public void setPivotAngle(double targetAngle){
-    if (targetAngle > intakeConstants.MaxAngle) targetAngle = intakeConstants.MaxAngle; // If the target angle is greater than the maximum angle, the target angle is set to the max angle
-    if (targetAngle < intakeConstants.MinAngle) targetAngle = intakeConstants.MinAngle; // If the target angle is less than the minimum angle, the target angle is set to the min angle
+    if (targetAngle > intakeConstants.PivotMaxAngle) targetAngle = intakeConstants.PivotMaxAngle; // If the target angle is greater than the maximum angle, the target angle is set to the max angle
+    if (targetAngle < intakeConstants.PivotMinAngle) targetAngle = intakeConstants.PivotMinAngle; // If the target angle is less than the minimum angle, the target angle is set to the min angle
 
     this.targetAngle = targetAngle; // Sets the class variable to the local variable
   }

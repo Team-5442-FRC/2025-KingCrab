@@ -53,8 +53,9 @@ public class RobotContainer {
     public static CommandXboxController joystick = new CommandXboxController(0); 
     public static XboxController xbox1 = new XboxController(0);
     public static XboxController xbox2 = new XboxController(1);
+    public static XboxController xbox3 = new XboxController(2); // Used for PID testing only
 
-    public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+    public static final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
     // Intake variables
     public static Intake intake = new Intake();
@@ -129,10 +130,10 @@ public class RobotContainer {
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
         // What is this? We don't know! 2/6/25
-        joystick.back().and(joystick.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
-        joystick.back().and(joystick.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
-        joystick.start().and(joystick.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
-        joystick.start().and(joystick.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
+        // joystick.back().and(joystick.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
+        // joystick.back().and(joystick.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
+        // joystick.start().and(joystick.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
+        // joystick.start().and(joystick.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
 
         // reset the field-centric heading on left bumper press
         joystick.povDown().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));

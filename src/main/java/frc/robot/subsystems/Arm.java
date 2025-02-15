@@ -26,7 +26,7 @@ public class Arm extends SubsystemBase {
 
   //Versions of the above variables, just with the rotate functions
   boolean manualRotateMode = false;
-  double targetAngle = Math.toRadians(100); // Should be overwritten by manual mode on startup
+  double targetAngle = Math.toRadians(170); // Should be overwritten by manual mode on startup
   double rotateSpeed;
 
   //Initiallizing the PIDs

@@ -25,7 +25,7 @@ public class Constants {
     public static final class driveConstants {
 
         public final static double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
-        public final static double MaxAngularRate = RotationsPerSecond.of(4 * Math.PI).in(RadiansPerSecond); // 2 rotations per second max angular velocity
+        public final static double MaxAngularRate = RotationsPerSecond.of(2 * Math.PI).in(RadiansPerSecond); // 2 rotations per second max angular velocity
 
         // public final static double MaxSpeed = 5; //Max targeted speed in M/S (15 NORMALLY)
         // public final static double MaxAngularRate = 1.5 * Math.PI * 3; //Max targeted rotations / second -- 3/4ths of a rotation for now
@@ -46,9 +46,6 @@ public class Constants {
     }
 
     public static final class intakeConstants {
-
-        public final static double MinAngle = 0; // Degrees
-        public final static double MaxAngle = 90; // Degrees
         
         public final static double IntakePIDkp = 2; // Proportion (was 1)
         public final static double IntakePIDki = 0; // Integral 
@@ -62,8 +59,8 @@ public class Constants {
         public final static double PivotMinAngle = Math.toRadians(90); // Radians; Bottom limit
         public final static double PivotMaxAngle = Math.toRadians(180); // Radians; Upper limit
 
-        public final static double LeftSpeed = 0.6;
-        public final static double RightSpeed = -0.5;
+        public static double LeftSpeed = 0.9;
+        public static double RightSpeed = -0.8;
         public final static double LeftReverseSpeed = -0.1;
         public final static double RightReverseSpeed = 0.1;
 
@@ -126,8 +123,14 @@ public class Constants {
     }
 
     public static final class fieldConstants {
-        public final static Pose3d[][] BluReefArray = new Pose3d[12][4];
+        //All in inches
+        public final static double TagToReefYOffset = 6.497;
+        public final static double TagToL2and3XOffset = 2.0786;
+        public final static double TagToL4XOffset = 2.0498;
 
-        public final static Pose3d tempPos = new Pose3d();
+        public final static double L1Height = 18;
+        public final static double L2Height = 31.2186;
+        public final static double L3Height = 47.0887;
+        public final static double L4Height = 72;
     }
 }
