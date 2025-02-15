@@ -25,7 +25,7 @@ public class ElevatorCommand extends Command {
   public void execute() {
     //send in the inputs from the controller, calculate the speed each motor should be moving at, and set the motors to that speed
     RobotContainer.elevator.moveSide2Side(RobotContainer.xbox2.getLeftX());
-    RobotContainer.elevator.moveUpAndDown(RobotContainer.xbox2.getLeftY());
+    RobotContainer.elevator.moveUpAndDown(-RobotContainer.xbox2.getLeftY());
   }
 
   // Called once the command ends or is interrupted.

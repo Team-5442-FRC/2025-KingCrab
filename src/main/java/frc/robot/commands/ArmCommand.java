@@ -6,6 +6,8 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
+import frc.robot.Constants.armConstants;
+import frc.robot.Constants.intakeConstants;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ArmCommand extends Command {
@@ -25,7 +27,15 @@ public class ArmCommand extends Command {
     //Set the extend speed to the x-axis of the right stick
     RobotContainer.arm.extend(RobotContainer.xbox2.getRightX());
     //Set the rotate speed to the y-axis of the right stick
-    RobotContainer.arm.rotate(RobotContainer.xbox2.getRightY());
+    RobotContainer.arm.rotate(-RobotContainer.xbox2.getRightY());
+
+    if (RobotContainer.xbox2.getLeftBumperButtonPressed()) RobotContainer.arm.setTargetExtend(armConstants.ExtendBackwardLimit + 0.5);
+    if (RobotContainer.xbox2.getRightBumperButtonPressed()) RobotContainer.arm.setTargetExtend(armConstants.ExtendForwardLimit - 0.5);
+
+    if (RobotContainer.xbox3.getAButtonPressed()) intakeConstants.LeftSpeed += 0.05;
+    if (RobotContainer.xbox3.getYButtonPressed()) intakeConstants.LeftSpeed -= 0.05;
+    if (RobotContainer.xbox3.getBButtonPressed()) intakeConstants.RightSpeed += 0.05;
+    if (RobotContainer.xbox3.getXButtonPressed()) intakeConstants.RightSpeed -= 0.05;
   }
 
   // Called once the command ends or is interrupted.
