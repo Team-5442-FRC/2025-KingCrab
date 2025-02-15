@@ -113,7 +113,7 @@ public class Constants {
 
     }
 
-    public static final class posManagerConstants {
+    public static final class fieldConstants {
 
         //Reef level angles
         public final static double L1Angle = 90;
