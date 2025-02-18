@@ -21,6 +21,10 @@ public class PositionManager extends SubsystemBase {
   /** Creates a new PositionManager. */
   public PositionManager() {}
 
+  public double mToIn(double measure) { //Converts meters to inches
+    return measure * 39.3701;
+  }
+
   public int reefSideToAprilTag(int reefSide) {
     if (DriverStation.getAlliance().get().equals(Alliance.Red)) {
       if (reefSide == 1) return 7;
@@ -63,16 +67,16 @@ public class PositionManager extends SubsystemBase {
   }
 
   public double calculateArmExtend(int reefLevel, double x) {
-    return x / Math.sin(calculateArmPivot(reefLevel));
+    return mToIn(x) / Math.sin(calculateArmPivot(reefLevel));
   }
 
   public double calculateHeight(int reefLevel, double x, double y) {
-    return y - (x - Math.tan(calculateArmPivot(reefLevel)));
+    return mToIn(y) - (mToIn(x) - Math.tan(calculateArmPivot(reefLevel)));
   }
 
   public double calculateSideToSide(double y, boolean isReefRight) {
-    if (isReefRight) return -y + fieldConstants.ReefSideToSide;
-    else return -y - fieldConstants.ReefSideToSide;
+    if (isReefRight) return mToIn(-y) + fieldConstants.ReefSideToSide;
+    else return mToIn(-y) - fieldConstants.ReefSideToSide;
   }
 
   @Override

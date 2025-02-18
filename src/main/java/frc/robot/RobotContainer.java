@@ -36,6 +36,7 @@ import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.DriveModes;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Manipulator;
+import frc.robot.subsystems.PositionManager;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Vision.Vision;
 
@@ -85,6 +86,9 @@ public class RobotContainer {
     public static Manipulator manipulator = new Manipulator();
     public static SparkMax manipulatorIntakeMotor = new SparkMax(0, MotorType.kBrushless); //TODO add the right motor ids
     public static SparkMax wristMotor = new SparkMax(0, MotorType.kBrushless);
+
+    // Position Manager
+    public static PositionManager positionManager = new PositionManager();
     
     // Climber variables
     
