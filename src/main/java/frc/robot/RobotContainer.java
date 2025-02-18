@@ -80,7 +80,12 @@ public class RobotContainer {
     public static SparkMax extendMotor = new SparkMax(21, MotorType.kBrushless);
     public static SparkMax rotateMotor = new SparkMax(22, MotorType.kBrushless);
     public static DutyCycleEncoder pivotEncoder = new DutyCycleEncoder(0);
-  
+    
+    // Manipulator
+    public static Manipulator manipulator = new Manipulator();
+    public static SparkMax manipulatorIntakeMotor = new SparkMax(0, MotorType.kBrushless); //TODO add the right motor ids
+    public static SparkMax wristMotor = new SparkMax(0, MotorType.kBrushless);
+    
     // Climber variables
     
     public static Climber climber = new Climber();
@@ -94,8 +99,10 @@ public class RobotContainer {
     // public static SparkMax side2SideMotor = new SparkMax(24, MotorType.kBrushless); // TODO check motor channel
     public static DutyCycleEncoder elevatorEncoder = new DutyCycleEncoder(1);
 
+
     // Camera 
     public final static PhotonCamera camera = new PhotonCamera("PC_Camera");
+    public static DigitalInput manipulatorProxSensor = new DigitalInput(0);
 
     public static final Vision vision = new Vision();
 

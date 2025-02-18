@@ -45,7 +45,7 @@ public class Manipulator extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-     RobotContainer.manipulatorIntakeMotor.set(manipulatorSpeed);
+    RobotContainer.manipulatorIntakeMotor.set(manipulatorSpeed);
     RobotContainer.wristMotor.set(wristSpeed * manipulatorConstants.WristSpeedFactor);
   }
 }

@@ -51,7 +51,7 @@ public class PositionManager extends SubsystemBase {
     RobotContainer.arm.setTargetAngle(pivot);
     RobotContainer.arm.setTargetExtend(extend);
     RobotContainer.elevator.setUpAndDownPos(height);
-    RobotContainer.elevator.setTargetPos(sideToSide);
+    RobotContainer.elevator.setSide2SidePos(sideToSide);
   }
 
   public double calculateArmPivot(int reefLevel) {
