@@ -28,21 +28,19 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Constants.driveConstants;
 import frc.robot.commands.ArmCommand;
 import frc.robot.commands.ElevatorCommand;
-import frc.robot.commands.IntakeCommand;
+// import frc.robot.commands.IntakeCommand;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Climber;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.DriveModes;
-import frc.robot.subsystems.Intake;
+// import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Manipulator;
 import frc.robot.subsystems.PositionManager;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Vision.Vision;
 
 public class RobotContainer {
-    private double MaxSpeed = driveConstants.MaxSpeed;
-    // private double MaxAngularRate = driveConstants.MaxAngularRate;
 
     /* Setting up bindings for necessary control of the swerve drive platform */
     // private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
@@ -68,12 +66,12 @@ public class RobotContainer {
     public static final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
     // Intake variables
-    public static Intake intake = new Intake();
-    public static IntakeCommand intakeCommand = new IntakeCommand();
-    public static SparkMax leftMotor = new SparkMax(27, MotorType.kBrushless);
-    public static SparkMax rightMotor = new SparkMax(26, MotorType.kBrushless);
-    public static SparkMax intakePivotMotor = new SparkMax(24, MotorType.kBrushless);
-    public static DutyCycleEncoder intakeEncoder = new DutyCycleEncoder(2);
+    // public static Intake intake = new Intake();
+    // public static IntakeCommand intakeCommand = new IntakeCommand();
+    // public static SparkMax leftMotor = new SparkMax(27, MotorType.kBrushless);
+    // public static SparkMax rightMotor = new SparkMax(26, MotorType.kBrushless);
+    // public static SparkMax intakePivotMotor = new SparkMax(24, MotorType.kBrushless);
+    // public static DutyCycleEncoder intakeEncoder = new DutyCycleEncoder(2);
 
     // Arm variables
     public static Arm arm = new Arm();
@@ -123,7 +121,7 @@ public class RobotContainer {
 
         elevator.setDefaultCommand(elevatorCommand);
         arm.setDefaultCommand(armCommand);
-        intake.setDefaultCommand(intakeCommand);
+        // intake.setDefaultCommand(intakeCommand);
 
         configureBindings();
     }
