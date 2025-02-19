@@ -16,7 +16,7 @@ public class Manipulator extends SubsystemBase {
   double manipulatorSpeed;
   double wristSpeed;
   double targetWristAngle;
-  PIDController wristPID = new PIDController(manipulatorConstants.WristPIDkd, manipulatorConstants.WristPIDki,manipulatorConstants.WristPIDkp );
+  // PIDController wristPID = new PIDController(manipulatorConstants.WristPIDkd, manipulatorConstants.WristPIDki,manipulatorConstants.WristPIDkp );
   
   /** Creates a new Manipulator. */
   public Manipulator() {}
@@ -34,7 +34,7 @@ public class Manipulator extends SubsystemBase {
     }
     
     //Refer to the PID to set the speed
-    wristSpeed = wristPID.calculate(targetWristAngle - getRotation());
+    // wristSpeed = wristPID.calculate(targetWristAngle - getRotation());
   }
 
   public void setManipulatorSpeed(double speed) {
@@ -45,7 +45,7 @@ public class Manipulator extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    RobotContainer.manipulatorIntakeMotor.set(manipulatorSpeed);
-    RobotContainer.wristMotor.set(wristSpeed * manipulatorConstants.WristSpeedFactor);
+    // RobotContainer.manipulatorIntakeMotor.set(manipulatorSpeed);
+    // RobotContainer.wristMotor.set(wristSpeed * manipulatorConstants.WristSpeedFactor);
   }
 }

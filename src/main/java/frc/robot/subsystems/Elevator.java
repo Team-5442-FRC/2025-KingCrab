@@ -23,7 +23,7 @@ double side2SideCurrentPos = 0;
 double upAndDownCurrentPos = elevatorConstants.PivotToFloorOffset;
 double side2SideSpeed = 0;
 double upAndDownSpeed = 0;
-PIDController upAndDownPID = new PIDController(0.4, 0, 0.02);
+PIDController upAndDownPID = new PIDController(0.2, 0, 0.02);
 PIDController side2sidePID = new PIDController(.00001, 0, 0);
 
 // Counters for encoder rotations
@@ -48,12 +48,16 @@ double combinedHeight = 0;
     side2SideCurrentPos = getSideToSide();
     
     RobotContainer.upAndDownMotor.set(upAndDownSpeed);
-    // RobotContainer.side2SideMotor.set(side2SideSpeed);
+    RobotContainer.side2SideMotor.set(side2SideSpeed);
     
     SmartDashboard.putNumber("Elevator Encoder", RobotContainer.elevatorEncoder.get());
     SmartDashboard.putNumber("Elevator Combined Height", combinedHeight);
     SmartDashboard.putNumber("Elevator Speed", upAndDownSpeed);
     SmartDashboard.putNumber("Elevator Height", getHeight());
+
+    SmartDashboard.putNumber("Elevator Side To Side Encoder", RobotContainer.side2SideMotor.getEncoder().getPosition());
+    SmartDashboard.putNumber("Elevator Side To Side Value", getSideToSide());
+    SmartDashboard.putNumber("Elevator Side To Side Speed", side2SideSpeed);
   }
 
   public void setSide2SidePos(double side2SideTargtePos) {
@@ -90,12 +94,12 @@ double combinedHeight = 0;
     if(side2SideManualMode) {
       side2SideSpeed = RobotContainer.Deadzone(speed) * elevatorConstants.Side2SideSpeedFactor;
       //if it's past the right limit and still moving right, stop moving and move back left
-      if ((side2SideSpeed>0) && (side2SideCurrentPos>=elevatorConstants.ArmRightLimit)) {
+      if ((side2SideSpeed>0) && (side2SideCurrentPos>elevatorConstants.ArmRightLimit)) {
         side2SideSpeed = 0;
         side2SideTargtePos = elevatorConstants.ArmRightLimit;
       }
       //if it's past the left limit and still moving left, stop moving and move back right
-      if ((side2SideSpeed<0) && (side2SideCurrentPos<=elevatorConstants.ArmLeftLimit)) {
+      if ((side2SideSpeed<0) && (side2SideCurrentPos<elevatorConstants.ArmLeftLimit)) {
         side2SideSpeed = 0;
         side2SideTargtePos = elevatorConstants.ArmLeftLimit;
       }
@@ -147,7 +151,7 @@ double combinedHeight = 0;
   }
 
   public double getSideToSide() {
-    return 0; //TODO Find formula to calculate
+    return ((RobotContainer.side2SideMotor.getEncoder().getPosition() / 49) * (26/30d)) / 1.2;
   }
   
 }

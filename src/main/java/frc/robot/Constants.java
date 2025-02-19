@@ -68,8 +68,8 @@ public class Constants {
 
     public static final class elevatorConstants {
       
-        public final static double ArmRightLimit = 0; //TODO add correct limit y-axis
-        public final static double ArmLeftLimit = 0; //TODO add correct limit y-axis
+        public final static double ArmRightLimit = 10; //TODO add correct limit y-axis
+        public final static double ArmLeftLimit = -10; //TODO add correct limit y-axis
 
         public final static double ArmTopLimit = 60.75; //TODO add correct limit z-axis
         public final static double ArmBottomLimit = 10.75; //TODO add correct limit z-axis
@@ -89,6 +89,7 @@ public class Constants {
         public final static double ExtendForwardLimit = 22.8; // 24.5 Actual, Inches; Maximum extention
         public final static double ExtendBackwardLimit = 16; //Inches; Minimum extention
         public final static double PivotToMinExtend = 15.8; // Inches; Distance from pivot point to end of pivot block (not manipulator)
+        public final static double MinExtendToCoral = 29 - PivotToMinExtend; // Inches; Distance from end of pivot block to coral on manipulator
         
         public final static double RotateUpLimit = Math.toRadians(170); //Hard limits (Was 170)
         public final static double RotateDownLimit = Math.toRadians(80); //Hard Limits (Was 10)

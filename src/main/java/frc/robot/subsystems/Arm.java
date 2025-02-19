@@ -25,7 +25,7 @@ public class Arm extends SubsystemBase {
   double extendSpeed; //The speed that the arm should go (when manual)
 
   //Versions of the above variables, just with the rotate functions
-  boolean manualRotateMode = false;
+  boolean manualRotateMode = true;
   double targetAngle = Math.toRadians(170); // Should be overwritten by manual mode on startup
   double rotateSpeed;
 

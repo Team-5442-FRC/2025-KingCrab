@@ -25,9 +25,9 @@ public class ManipulatorCommand extends Command {
   public void execute() {
     RobotContainer.manipulator.rotateWrist();
 
-    if (RobotContainer.xbox2.getBButton() && RobotContainer.manipulatorProxSensor.get()) RobotContainer.manipulator.setManipulatorSpeed(manipulatorConstants.manipulatorIntakeSpeed);
-    else if (RobotContainer.xbox2.getYButton()) RobotContainer.manipulator.setManipulatorSpeed(manipulatorConstants.manipulatorOutakeSpeed);
-    else if (!RobotContainer.manipulatorProxSensor.get()) RobotContainer.manipulator.setManipulatorSpeed(0);
+    // if (RobotContainer.xbox2.getBButton() && RobotContainer.manipulatorProxSensor.get()) RobotContainer.manipulator.setManipulatorSpeed(manipulatorConstants.manipulatorIntakeSpeed);
+    // else if (RobotContainer.xbox2.getYButton()) RobotContainer.manipulator.setManipulatorSpeed(manipulatorConstants.manipulatorOutakeSpeed);
+    // else if (!RobotContainer.manipulatorProxSensor.get()) RobotContainer.manipulator.setManipulatorSpeed(0);
   }
 
   // Called once the command ends or is interrupted.
