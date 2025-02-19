@@ -29,13 +29,13 @@ public class ArmCommand extends Command {
     //Set the rotate speed to the y-axis of the right stick
     RobotContainer.arm.rotate(-RobotContainer.xbox2.getRightY());
 
-    if (RobotContainer.xbox2.getLeftBumperButtonPressed()) RobotContainer.arm.setTargetExtend(armConstants.ExtendBackwardLimit + 0.5);
-    if (RobotContainer.xbox2.getRightBumperButtonPressed()) RobotContainer.arm.setTargetExtend(armConstants.ExtendForwardLimit - 0.5);
+    // if (RobotContainer.xbox2.getLeftBumperButtonPressed()) RobotContainer.arm.setTargetExtend(armConstants.ExtendBackwardLimit + 0.5);
+    // if (RobotContainer.xbox2.getRightBumperButtonPressed()) RobotContainer.arm.setTargetExtend(armConstants.ExtendForwardLimit - 0.5);
 
-    if (RobotContainer.xbox3.getAButtonPressed()) intakeConstants.LeftSpeed += 0.05;
-    if (RobotContainer.xbox3.getYButtonPressed()) intakeConstants.LeftSpeed -= 0.05;
-    if (RobotContainer.xbox3.getBButtonPressed()) intakeConstants.RightSpeed += 0.05;
-    if (RobotContainer.xbox3.getXButtonPressed()) intakeConstants.RightSpeed -= 0.05;
+    // if (RobotContainer.xbox3.getAButtonPressed()) intakeConstants.LeftSpeed += 0.05;
+    // if (RobotContainer.xbox3.getYButtonPressed()) intakeConstants.LeftSpeed -= 0.05;
+    // if (RobotContainer.xbox3.getBButtonPressed()) intakeConstants.RightSpeed += 0.05;
+    // if (RobotContainer.xbox3.getXButtonPressed()) intakeConstants.RightSpeed -= 0.05;
   }
 
   // Called once the command ends or is interrupted.

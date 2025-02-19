@@ -69,7 +69,7 @@ public class Constants {
     public static final class elevatorConstants {
       
         public final static double ArmRightLimit = 10; //TODO add correct limit y-axis
-        public final static double ArmLeftLimit = -10; //TODO add correct limit y-axis
+        public final static double ArmLeftLimit = -20; //TODO add correct limit y-axis
 
         public final static double ArmTopLimit = 60.75; //TODO add correct limit z-axis
         public final static double ArmBottomLimit = 10.75; //TODO add correct limit z-axis
@@ -81,11 +81,13 @@ public class Constants {
         public final static double PivotToFloorOffset = 10.75; //Inches from floor to pivot point at lowest position
         public final static double InchesPerRotation = 11.3125; //TODO Do more research - Inches for every full rotation of the elevator encoder 
 
-        public final static double Side2SideOffset = 0;
+        public final static double Side2SideOffset = 7; // Inches; offset if starting from right position
+
     }
 
     
     public static final class armConstants {
+
         public final static double ExtendForwardLimit = 22.8; // 24.5 Actual, Inches; Maximum extention
         public final static double ExtendBackwardLimit = 16; //Inches; Minimum extention
         public final static double PivotToMinExtend = 15.8; // Inches; Distance from pivot point to end of pivot block (not manipulator)
@@ -104,7 +106,7 @@ public class Constants {
         public final static double RotatePIDkd = 0;
         
         public final static double ExtendSpeedFactor = 0.3;
-        public final static double RotateSpeedFactor = 0.1; // Was 0.1
+        public final static double RotateSpeedFactor = 0.2; // Was 0.1
     }
 
     public static final class manipulatorConstants {

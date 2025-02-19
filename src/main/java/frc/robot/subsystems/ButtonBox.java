@@ -4,10 +4,9 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 
-public class ButtonBox extends SubsystemBase {
+public class ButtonBox {
   /** Creates a new ButtonBox. */
   public ButtonBox() {}
 
@@ -23,14 +22,9 @@ public class ButtonBox extends SubsystemBase {
     return totalValue;
   }
 
-  public static int[] lookup(int value) {
+  public static int[] lookup(int value) { // TODO - FIX PLZ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     int level = (value % 4) + 1;
     int branch = (value) / 4;
     return new int[] {level,branch};
-  }
-
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
   }
 }

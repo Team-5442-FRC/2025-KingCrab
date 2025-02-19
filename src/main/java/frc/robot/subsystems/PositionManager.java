@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.fieldConstants;
@@ -91,5 +92,7 @@ public class PositionManager extends SubsystemBase {
 
       updatePositions(targetPivot, targetExtend, targetHeight, targetSideToSide);
     }
+    SmartDashboard.putNumber("Level", ButtonBox.lookup(ButtonBox.readBox())[0]);
+    SmartDashboard.putNumber("Branch", ButtonBox.lookup(ButtonBox.readBox())[1]);
   }
 }

@@ -28,6 +28,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Constants.driveConstants;
 import frc.robot.commands.ArmCommand;
 import frc.robot.commands.ElevatorCommand;
+import frc.robot.commands.PositionManagerCommand;
 // import frc.robot.commands.IntakeCommand;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Arm;
@@ -87,6 +88,7 @@ public class RobotContainer {
 
     // Position Manager
     public static PositionManager positionManager = new PositionManager();
+    public static PositionManagerCommand positionManagerCommand = new PositionManagerCommand();
     
     // Climber variables
     
@@ -122,6 +124,8 @@ public class RobotContainer {
         elevator.setDefaultCommand(elevatorCommand);
         arm.setDefaultCommand(armCommand);
         // intake.setDefaultCommand(intakeCommand);
+        positionManager.setDefaultCommand(positionManagerCommand);
+
 
         configureBindings();
     }

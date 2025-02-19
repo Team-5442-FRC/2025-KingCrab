@@ -23,7 +23,7 @@ double side2SideCurrentPos = 0;
 double upAndDownCurrentPos = elevatorConstants.PivotToFloorOffset;
 double side2SideSpeed = 0;
 double upAndDownSpeed = 0;
-PIDController upAndDownPID = new PIDController(0.2, 0, 0.02);
+PIDController upAndDownPID = new PIDController(0.2, 0, 0); // D was 0.02
 PIDController side2sidePID = new PIDController(.00001, 0, 0);
 
 // Counters for encoder rotations
@@ -151,7 +151,7 @@ double combinedHeight = 0;
   }
 
   public double getSideToSide() {
-    return ((RobotContainer.side2SideMotor.getEncoder().getPosition() / 49) * (26/30d)) / 1.2;
+    return ((RobotContainer.side2SideMotor.getEncoder().getPosition() / 49) * (30/26d)) / (5/3d) + elevatorConstants.Side2SideOffset; // TODO figure out why it needs the 5/3 constant (incorrect gearbox ratio?)
   }
   
 }
