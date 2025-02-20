@@ -45,6 +45,7 @@ public class Arm extends SubsystemBase {
     SmartDashboard.putNumber("Pivot Speed", rotateSpeed);
     SmartDashboard.putNumber("Extend Length", getExtension());
     SmartDashboard.putNumber("Extend Speed", extendSpeed);
+    SmartDashboard.putNumber("Extend Raw Encoder", RobotContainer.extendMotor.getEncoder().getPosition());
   }
 
   public void extend(double speed){
@@ -94,7 +95,7 @@ public class Arm extends SubsystemBase {
 
   /** Returns the extention of the arm in inches. */
   public double getExtension() {
-    return -(RobotContainer.extendMotor.getEncoder().getPosition() * 0.38 * 18) / 5 + armConstants.PivotToMinExtend;
+    return -(RobotContainer.extendMotor.getEncoder().getPosition() * 0.38 * 18) / 5 + armConstants.PivotToMinExtend + armConstants.MinExtendToCoral;
   }
 
   /*---------------------------------------------------------------------------*/

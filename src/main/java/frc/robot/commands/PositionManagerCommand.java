@@ -26,7 +26,12 @@ public class PositionManagerCommand extends Command {
     int[] target = ButtonBox.lookup(ButtonBox.readBox());
     RobotContainer.positionManager.setReefTarget(target[1] % 2 == 1, target[0], (target[1] / 2) + 1);
     if (RobotContainer.xbox2.getRightBumperButtonPressed()) {
-      RobotContainer.positionManager.updatePositions(RobotContainer.positionManager.calculateArmPivot(target[0]),RobotContainer.positionManager.calculateArmExtend(target[0], 0.25),RobotContainer.positionManager.calculateHeight(target[0], 0.25, 0),RobotContainer.positionManager.calculateSideToSide(0, target[1] % 2 == 1));
+      RobotContainer.positionManager.updatePositions(
+        RobotContainer.positionManager.calculateArmPivot(target[0]),
+        RobotContainer.positionManager.calculateArmExtend(target[0], 0.25),
+        RobotContainer.positionManager.calculateHeight(target[0], RobotContainer.arm.getExtension(), RobotContainer.positionManager.reefLevelToHeight(target[0])),
+        RobotContainer.positionManager.calculateSideToSide(0, target[1] % 2 == 1)
+      );
     }
   }
 

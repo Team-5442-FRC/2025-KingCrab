@@ -23,13 +23,13 @@ double side2SideCurrentPos = 0;
 double upAndDownCurrentPos = elevatorConstants.PivotToFloorOffset;
 double side2SideSpeed = 0;
 double upAndDownSpeed = 0;
-PIDController upAndDownPID = new PIDController(0.2, 0, 0); // D was 0.02
+PIDController upAndDownPID = new PIDController(0.075, 0, 0); // D was 0.02
 PIDController side2sidePID = new PIDController(.00001, 0, 0);
 
 // Counters for encoder rotations
 double lastHeight = 0;
 double height = 0;
-int intHeight = 1;
+int intHeight = 0;
 double combinedHeight = 0;
 
   /** Creates a new ElevatorSubsystem. */

@@ -46,6 +46,14 @@ public class PositionManager extends SubsystemBase {
     return 1;
   }
 
+  public double reefLevelToHeight(int reefLevel) {
+    if (reefLevel == 1) return fieldConstants.L1Height;
+    if (reefLevel == 2) return fieldConstants.L2Height;
+    if (reefLevel == 3) return fieldConstants.L3Height;
+    if (reefLevel == 4) return fieldConstants.L4Height;
+    return fieldConstants.L1Height;
+  }
+
   public void setReefTarget(boolean isReefRight, int reefLevel, int reefSide) {
     this.isReefRight = isReefRight;
     this.reefLevel = reefLevel;
@@ -71,8 +79,9 @@ public class PositionManager extends SubsystemBase {
     return mToIn(x) / Math.sin(calculateArmPivot(reefLevel));
   }
 
-  public double calculateHeight(int reefLevel, double x, double y) {
-    return mToIn(y) - (mToIn(x) - Math.tan(calculateArmPivot(reefLevel)));
+  public double calculateHeight(int reefLevel, double r, double z) {
+    // return z - (mToIn(x) / Math.tan(calculateArmPivot(reefLevel) - (Math.PI/2)));
+    return z - (r * Math.sin(calculateArmPivot(reefLevel) - (Math.PI/2))) + 5; // TODO PUT FUDGE FACTOR (5) IN CONSTANTS
   }
 
   public double calculateSideToSide(double y, boolean isReefRight) {
@@ -87,12 +96,15 @@ public class PositionManager extends SubsystemBase {
 
       targetPivot = calculateArmPivot(reefLevel);
       targetExtend = calculateArmExtend(reefLevel, robotPose.getX());
-      targetHeight = calculateHeight(reefLevel, robotPose.getX(), robotPose.getY());
+      targetHeight = calculateHeight(reefLevel, robotPose.getX(), reefLevelToHeight(reefLevel));
       targetSideToSide = calculateSideToSide(robotPose.getY(), isReefRight);
 
       updatePositions(targetPivot, targetExtend, targetHeight, targetSideToSide);
+
     }
     SmartDashboard.putNumber("Level", ButtonBox.lookup(ButtonBox.readBox())[0]);
     SmartDashboard.putNumber("Branch", ButtonBox.lookup(ButtonBox.readBox())[1]);
+    SmartDashboard.putNumber("Button Box Reading", ButtonBox.readBox());
+    SmartDashboard.putNumber("REEF TO HEIGHT", reefLevelToHeight(reefLevel));
   }
 }

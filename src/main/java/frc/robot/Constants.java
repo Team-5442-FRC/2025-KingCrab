@@ -71,27 +71,27 @@ public class Constants {
         public final static double ArmRightLimit = 10; //TODO add correct limit y-axis
         public final static double ArmLeftLimit = -20; //TODO add correct limit y-axis
 
-        public final static double ArmTopLimit = 60.75; //TODO add correct limit z-axis
-        public final static double ArmBottomLimit = 10.75; //TODO add correct limit z-axis
+        public final static double ArmTopLimit = 60.0 - 0.5; // Was 60.75 //TODO add correct limit z-axis
+        public final static double ArmBottomLimit = 10.75 + 0.25; //TODO add correct limit z-axis
 
         public final static double Side2SideSpeedFactor = 1;
         public final static double UpAndDownSpeedFactor = 0.4;
 
-        public final static double UpAndDownOffset = 0.888; //Rotations at the lowest point
+        public final static double UpAndDownOffset = 0.629; //Rotations at the lowest point
         public final static double PivotToFloorOffset = 10.75; //Inches from floor to pivot point at lowest position
-        public final static double InchesPerRotation = 11.3125; //TODO Do more research - Inches for every full rotation of the elevator encoder 
+        public final static double InchesPerRotation = 10.95; // Was 11.3125  //TODO Do more research - Inches for every full rotation of the elevator encoder 
 
-        public final static double Side2SideOffset = 7; // Inches; offset if starting from right position
+        public final static double Side2SideOffset = 0; // Inches; offset if starting from center
 
     }
 
     
     public static final class armConstants {
 
-        public final static double ExtendForwardLimit = 22.8; // 24.5 Actual, Inches; Maximum extention
-        public final static double ExtendBackwardLimit = 16; //Inches; Minimum extention
         public final static double PivotToMinExtend = 15.8; // Inches; Distance from pivot point to end of pivot block (not manipulator)
-        public final static double MinExtendToCoral = 29 - PivotToMinExtend; // Inches; Distance from end of pivot block to coral on manipulator
+        public final static double MinExtendToCoral = 12.75;//29 - PivotToMinExtend; // Inches; Distance from end of pivot block to coral on manipulator
+        public final static double ExtendForwardLimit = 6.8 + PivotToMinExtend + MinExtendToCoral; // WAS 22.8 // 24.5 Actual, Inches; Maximum extention
+        public final static double ExtendBackwardLimit = 0.25 + PivotToMinExtend + MinExtendToCoral; // WAS 16 //Inches; Minimum extention
         
         public final static double RotateUpLimit = Math.toRadians(170); //Hard limits (Was 170)
         public final static double RotateDownLimit = Math.toRadians(80); //Hard Limits (Was 10)
@@ -157,9 +157,9 @@ public class Constants {
         public final static double TagToL4XOffset = 2.0498;
 
         public final static double L1Height = 18;
-        public final static double L2Height = 31.2186;
-        public final static double L3Height = 47.0887;
-        public final static double L4Height = 72;
+        public final static double L2Height = 31.875;
+        public final static double L3Height = 47.75;
+        public final static double L4Height = 71.75;
       
     }
 }
