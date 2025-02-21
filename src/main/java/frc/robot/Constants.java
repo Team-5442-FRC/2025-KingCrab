@@ -68,8 +68,8 @@ public class Constants {
 
     public static final class elevatorConstants {
       
-        public final static double ArmRightLimit = 10; //TODO add correct limit y-axis
-        public final static double ArmLeftLimit = -20; //TODO add correct limit y-axis
+        public final static double ArmRightLimit = 6.4; //Real limit is around 6.8
+        public final static double ArmLeftLimit = -4.5; //Real limit is around -3.75
 
         public final static double ArmTopLimit = 60.0 - 0.5; // Was 60.75 //TODO add correct limit z-axis
         public final static double ArmBottomLimit = 10.75 + 0.25; //TODO add correct limit z-axis
@@ -77,7 +77,7 @@ public class Constants {
         public final static double Side2SideSpeedFactor = 1;
         public final static double UpAndDownSpeedFactor = 0.4;
 
-        public final static double UpAndDownOffset = 0.629; //Rotations at the lowest point
+        public final static double UpAndDownOffset = 0.059; //Rotations at the lowest point
         public final static double PivotToFloorOffset = 10.75; //Inches from floor to pivot point at lowest position
         public final static double InchesPerRotation = 10.95; // Was 11.3125  //TODO Do more research - Inches for every full rotation of the elevator encoder 
 
@@ -145,7 +145,7 @@ public class Constants {
         public final static double L1Angle = 90;
         public final static double L2Angle = 145;
         public final static double L3Angle = 145;
-        public final static double L4Angle = 100;
+        public final static double L4Angle = 140;
         public final static double ErrorAngle = 145; //TODO check with Aaron if this is acceptable
 
         //Reef left-right length

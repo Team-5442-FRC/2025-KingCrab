@@ -28,7 +28,7 @@ public class PositionManagerCommand extends Command {
     if (RobotContainer.xbox2.getRightBumperButtonPressed()) {
       RobotContainer.positionManager.updatePositions(
         RobotContainer.positionManager.calculateArmPivot(target[0]),
-        RobotContainer.positionManager.calculateArmExtend(target[0], 0.25),
+        RobotContainer.positionManager.calculateArmExtend(target[0], 0.5),
         RobotContainer.positionManager.calculateHeight(target[0], RobotContainer.arm.getExtension(), RobotContainer.positionManager.reefLevelToHeight(target[0])),
         RobotContainer.positionManager.calculateSideToSide(0, target[1] % 2 == 1)
       );

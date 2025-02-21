@@ -100,7 +100,7 @@ public class RobotContainer {
     public static Elevator elevator = new Elevator();
     public static ElevatorCommand elevatorCommand = new ElevatorCommand();
     public static SparkMax upAndDownMotor = new SparkMax(20, MotorType.kBrushless);
-    public static SparkMax side2SideMotor = new SparkMax(23, MotorType.kBrushless); // TODO check motor channel
+    public static SparkMax side2SideMotor = new SparkMax(23, MotorType.kBrushless);
     public static DutyCycleEncoder elevatorEncoder = new DutyCycleEncoder(1);
 
 

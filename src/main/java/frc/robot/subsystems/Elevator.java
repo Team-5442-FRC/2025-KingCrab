@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -25,6 +26,7 @@ double side2SideSpeed = 0;
 double upAndDownSpeed = 0;
 PIDController upAndDownPID = new PIDController(0.075, 0, 0); // D was 0.02
 PIDController side2sidePID = new PIDController(.00001, 0, 0);
+SlewRateLimiter upAndDownLimiter = new SlewRateLimiter(16); // Units per second; rateLimit of 2 means 0% to 100% in half a second
 
 // Counters for encoder rotations
 double lastHeight = 0;
@@ -139,7 +141,7 @@ double combinedHeight = 0;
     
     //PID to determine speed when in computer controlled mode
     if (!upAndDownManualMode) {
-      upAndDownSpeed = upAndDownPID.calculate(upAndDownCurrentPos - upAndDownTargetPos);
+      upAndDownSpeed = upAndDownLimiter.calculate(upAndDownPID.calculate(upAndDownCurrentPos - upAndDownTargetPos));
       if (upAndDownSpeed > 0 && upAndDownCurrentPos > elevatorConstants.ArmTopLimit) upAndDownSpeed = 0;
       if (upAndDownSpeed < 0 && upAndDownCurrentPos < elevatorConstants.ArmBottomLimit) upAndDownSpeed = 0;
     }
@@ -147,7 +149,8 @@ double combinedHeight = 0;
 
   /**Height of the pivot point in inches from floor*/
   public double getHeight() {
-    return (combinedHeight * elevatorConstants.InchesPerRotation) + elevatorConstants.PivotToFloorOffset;
+    // return (combinedHeight * elevatorConstants.InchesPerRotation) + elevatorConstants.PivotToFloorOffset; // Absolute Encoder, removed 2/20/25
+    return ((RobotContainer.upAndDownMotor.getEncoder().getPosition() * elevatorConstants.InchesPerRotation) / 25) + elevatorConstants.PivotToFloorOffset;
   }
 
   public double getSideToSide() {
