@@ -9,6 +9,7 @@ import java.net.Socket;
 import org.photonvision.PhotonCamera;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 
@@ -65,6 +66,10 @@ public class RobotContainer {
     // Drivetrain
     public static final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
+    
+    public static Command ElevatorUp;
+    public static double ElevatorLevel;
+
     // Intake variables
     // public static Intake intake = new Intake();
     // public static IntakeCommand intakeCommand = new IntakeCommand();
@@ -115,7 +120,31 @@ public class RobotContainer {
     /* Path follower */
     private final SendableChooser<Command> autoChooser;
 
+
     public RobotContainer() {
+        
+        ElevatorUp = new Command() {
+            boolean isFinished = false;
+      
+            @Override
+            public void initialize() {
+              ElevatorLevel = 0;//TODO Add a way to choose level
+            }
+      
+            @Override
+            public void execute() {
+              
+            }
+      
+            @Override 
+            public boolean isFinished() {
+              return isFinished;
+            }
+          };
+    
+          
+        NamedCommands.registerCommand("Elevator Up", ElevatorUp);
+
         autoChooser = AutoBuilder.buildAutoChooser("Tests");
         SmartDashboard.putData("Auto Mode", autoChooser);
 
@@ -124,7 +153,9 @@ public class RobotContainer {
         // intake.setDefaultCommand(intakeCommand);
 
         configureBindings();
+
     }
+    
     
     // Note that X is defined as forward according to WPILib convention,
     // and Y is defined as to the left according to WPILib convention.
@@ -186,4 +217,5 @@ public class RobotContainer {
         /* Run the path selected from the auto chooser */
         return autoChooser.getSelected();
     }
+
 }
