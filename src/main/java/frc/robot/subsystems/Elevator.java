@@ -25,7 +25,7 @@ double upAndDownCurrentPos = elevatorConstants.PivotToFloorOffset;
 double side2SideSpeed = 0;
 double upAndDownSpeed = 0;
 PIDController upAndDownPID = new PIDController(0.075, 0, 0); // D was 0.02
-PIDController side2sidePID = new PIDController(.00001, 0, 0);
+PIDController side2sidePID = new PIDController(2, 0, 0);
 SlewRateLimiter upAndDownLimiter = new SlewRateLimiter(16); // Units per second; rateLimit of 2 means 0% to 100% in half a second
 
 // Counters for encoder rotations
@@ -109,7 +109,7 @@ double combinedHeight = 0;
 
     //PID to determine speed when in computer controlled mode
     if (!side2SideManualMode) {
-      side2SideSpeed = side2sidePID.calculate(side2SideTargtePos - side2SideCurrentPos); 
+      side2SideSpeed = -side2sidePID.calculate(side2SideTargtePos - side2SideCurrentPos); 
       if (side2SideSpeed > 0 && side2SideCurrentPos > elevatorConstants.ArmRightLimit) side2SideSpeed = 0;
       if (side2SideSpeed < 0 && side2SideCurrentPos < elevatorConstants.ArmLeftLimit) side2SideSpeed = 0;
     } 

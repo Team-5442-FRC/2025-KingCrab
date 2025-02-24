@@ -27,6 +27,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Constants.driveConstants;
 import frc.robot.commands.ArmCommand;
+import frc.robot.commands.ClimberCommand;
 import frc.robot.commands.ElevatorCommand;
 import frc.robot.commands.PositionManagerCommand;
 // import frc.robot.commands.IntakeCommand;
@@ -93,7 +94,8 @@ public class RobotContainer {
     // Climber variables
     
     public static Climber climber = new Climber();
-    // public static SparkMax climberMotor = new SparkMax(25, MotorType.kBrushless);
+    public static ClimberCommand climberCommand = new ClimberCommand();
+    public static SparkMax climberMotor = new SparkMax(25, MotorType.kBrushless);
 
     // Elevator variables
     
@@ -105,13 +107,13 @@ public class RobotContainer {
 
 
     // Camera 
-    public final static PhotonCamera camera = new PhotonCamera("PC_Camera");
+    public static PhotonCamera camera = new PhotonCamera("PC_Camera");
     // public static DigitalInput manipulatorProxSensor = new DigitalInput(0);
 
-    public static final Vision vision = new Vision();
+    public static Vision vision = new Vision();
 
     // Position Manager
-    public static final boolean isAutomaticPositioningMode = false;
+    public static boolean isAutomaticPositioningMode = false;
 
 
     /* Path follower */
@@ -124,6 +126,7 @@ public class RobotContainer {
         elevator.setDefaultCommand(elevatorCommand);
         arm.setDefaultCommand(armCommand);
         // intake.setDefaultCommand(intakeCommand);
+        climber.setDefaultCommand(climberCommand);
         positionManager.setDefaultCommand(positionManagerCommand);
 
 

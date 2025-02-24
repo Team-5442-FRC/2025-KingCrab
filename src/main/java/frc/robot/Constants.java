@@ -90,7 +90,7 @@ public class Constants {
 
         public final static double PivotToMinExtend = 15.8; // Inches; Distance from pivot point to end of pivot block (not manipulator)
         public final static double MinExtendToCoral = 12.75;//29 - PivotToMinExtend; // Inches; Distance from end of pivot block to coral on manipulator
-        public final static double ExtendForwardLimit = 6.8 + PivotToMinExtend + MinExtendToCoral; // WAS 22.8 // 24.5 Actual, Inches; Maximum extention
+        public final static double ExtendForwardLimit = 0.25 + PivotToMinExtend + MinExtendToCoral; //WASWAS 6.8 + [...] // WAS 22.8 // 24.5 Actual, Inches; Maximum extention
         public final static double ExtendBackwardLimit = 0.25 + PivotToMinExtend + MinExtendToCoral; // WAS 16 //Inches; Minimum extention
         
         public final static double RotateUpLimit = Math.toRadians(170); //Hard limits (Was 170)
@@ -105,7 +105,7 @@ public class Constants {
         public final static double RotatePIDki = 0;
         public final static double RotatePIDkd = 0;
         
-        public final static double ExtendSpeedFactor = 0.3;
+        public final static double ExtendSpeedFactor = 0; //Was 0.3
         public final static double RotateSpeedFactor = 0.2; // Was 0.1
     }
 
@@ -125,10 +125,12 @@ public class Constants {
     public static final class visionConstants {
         
         public final static double AngleDistrust = 10; // How much the angle should impact vision trust
-        public final static Transform3d MicrosoftCameraOffset = new Transform3d(0, 0, 0, new Rotation3d(0,0,0));
-        public final static Transform3d ThriftyCameraOffset   = new Transform3d(0, 0, 0, new Rotation3d(0,0,0));
-        public final static Transform3d GenoCameraOffset      = new Transform3d(0, 0, 0, new Rotation3d(0,0,0));
-        public final static Transform3d LimelightCameraOffset = new Transform3d(0, 0, 0, new Rotation3d(0,0,0)); // Probably not needed
+
+        public final static Transform3d FrontRightM1CamOffset = new Transform3d(0.12065, -0.3683, 0.301625, new Rotation3d(Math.toRadians(90), 0, Math.toRadians(42.04))); //TODO make sure measurements correspond correctly
+        // public final static Transform3d MicrosoftCameraOffset = new Transform3d(0, 0, 0, new Rotation3d(0,0,0));
+        // public final static Transform3d ThriftyCameraOffset   = new Transform3d(0, 0, 0, new Rotation3d(0,0,0));
+        // public final static Transform3d GenoCameraOffset      = new Transform3d(0, 0, 0, new Rotation3d(0,0,0));
+        // public final static Transform3d LimelightCameraOffset = new Transform3d(0, 0, 0, new Rotation3d(0,0,0)); // Probably not needed
         
     }
     

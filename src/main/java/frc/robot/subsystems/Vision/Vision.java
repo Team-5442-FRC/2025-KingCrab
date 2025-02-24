@@ -33,10 +33,11 @@ public class Vision extends SubsystemBase {
   ArrayList<CalculatedCamera> cameras = new ArrayList<CalculatedCamera>(); // the binder binder of binding binders like melvin sneedly invented at his 5th grade invention convention in the hit movie the first epic captain underpants movie
 
   
-    public final static CalculatedPhotonVision MicrosoftCamera = new CalculatedPhotonVision("Microsoft_Camera",visionConstants.MicrosoftCameraOffset);
-    public final static CalculatedPhotonVision ThriftyCamera = new CalculatedPhotonVision("Thrifty_Camera",visionConstants.ThriftyCameraOffset);
-    public final static CalculatedPhotonVision GenoCamera = new CalculatedPhotonVision("Geno_Camera", visionConstants.GenoCameraOffset); // geno camera
-    public final static CalculatedLimelight LimelightMain = new CalculatedLimelight("limelight-main");
+    public static CalculatedPhotonVision FrontRightM1Cam = new CalculatedPhotonVision("Front Right (M1)", visionConstants.FrontRightM1CamOffset);
+    // public final static CalculatedPhotonVision MicrosoftCamera = new CalculatedPhotonVision("Microsoft_Camera",visionConstants.MicrosoftCameraOffset);
+    // public final static CalculatedPhotonVision ThriftyCamera = new CalculatedPhotonVision("Thrifty_Camera",visionConstants.ThriftyCameraOffset);
+    // public final static CalculatedPhotonVision GenoCamera = new CalculatedPhotonVision("Geno_Camera", visionConstants.GenoCameraOffset); // geno camera
+    // public final static CalculatedLimelight LimelightMain = new CalculatedLimelight("limelight-main");
 
     PhotonPoseEstimator microsoftPoseEstimator = new PhotonPoseEstimator(AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape), PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, new Transform3d(new Translation3d(0,0,0), new Rotation3d(0,0,0)));
     PhotonPoseEstimator thriftyPoseEstimator = new PhotonPoseEstimator(AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape), PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, new Transform3d(new Translation3d(0,0,0), new Rotation3d(0,0,0)));
@@ -44,9 +45,10 @@ public class Vision extends SubsystemBase {
     Telemetry logger = RobotContainer.logger;
 
   public Vision() {
-    cameras.add(MicrosoftCamera);
-    cameras.add(ThriftyCamera);
-    cameras.add(GenoCamera);
+    cameras.add(FrontRightM1Cam);
+    // cameras.add(MicrosoftCamera);
+    // cameras.add(ThriftyCamera);
+    // cameras.add(GenoCamera);
   }
   
 
@@ -90,17 +92,22 @@ public class Vision extends SubsystemBase {
   
   @Override
   public void periodic() {
-    SmartDashboard.putBoolean("Microsoft_Camera HasTarget", MicrosoftCamera.hasTarget());
-    SmartDashboard.putBoolean("Thrifty_Camera HasTarget", ThriftyCamera.hasTarget());
-    SmartDashboard.putBoolean("Geno_Camera HasTarget", GenoCamera.hasTarget());
+    // SmartDashboard.putBoolean("Microsoft_Camera HasTarget", MicrosoftCamera.hasTarget());
+    // SmartDashboard.putBoolean("Thrifty_Camera HasTarget", ThriftyCamera.hasTarget());
+    // SmartDashboard.putBoolean("Geno_Camera HasTarget", GenoCamera.hasTarget());
 
-    SmartDashboard.putNumber("camera position x" , getFieldPose().getX());
-    SmartDashboard.putNumber("camera position y" , getFieldPose().getY());
-    SmartDashboard.putNumber("camera position r" , getFieldPose().getRotation().getDegrees());
+    SmartDashboard.putNumber("Camera X", FrontRightM1Cam.getTargetPose().getX());
+    SmartDashboard.putNumber("Camera Y", FrontRightM1Cam.getTargetPose().getY());
+    SmartDashboard.putNumber("Camera R", FrontRightM1Cam.getTargetPose().getRotation().getDegrees());
+    SmartDashboard.putNumber("Camera Trust", FrontRightM1Cam.getTrust());
 
-    SmartDashboard.putNumber("Microsoft_Camera Trust", MicrosoftCamera.getTrust());
-    SmartDashboard.putNumber("Thrifty_Camera Trust", ThriftyCamera.getTrust());
-    SmartDashboard.putNumber("Geno_Camera Trust", GenoCamera.getTrust());
-    SmartDashboard.putNumber("limelight-main Trust", LimelightMain.getTrust());
+    SmartDashboard.putNumber("Camera Field X" , getFieldPose().getX());
+    SmartDashboard.putNumber("Camera Field Y" , getFieldPose().getY());
+    SmartDashboard.putNumber("Camera Field R" , getFieldPose().getRotation().getDegrees());
+
+    // SmartDashboard.putNumber("Microsoft_Camera Trust", MicrosoftCamera.getTrust());
+    // SmartDashboard.putNumber("Thrifty_Camera Trust", ThriftyCamera.getTrust());
+    // SmartDashboard.putNumber("Geno_Camera Trust", GenoCamera.getTrust());
+    // SmartDashboard.putNumber("limelight-main Trust", LimelightMain.getTrust());
   }
 }

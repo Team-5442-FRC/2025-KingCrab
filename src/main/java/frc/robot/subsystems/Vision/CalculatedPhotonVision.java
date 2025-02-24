@@ -9,6 +9,7 @@ import org.photonvision.targeting.PhotonPipelineResult;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import frc.robot.Constants.visionConstants;
 
@@ -58,9 +59,11 @@ public class CalculatedPhotonVision extends CalculatedCamera {
   @Override
   public Pose2d getFieldPose() {
     if (hasTarget()) {
-      return PhotonUtils.estimateFieldToRobotAprilTag(getResult().getBestTarget().getBestCameraToTarget(),
-      AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape).getTagPose((int)getTargetID()).get(),
-      camOffset).toPose2d();
+      return PhotonUtils.estimateFieldToRobotAprilTag(
+        getResult().getBestTarget().getBestCameraToTarget(),
+        AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape).getTagPose((int)getTargetID()).get(),
+        camOffset
+      ).toPose2d();
     }
     return new Pose2d();
   }
@@ -68,18 +71,33 @@ public class CalculatedPhotonVision extends CalculatedCamera {
   @Override
   public double getTrust() { //TODO might be able to take area the tag takes up and use that instead
     Pose2d targetRelative = getTargetPose();
-    if (hasTarget()) return (1 / Math.sqrt((targetRelative.getX() * targetRelative.getX()) + (targetRelative.getY() * targetRelative.getY()) + (visionConstants.AngleDistrust * Math.sin(targetRelative.getRotation().getRadians()))));
+    if (hasTarget()) return (1 / Math.sqrt((targetRelative.getX() * targetRelative.getX()) + (targetRelative.getY() * targetRelative.getY())) + (visionConstants.AngleDistrust * Math.cos(targetRelative.getRotation().getRadians())));
     return 0; 
   }
 
 
   @Override
   public Pose2d getTargetPose() {
-    if (hasTarget()) {return new Pose2d(
-        getResult().getBestTarget().getBestCameraToTarget().getTranslation().toTranslation2d(),
-        getResult().getBestTarget().getBestCameraToTarget().getRotation().toRotation2d() // Rotation (pitch)
-    );
+    if (hasTarget()) {
+      // X and Y
+      double x = getResult().getBestTarget().getBestCameraToTarget().getX();
+      double y = getResult().getBestTarget().getBestCameraToTarget().getY();
+      
+      // Rotation
+      double rotation = -getResult().getBestTarget().getBestCameraToTarget().getRotation().getZ(); // Radians
+      if (rotation >= 0) rotation -= Math.PI; // Radians
+      else if (rotation < 0) rotation += Math.PI; // Radians
+
+      // X and Y transform(ers robots in disguise)
+      double x1 = (x*Math.cos(camOffset.getRotation().getZ())) - (y*Math.sin(camOffset.getRotation().getZ()));
+      double y1 = (y*Math.cos(camOffset.getRotation().getZ())) + (x*Math.sin(camOffset.getRotation().getZ()));
+
+      // Return
+      return new Pose2d(
+        x1 + camOffset.getX(),
+        y1 + camOffset.getY(),
+        new Rotation2d(rotation - camOffset.getRotation().getZ())); // Rotation is yaw, radians
     }
-    return new Pose2d();
+    return new Pose2d(0, 0, new Rotation2d(0));
   }
 }

@@ -23,12 +23,12 @@ public class Climber extends SubsystemBase {
     // position = RobotContainer.climberMotor.getAbsoluteEncoder().getPosition();
 
     // sets speed to newley created speed
-    // RobotContainer.climberMotor.set(speed);
+    RobotContainer.climberMotor.set(speed);
   }
   // creates new speed and sets it the the prevousily metioned speed
   public void setClimbSpeed(double speed) {
-    if (position > climberConstants.MaxPosition && speed > 0) speed = 0;
-    if (position < climberConstants.MinPosition && speed < 0) speed = 0;
+    // if (position > climberConstants.MaxPosition && speed > 0) speed = 0;
+    // if (position < climberConstants.MinPosition && speed < 0) speed = 0;
     this.speed = speed;
   }
 }
