@@ -5,12 +5,8 @@
 package frc.robot.subsystems.Vision;
 
 import java.util.ArrayList;
-import java.util.Optional;
 
-import org.photonvision.EstimatedRobotPose;
-import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
-import org.photonvision.PhotonUtils;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
@@ -49,6 +45,13 @@ public class Vision extends SubsystemBase {
     // cameras.add(MicrosoftCamera);
     // cameras.add(ThriftyCamera);
     // cameras.add(GenoCamera);
+  }
+
+  public boolean hasTarget() {
+    for (CalculatedCamera camera : cameras) {
+      if (camera.hasTarget()) return true;
+    }
+    return false;
   }
   
 
@@ -89,6 +92,16 @@ public class Vision extends SubsystemBase {
 
     return new Pose2d(x,y,new Rotation2d(angle));
   }
+
+  public double calculateError() {
+    double error = 0;
+    for (CalculatedCamera camera: cameras) {
+      error += Math.abs(camera.getFieldPose().getX()-getFieldPose().getX());
+      error += Math.abs(camera.getFieldPose().getY()-getFieldPose().getY());
+      error += Math.abs(camera.getFieldPose().getRotation().getDegrees()-getFieldPose().getRotation().getDegrees());
+    }
+    return error;
+  }
   
   @Override
   public void periodic() {
@@ -104,6 +117,8 @@ public class Vision extends SubsystemBase {
     SmartDashboard.putNumber("Camera Field X" , getFieldPose().getX());
     SmartDashboard.putNumber("Camera Field Y" , getFieldPose().getY());
     SmartDashboard.putNumber("Camera Field R" , getFieldPose().getRotation().getDegrees());
+
+    SmartDashboard.putNumber("Camera Error", calculateError());
 
     // SmartDashboard.putNumber("Microsoft_Camera Trust", MicrosoftCamera.getTrust());
     // SmartDashboard.putNumber("Thrifty_Camera Trust", ThriftyCamera.getTrust());

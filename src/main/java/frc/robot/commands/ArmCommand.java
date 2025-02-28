@@ -6,8 +6,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
-import frc.robot.Constants.armConstants;
-import frc.robot.Constants.intakeConstants;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ArmCommand extends Command {
@@ -25,9 +23,10 @@ public class ArmCommand extends Command {
   @Override
   public void execute() {
     //Set the extend speed to the x-axis of the right stick
-    RobotContainer.arm.extend(RobotContainer.xbox2.getRightX());
+    // RobotContainer.arm.extend(RobotContainer.xbox2.getRightX());
     //Set the rotate speed to the y-axis of the right stick
     RobotContainer.arm.rotate(-RobotContainer.xbox2.getRightY());
+    // if (RobotContainer.xbox2.getLeftBumperButtonPressed()) RobotContainer.arm.setTargetAngle(Math.toRadians(60));
 
     // if (RobotContainer.xbox2.getLeftBumperButtonPressed()) RobotContainer.arm.setTargetExtend(armConstants.ExtendBackwardLimit + 0.5);
     // if (RobotContainer.xbox2.getRightBumperButtonPressed()) RobotContainer.arm.setTargetExtend(armConstants.ExtendForwardLimit - 0.5);

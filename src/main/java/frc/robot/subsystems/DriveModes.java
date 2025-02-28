@@ -6,7 +6,6 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 
-import frc.robot.RobotContainer;
 import frc.robot.Constants.driveConstants;
 
 import com.ctre.phoenix6.swerve.SwerveRequest;

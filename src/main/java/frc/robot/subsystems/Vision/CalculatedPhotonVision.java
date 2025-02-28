@@ -1,7 +1,5 @@
 package frc.robot.subsystems.Vision;
 
-import javax.naming.spi.DirStateFactory.Result;
-
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonUtils;
 import org.photonvision.targeting.PhotonPipelineResult;
