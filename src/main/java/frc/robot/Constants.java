@@ -6,12 +6,7 @@ package frc.robot;
 
 import static edu.wpi.first.units.Units.*;
 
-import java.lang.reflect.Array;
-
-import com.pathplanner.lib.config.PIDConstants;
-
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import frc.robot.generated.TunerConstants;
@@ -68,8 +63,8 @@ public class Constants {
 
     public static final class elevatorConstants {
       
-        public final static double ArmRightLimit = 6.4; //Real limit is around 6.8
-        public final static double ArmLeftLimit = -4.5; //Real limit is around -3.75
+        public final static double ArmRightLimit = -5.5; // Inches; -Y
+        public final static double ArmLeftLimit = 2; // Inches; +Y
 
         public final static double ArmTopLimit = 60.0 - 0.5; // Was 60.75 //TODO add correct limit z-axis
         public final static double ArmBottomLimit = 10.75 + 0.25; //TODO add correct limit z-axis
@@ -88,20 +83,26 @@ public class Constants {
     
     public static final class armConstants {
 
-        public final static double PivotToMinExtend = 15.8; // Inches; Distance from pivot point to end of pivot block (not manipulator)
-        public final static double MinExtendToCoral = 12.75;//29 - PivotToMinExtend; // Inches; Distance from end of pivot block to coral on manipulator
+        public final static double PivotToCoral = 22.5; // Inches; distance from pivot point to the coral piece
+        public final static double VerticalCoralOffset = 5; // Inches; how much clearance to add for the coral
+        public final static double CenterToPivot = 0.13335; // METERS; distance from imaginary center of drive base to pivot point
+
+        ///// UNUSED \\\\\
+        public final static double PivotToMinExtend = 15.8; // WARNING - NO LONGER USED! // Inches; Distance from pivot point to end of pivot block (not manipulator)
+        public final static double MinExtendToCoral = 12.75; // WARNING - NO LONGER USED! //29 - PivotToMinExtend; // Inches; Distance from end of pivot block to coral on manipulator
         public final static double ExtendForwardLimit = 0.25 + PivotToMinExtend + MinExtendToCoral; //WASWAS 6.8 + [...] // WAS 22.8 // 24.5 Actual, Inches; Maximum extention
         public final static double ExtendBackwardLimit = 0.25 + PivotToMinExtend + MinExtendToCoral; // WAS 16 //Inches; Minimum extention
-        
-        public final static double RotateUpLimit = Math.toRadians(170); //Hard limits (Was 170)
+        ///// ------ \\\\\
+
+        public final static double RotateUpLimit = Math.toRadians(160); //Hard limits (Was 170)
         public final static double RotateDownLimit = Math.toRadians(80); //Hard Limits (Was 10)
-        public final static double RotateEncoderOffset = 0.347; //Offset in rotations at level (90 degrees)
+        public final static double RotateEncoderOffset = 0.487; //Offset in rotations at level (90 degrees)
         
         public final static double ExtendPIDkp = 0.1;
         public final static double ExtendPIDki = 0;
         public final static double ExtendPIDkd = 0.002;
         
-        public final static double RotatePIDkp = 0.5;
+        public final static double RotatePIDkp = 0.4; // Was 0.5 before spring added
         public final static double RotatePIDki = 0;
         public final static double RotatePIDkd = 0;
         
@@ -110,16 +111,18 @@ public class Constants {
     }
 
     public static final class manipulatorConstants {
-        public final static double manipulatorIntakeSpeed = 0;
-        public final static double manipulatorOutakeSpeed = 0;
 
-        public final static double WristPIDkp = .00001;
+        public final static double manipulatorIntakeSpeed = 0.3;
+        public final static double manipulatorOutakeSpeed = -0.3;
+
+        public final static double WristPIDkp = 0.2;
         public final static double WristPIDki = 0;
         public final static double WristPIDkd = 0;
+        
+        public final static double WristRightLimit = Math.toRadians(90); // Radians; Right rotational limit
+        public final static double WristLeftLimit = Math.toRadians(0); // Radians; Left rotational limit
 
-        public final static double WristSpeedFactor = 1;
-
-        public final static double WristAngleOffset = 0;
+        public final static double WristSpeedFactor = 0.2;
     }
     
     public static final class visionConstants {
@@ -144,24 +147,26 @@ public class Constants {
     public static final class fieldConstants {
 
         //Reef level angles
-        public final static double L1Angle = 90;
+        public final static double L1Angle = 100;
         public final static double L2Angle = 145;
         public final static double L3Angle = 145;
-        public final static double L4Angle = 140;
+        public final static double L4Angle = 150;
+        public final static double CoralStationAngle = 160;
         public final static double ErrorAngle = 145; //TODO check with Aaron if this is acceptable
 
         //Reef left-right length
-        public final static double ReefSideToSide = 1; //TODO find the correct length
+        public final static double ReefSideToSide = 6.5; // Inches
 
         // All are in inches
         public final static double TagToReefYOffset = 6.497;
         public final static double TagToL2and3XOffset = 2.0786;
         public final static double TagToL4XOffset = 2.0498;
 
-        public final static double L1Height = 18;
-        public final static double L2Height = 31.875;
-        public final static double L3Height = 47.75;
-        public final static double L4Height = 71.75;
+        public final static double L1Height = 21; // Was 18
+        public final static double L2Height = 33; // Was 31.875
+        public final static double L3Height = 49; // Was 47.75
+        public final static double L4Height = 74; // Was 71.75
+        public final static double CoralStationHeight = 33; // Bottom of station is 37.5 inches
       
     }
 }

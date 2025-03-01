@@ -6,7 +6,6 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
-import frc.robot.Constants.climberConstants;
 
 public class Climber extends SubsystemBase {
   // makes a speed varible set to zero

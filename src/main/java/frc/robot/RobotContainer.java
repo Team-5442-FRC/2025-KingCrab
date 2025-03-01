@@ -4,31 +4,25 @@
 
 package frc.robot;
 
-import java.net.Socket;
-
 import org.photonvision.PhotonCamera;
 
+import com.ctre.phoenix6.hardware.TalonFX;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.Joystick.AxisType;
-import edu.wpi.first.wpilibj.Joystick.ButtonType;
-import edu.wpi.first.wpilibj.motorcontrol.VictorSP;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.Constants.driveConstants;
 import frc.robot.commands.ArmCommand;
 import frc.robot.commands.ClimberCommand;
 import frc.robot.commands.ElevatorCommand;
+import frc.robot.commands.ManipulatorCommand;
 import frc.robot.commands.PositionManagerCommand;
 // import frc.robot.commands.IntakeCommand;
 import frc.robot.generated.TunerConstants;
@@ -78,14 +72,15 @@ public class RobotContainer {
     // Arm variables
     public static Arm arm = new Arm();
     public static ArmCommand armCommand = new ArmCommand();
-    public static SparkMax extendMotor = new SparkMax(21, MotorType.kBrushless);
+    // public static SparkMax extendMotor = new SparkMax(21, MotorType.kBrushless);
     public static SparkMax rotateMotor = new SparkMax(22, MotorType.kBrushless);
     public static DutyCycleEncoder pivotEncoder = new DutyCycleEncoder(0);
     
     // Manipulator
     public static Manipulator manipulator = new Manipulator();
-    // public static SparkMax manipulatorIntakeMotor = new SparkMax(0, MotorType.kBrushless); //TODO add the right motor ids
-    // public static SparkMax wristMotor = new SparkMax(0, MotorType.kBrushless);
+    public static ManipulatorCommand manipulatorCommand = new ManipulatorCommand(); // Try to say that five times fast
+    public static TalonFX manipulatorIntakeMotor = new TalonFX(26); //TODO add the right motor ids
+    public static SparkMax wristMotor = new SparkMax(21, MotorType.kBrushless);
 
     // Position Manager
     public static PositionManager positionManager = new PositionManager();
@@ -125,6 +120,7 @@ public class RobotContainer {
 
         elevator.setDefaultCommand(elevatorCommand);
         arm.setDefaultCommand(armCommand);
+        manipulator.setDefaultCommand(manipulatorCommand);
         // intake.setDefaultCommand(intakeCommand);
         climber.setDefaultCommand(climberCommand);
         positionManager.setDefaultCommand(positionManagerCommand);

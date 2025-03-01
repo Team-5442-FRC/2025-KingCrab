@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
+import frc.robot.Constants.armConstants;
 import frc.robot.Constants.fieldConstants;
 
 public class PositionManager extends SubsystemBase {
@@ -17,7 +18,7 @@ public class PositionManager extends SubsystemBase {
   Pose2d robotPose;
   boolean isReefRight; // true = right, false = left
   int reefLevel, reefSide;
-  double targetPivot, targetExtend, targetHeight, targetSideToSide;
+  double targetPivot, /*targetExtend,*/ targetHeight, targetSideToSide;
 
   /** Creates a new PositionManager. */
   public PositionManager() {}
@@ -51,6 +52,7 @@ public class PositionManager extends SubsystemBase {
     if (reefLevel == 2) return fieldConstants.L2Height;
     if (reefLevel == 3) return fieldConstants.L3Height;
     if (reefLevel == 4) return fieldConstants.L4Height;
+    if (reefLevel == 5) return fieldConstants.CoralStationHeight; // 5 is Coral Station
     return fieldConstants.L1Height;
   }
 
@@ -60,11 +62,12 @@ public class PositionManager extends SubsystemBase {
     this.reefSide = reefSide;
   }
 
-  public void updatePositions(double pivot, double extend, double height, double sideToSide) {
+  public void updatePositions(double pivot, /*double extend,*/ double height, double sideToSide, double wristAngle) {
     RobotContainer.arm.setTargetAngle(pivot);
-    RobotContainer.arm.setTargetExtend(extend);
+    // RobotContainer.arm.setTargetExtend(extend);
     RobotContainer.elevator.setUpAndDownPos(height);
     RobotContainer.elevator.setSide2SidePos(sideToSide);
+    RobotContainer.manipulator.setWristAngle(wristAngle);
   }
 
   public double calculateArmPivot(int reefLevel) {
@@ -72,36 +75,58 @@ public class PositionManager extends SubsystemBase {
     else if (reefLevel == 2) return Math.toRadians(fieldConstants.L2Angle);
     else if (reefLevel == 3) return Math.toRadians(fieldConstants.L3Angle);
     else if (reefLevel == 4) return Math.toRadians(fieldConstants.L4Angle);
+    else if (reefLevel == 5) return Math.toRadians(fieldConstants.CoralStationAngle); // 5 means Coral Station
     return Math.toRadians(fieldConstants.ErrorAngle);
   }
 
-  public double calculateArmExtend(int reefLevel, double x) {
-    return mToIn(x) / Math.sin(calculateArmPivot(reefLevel));
+  public double calculateWristAngle(int reefLevel) {
+    if (reefLevel >= 1 && reefLevel <= 4) return 0;
+    else if (reefLevel == 5) return Math.toRadians(90);
+    return 0;
   }
 
-  public double calculateHeight(int reefLevel, double r, double z) {
+  // public double calculateArmPivot(double x) {
+  //   if (mToIn(x) >= armConstants.PivotToCoral - 0.1) x = armConstants.PivotToCoral - 0.1;
+  //   if (mToIn(x) < 0) x = 0;
+  //   double angle = ((Math.PI/2) - Math.asin(mToIn(x) / armConstants.PivotToCoral)) + (Math.PI/2);
+  //   if (Double.isNaN(angle)) return Math.PI/2;
+  //   return angle;
+  // }
+
+  // public double calculateArmExtend(int reefLevel, double x) { // UNUSED
+  //   return mToIn(x) / Math.sin(calculateArmPivot(reefLevel));
+  // }
+
+  public double calculateHeight(double angle, double z) {
     // return z - (mToIn(x) / Math.tan(calculateArmPivot(reefLevel) - (Math.PI/2)));
-    return z - (r * Math.sin(calculateArmPivot(reefLevel) - (Math.PI/2))) + 5; // TODO PUT FUDGE FACTOR (5) IN CONSTANTS
+    // return z - (r * Math.sin(calculateArmPivot(reefLevel) - (Math.PI/2))) + 5;
+    return z - (armConstants.PivotToCoral * -Math.cos(angle)) + armConstants.VerticalCoralOffset;
   }
 
   public double calculateSideToSide(double y, boolean isReefRight) {
-    if (isReefRight) return mToIn(-y) + fieldConstants.ReefSideToSide;
-    else return mToIn(-y) - fieldConstants.ReefSideToSide;
+    if (isReefRight) return fieldConstants.ReefSideToSide + mToIn(y);
+    else return -fieldConstants.ReefSideToSide + mToIn(y);
   }
 
   @Override
   public void periodic() {
-    if (RobotContainer.isAutomaticPositioningMode) {
-      robotPose = RobotContainer.vision.getTagRelativePose(reefSideToAprilTag(reefSide));
+    if (RobotContainer.isAutomaticPositioningMode && RobotContainer.vision.hasTarget()) {
+      // // robotPose = RobotContainer.vision.getTagRelativePose(reefSideToAprilTag(reefSide));
+      // robotPose = RobotContainer.vision.FrontRightM1Cam.getTargetPose();
 
-      targetPivot = calculateArmPivot(reefLevel);
-      targetExtend = calculateArmExtend(reefLevel, robotPose.getX());
-      targetHeight = calculateHeight(reefLevel, robotPose.getX(), reefLevelToHeight(reefLevel));
-      targetSideToSide = calculateSideToSide(robotPose.getY(), isReefRight);
+      // targetPivot = calculateArmPivot(robotPose.getX() - armConstants.CenterToPivot + fieldConstants.TagToL2and3XOffset);
+      // // targetExtend = calculateArmExtend(reefLevel, robotPose.getX());
+      // targetHeight = calculateHeight(targetPivot, reefLevelToHeight(reefLevel));
+      // targetSideToSide = calculateSideToSide(robotPose.getY(), isReefRight);
+      // targetSideToSide = 0; // TODO - DELETEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
 
-      updatePositions(targetPivot, targetExtend, targetHeight, targetSideToSide);
+      // updatePositions(targetPivot, /*targetExtend,*/ targetHeight, targetSideToSide);
 
     }
+    SmartDashboard.putNumber("Target Pivot", targetPivot);
+    SmartDashboard.putNumber("Target Height", targetHeight);
+    SmartDashboard.putNumber("Target SideToSide", targetSideToSide);
+
     SmartDashboard.putNumber("Level", ButtonBox.lookup(ButtonBox.readBox())[0]);
     SmartDashboard.putNumber("Branch", ButtonBox.lookup(ButtonBox.readBox())[1]);
     SmartDashboard.putNumber("Button Box Reading", ButtonBox.readBox());

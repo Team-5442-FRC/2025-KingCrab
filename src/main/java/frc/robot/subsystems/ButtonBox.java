@@ -22,7 +22,7 @@ public class ButtonBox {
     return totalValue;
   }
 
-  public static int[] lookup(int value) { // TODO - FIX PLZ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  public static int[] lookup(int value) {
     int level = (value % 4) + 1;
     int branch = (value) / 4;
     return new int[] {level,branch};

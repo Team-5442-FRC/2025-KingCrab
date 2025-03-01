@@ -6,13 +6,10 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.elevatorConstants;
-import frc.robot.subsystems.DriveModes;
 
 public class Elevator extends SubsystemBase {
   
@@ -26,7 +23,8 @@ double side2SideSpeed = 0;
 double upAndDownSpeed = 0;
 PIDController upAndDownPID = new PIDController(0.075, 0, 0); // D was 0.02
 PIDController side2sidePID = new PIDController(2, 0, 0);
-SlewRateLimiter upAndDownLimiter = new SlewRateLimiter(16); // Units per second; rateLimit of 2 means 0% to 100% in half a second
+SlewRateLimiter upAndDownLimiter = new SlewRateLimiter(4); // Units per second; rateLimit of 2 means 0% to 100% in half a second
+SlewRateLimiter sideToSideLimiter = new SlewRateLimiter(8);
 
 // Counters for encoder rotations
 double lastHeight = 0;
@@ -50,7 +48,7 @@ double combinedHeight = 0;
     side2SideCurrentPos = getSideToSide();
     
     RobotContainer.upAndDownMotor.set(upAndDownSpeed);
-    RobotContainer.side2SideMotor.set(side2SideSpeed);
+    RobotContainer.side2SideMotor.set(-side2SideSpeed);
     
     SmartDashboard.putNumber("Elevator Encoder", RobotContainer.elevatorEncoder.get());
     SmartDashboard.putNumber("Elevator Combined Height", combinedHeight);
@@ -63,10 +61,10 @@ double combinedHeight = 0;
   }
 
   public void setSide2SidePos(double side2SideTargtePos) {
-    if (side2SideTargtePos > elevatorConstants.ArmRightLimit) {
+    if (side2SideTargtePos < elevatorConstants.ArmRightLimit) {
       side2SideTargtePos = elevatorConstants.ArmRightLimit;
     }
-    if (side2SideTargtePos < elevatorConstants.ArmLeftLimit) {
+    if (side2SideTargtePos > elevatorConstants.ArmLeftLimit) {
       side2SideTargtePos = elevatorConstants.ArmLeftLimit;
     }
     this.side2SideTargtePos = side2SideTargtePos;
@@ -84,6 +82,7 @@ double combinedHeight = 0;
   }
 
   public void moveSide2Side(double speed) {
+    speed = -speed; // Flip so left is +Y, according to WPILib
 
     //Calculates user input to determine if user is controlling it
     if (Math.abs(RobotContainer.Deadzone(speed))>0) side2SideManualMode = true;
@@ -96,12 +95,12 @@ double combinedHeight = 0;
     if(side2SideManualMode) {
       side2SideSpeed = RobotContainer.Deadzone(speed) * elevatorConstants.Side2SideSpeedFactor;
       //if it's past the right limit and still moving right, stop moving and move back left
-      if ((side2SideSpeed>0) && (side2SideCurrentPos>elevatorConstants.ArmRightLimit)) {
+      if ((side2SideSpeed<0) && (side2SideCurrentPos<elevatorConstants.ArmRightLimit)) {
         side2SideSpeed = 0;
         side2SideTargtePos = elevatorConstants.ArmRightLimit;
       }
       //if it's past the left limit and still moving left, stop moving and move back right
-      if ((side2SideSpeed<0) && (side2SideCurrentPos<elevatorConstants.ArmLeftLimit)) {
+      if ((side2SideSpeed>0) && (side2SideCurrentPos>elevatorConstants.ArmLeftLimit)) {
         side2SideSpeed = 0;
         side2SideTargtePos = elevatorConstants.ArmLeftLimit;
       }
@@ -109,9 +108,9 @@ double combinedHeight = 0;
 
     //PID to determine speed when in computer controlled mode
     if (!side2SideManualMode) {
-      side2SideSpeed = -side2sidePID.calculate(side2SideTargtePos - side2SideCurrentPos); 
-      if (side2SideSpeed > 0 && side2SideCurrentPos > elevatorConstants.ArmRightLimit) side2SideSpeed = 0;
-      if (side2SideSpeed < 0 && side2SideCurrentPos < elevatorConstants.ArmLeftLimit) side2SideSpeed = 0;
+      side2SideSpeed = -sideToSideLimiter.calculate(side2sidePID.calculate(side2SideTargtePos - side2SideCurrentPos));
+      if (side2SideSpeed < 0 && side2SideCurrentPos < elevatorConstants.ArmRightLimit) side2SideSpeed = 0;
+      if (side2SideSpeed > 0 && side2SideCurrentPos > elevatorConstants.ArmLeftLimit) side2SideSpeed = 0;
     } 
   }
 
@@ -154,7 +153,7 @@ double combinedHeight = 0;
   }
 
   public double getSideToSide() {
-    return ((RobotContainer.side2SideMotor.getEncoder().getPosition() / 49) * (30/26d)) / (5/3d) + elevatorConstants.Side2SideOffset; // TODO figure out why it needs the 5/3 constant (incorrect gearbox ratio?)
+    return -(((RobotContainer.side2SideMotor.getEncoder().getPosition() / 49) * (30/26d)) / (5/3d) + elevatorConstants.Side2SideOffset); // TODO figure out why it needs the 5/3 constant (incorrect gearbox ratio?)
   }
   
 }

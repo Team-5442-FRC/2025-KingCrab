@@ -7,7 +7,6 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.elevatorConstants;
-import frc.robot.subsystems.Elevator;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ElevatorCommand extends Command {
@@ -27,9 +26,9 @@ public class ElevatorCommand extends Command {
     //send in the inputs from the controller, calculate the speed each motor should be moving at, and set the motors to that speed
     RobotContainer.elevator.moveSide2Side(RobotContainer.xbox2.getLeftX());
     RobotContainer.elevator.moveUpAndDown(-RobotContainer.xbox2.getLeftY());
-    
-    if (RobotContainer.xbox2.getLeftBumperButtonPressed()) RobotContainer.elevator.setSide2SidePos(elevatorConstants.ArmLeftLimit+0.5);
-    else if (RobotContainer.xbox2.getRightBumperButtonPressed()) RobotContainer.elevator.setSide2SidePos(elevatorConstants.ArmRightLimit-0.5);
+
+    // if (RobotContainer.xbox2.getLeftBumperButtonPressed()) RobotContainer.elevator.setSide2SidePos(elevatorConstants.ArmLeftLimit+0.5);
+    // else if (RobotContainer.xbox2.getRightBumperButtonPressed()) RobotContainer.elevator.setSide2SidePos(elevatorConstants.ArmRightLimit-0.5);
   }
 
   // Called once the command ends or is interrupted.
