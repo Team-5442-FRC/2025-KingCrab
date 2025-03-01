@@ -118,6 +118,8 @@ public class Vision extends SubsystemBase {
     SmartDashboard.putNumber("Camera Field Y" , getFieldPose().getY());
     SmartDashboard.putNumber("Camera Field R" , getFieldPose().getRotation().getDegrees());
 
+    SmartDashboard.putNumber("Camera Field To Tag R", getTagRelativePose(7).getRotation().getDegrees());
+
     SmartDashboard.putNumber("Camera Error", calculateError());
 
     // SmartDashboard.putNumber("Microsoft_Camera Trust", MicrosoftCamera.getTrust());

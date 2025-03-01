@@ -8,6 +8,7 @@ import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import frc.robot.Constants.visionConstants;
 
@@ -58,9 +59,9 @@ public class CalculatedPhotonVision extends CalculatedCamera {
   public Pose2d getFieldPose() {
     if (hasTarget()) {
       return PhotonUtils.estimateFieldToRobotAprilTag(
-        getResult().getBestTarget().getBestCameraToTarget(),
+        new Transform3d(getTargetPose().getX(), getTargetPose().getY(), 0, new Rotation3d(getTargetPose().getRotation().unaryMinus())),
         AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape).getTagPose((int)getTargetID()).get(),
-        camOffset
+        new Transform3d(0, 0, 0, new Rotation3d(0, 0, 0))
       ).toPose2d();
     }
     return new Pose2d();

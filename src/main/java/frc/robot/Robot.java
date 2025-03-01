@@ -29,6 +29,11 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
 
+    if (!RobotContainer.hasFieldOriented && RobotContainer.vision.hasTarget()) {
+      RobotContainer.drivetrain.resetRotation(RobotContainer.vision.getFieldPose().getRotation());;
+      RobotContainer.hasFieldOriented = true;
+    }
+
     if (m_gcTimer.advanceIfElapsed(5)) {
       System.gc();
     }

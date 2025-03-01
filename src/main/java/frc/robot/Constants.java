@@ -129,7 +129,8 @@ public class Constants {
         
         public final static double AngleDistrust = 10; // How much the angle should impact vision trust
 
-        public final static Transform3d FrontRightM1CamOffset = new Transform3d(0.12065, -0.3683, 0.301625, new Rotation3d(Math.toRadians(90), 0, Math.toRadians(42.04))); //TODO make sure measurements correspond correctly
+        // public final static Transform3d FrontRightM1CamOffset = new Transform3d(0.12065, -0.3683, 0.301625, new Rotation3d(Math.toRadians(90), 0, Math.toRadians(42.04))); // Old Mount (in between M1 and M4)
+        public final static Transform3d FrontRightM1CamOffset = new Transform3d(0.2852, -0.1328, 0.301625, new Rotation3d(Math.toRadians(-90), Math.toRadians(16.7), Math.toRadians(14)));
         // public final static Transform3d MicrosoftCameraOffset = new Transform3d(0, 0, 0, new Rotation3d(0,0,0));
         // public final static Transform3d ThriftyCameraOffset   = new Transform3d(0, 0, 0, new Rotation3d(0,0,0));
         // public final static Transform3d GenoCameraOffset      = new Transform3d(0, 0, 0, new Rotation3d(0,0,0));
@@ -145,6 +146,14 @@ public class Constants {
     }
 
     public static final class fieldConstants {
+
+        // Optimal Drive Distances: Meters
+        public final static double DriveL2andL3X = 0.5; // Meters; optimal X distance away from the tag
+        public final static double DriveLeftY = 0; // Meters; optimal Y distance from tag for left pole
+        public final static double DriveRightY = 0; // Meters; optimal Y distance from tag for left pole
+
+        public final static double DriveMinAutoSpeed = 0;
+        public final static double DrivekP = 2;
 
         //Reef level angles
         public final static double L1Angle = 100;

@@ -14,12 +14,12 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 public class DriveModes {
     public static final SwerveRequest.FieldCentric driveField = new SwerveRequest.FieldCentric()
             .withDeadband(driveConstants.MaxSpeed * driveConstants.SpeedDeadbandPercentage)
-            .withRotationalDeadband(driveConstants.MaxAngularRate * driveConstants.SpeedDeadbandPercentage) // Add a 10% deadband
+            .withRotationalDeadband(driveConstants.MaxAngularRate * driveConstants.SpeedDeadbandPercentage)
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
     
     public static final SwerveRequest.RobotCentric driveRobot = new SwerveRequest.RobotCentric()
             .withDeadband(driveConstants.MaxSpeed * driveConstants.SpeedDeadbandPercentage)
-            .withRotationalDeadband(driveConstants.MaxAngularRate * driveConstants.SpeedDeadbandPercentage) // Add a 10% deadband
+            .withRotationalDeadband(driveConstants.MaxAngularRate * driveConstants.SpeedDeadbandPercentage)
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
     
     public static final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();

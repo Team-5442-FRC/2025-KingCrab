@@ -4,7 +4,10 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -15,10 +18,11 @@ import frc.robot.Constants.fieldConstants;
 
 public class PositionManager extends SubsystemBase {
 
-  Pose2d robotPose;
+  Pose2d robotPose, fieldPose;
   boolean isReefRight; // true = right, false = left
   int reefLevel, reefSide;
   double targetPivot, /*targetExtend,*/ targetHeight, targetSideToSide;
+  public double xSpeed, ySpeed, rSpeed;
 
   /** Creates a new PositionManager. */
   public PositionManager() {}
@@ -123,6 +127,22 @@ public class PositionManager extends SubsystemBase {
       // updatePositions(targetPivot, /*targetExtend,*/ targetHeight, targetSideToSide);
 
     }
+
+    if (RobotContainer.isAutomaticDriveMode && RobotContainer.vision.hasTarget()) {
+      fieldPose = RobotContainer.vision.getFieldPose();
+      // Pose3d aprilPose = AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape).getTagPose(reefSideToAprilTag(reefSide)).get();
+      Pose3d aprilPose = AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape).getTagPose(7).get();
+
+      xSpeed = RobotContainer.Deadzone(((aprilPose.getX() - fieldPose.getX()) - (fieldConstants.DriveL2andL3X * Math.cos(aprilPose.getRotation().getZ()) - fieldConstants.DriveLeftY * Math.sin(aprilPose.getRotation().getZ()))) * fieldConstants.DrivekP, fieldConstants.DriveMinAutoSpeed);
+      ySpeed = RobotContainer.Deadzone(((aprilPose.getY() - fieldPose.getY()) - (fieldConstants.DriveLeftY * Math.cos(aprilPose.getRotation().getZ()) + fieldConstants.DriveL2andL3X * Math.sin(aprilPose.getRotation().getZ()))) * fieldConstants.DrivekP, fieldConstants.DriveMinAutoSpeed);
+      rSpeed = RobotContainer.Deadzone((aprilPose.getRotation().getZ() - fieldPose.getRotation().getRadians()) * fieldConstants.DrivekP, fieldConstants.DriveMinAutoSpeed);
+    }
+    else {
+      xSpeed = 0;
+      ySpeed = 0;
+      rSpeed = 0;
+    }
+
     SmartDashboard.putNumber("Target Pivot", targetPivot);
     SmartDashboard.putNumber("Target Height", targetHeight);
     SmartDashboard.putNumber("Target SideToSide", targetSideToSide);
@@ -131,5 +151,9 @@ public class PositionManager extends SubsystemBase {
     SmartDashboard.putNumber("Branch", ButtonBox.lookup(ButtonBox.readBox())[1]);
     SmartDashboard.putNumber("Button Box Reading", ButtonBox.readBox());
     SmartDashboard.putNumber("REEF TO HEIGHT", reefLevelToHeight(reefLevel));
+
+    SmartDashboard.putNumber("Auto Drive X", xSpeed);
+    SmartDashboard.putNumber("Auto Drive Y", ySpeed);
+    SmartDashboard.putNumber("Auto Drive R", rSpeed);
   }
 }

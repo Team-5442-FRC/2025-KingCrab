@@ -28,6 +28,9 @@ public class PositionManagerCommand extends Command {
     // if (RobotContainer.xbox2.getRightBumperButton()) RobotContainer.isAutomaticPositioningMode = true;
     // else RobotContainer.isAutomaticPositioningMode = false;
 
+    if (RobotContainer.xbox1.getRightBumperButton()) RobotContainer.isAutomaticDriveMode = true;
+    else RobotContainer.isAutomaticDriveMode = false;
+
     if (RobotContainer.xbox2.getRightBumperButtonPressed()) {
       RobotContainer.positionManager.updatePositions(
         RobotContainer.positionManager.calculateArmPivot(target[0]),

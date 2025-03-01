@@ -29,9 +29,11 @@ public class ManipulatorCommand extends Command {
     if (RobotContainer.xbox2.getPOV() == 0) RobotContainer.manipulator.setWristAngle(Math.toRadians(0));
     if (RobotContainer.xbox2.getPOV() == 90) RobotContainer.manipulator.setWristAngle(Math.toRadians(90));
 
-    if (RobotContainer.xbox2.getAButton()) RobotContainer.manipulator.setManipulatorSpeed(manipulatorConstants.manipulatorIntakeSpeed);
+    if (RobotContainer.xbox2.getAButtonPressed()) RobotContainer.manipulator.setManipulatorSpeed(manipulatorConstants.manipulatorIntakeSpeed);
+    else if (RobotContainer.xbox2.getAButtonReleased()) RobotContainer.manipulator.setManipulatorSpeed(0);
     else if (RobotContainer.xbox2.getXButton()) RobotContainer.manipulator.setManipulatorSpeed(manipulatorConstants.manipulatorOutakeSpeed);
-    else RobotContainer.manipulator.setManipulatorSpeed(0);
+    else if (RobotContainer.xbox2.getXButtonReleased()) RobotContainer.manipulator.setManipulatorSpeed(0);
+    else if (RobotContainer.manipulatorProxSensor.get()) RobotContainer.manipulator.setManipulatorSpeed(0);
 
     // if (RobotContainer.xbox2.getBButton() && RobotContainer.manipulatorProxSensor.get()) RobotContainer.manipulator.setManipulatorSpeed(manipulatorConstants.manipulatorIntakeSpeed);
     // else if (RobotContainer.xbox2.getYButton()) RobotContainer.manipulator.setManipulatorSpeed(manipulatorConstants.manipulatorOutakeSpeed);
