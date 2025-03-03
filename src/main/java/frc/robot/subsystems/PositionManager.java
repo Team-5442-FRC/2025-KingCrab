@@ -23,6 +23,7 @@ public class PositionManager extends SubsystemBase {
   int reefLevel, reefSide;
   double targetPivot, /*targetExtend,*/ targetHeight, targetSideToSide;
   public double xSpeed, ySpeed, rSpeed;
+  double yOffset;
 
   /** Creates a new PositionManager. */
   public PositionManager() {}
@@ -84,8 +85,8 @@ public class PositionManager extends SubsystemBase {
   }
 
   public double calculateWristAngle(int reefLevel) {
-    if (reefLevel >= 1 && reefLevel <= 4) return 0;
-    else if (reefLevel == 5) return Math.toRadians(90);
+    if (reefLevel >= 2 && reefLevel <= 4) return 0;
+    else if (reefLevel == 1 || reefLevel == 5) return Math.toRadians(90);
     return 0;
   }
 
@@ -130,12 +131,16 @@ public class PositionManager extends SubsystemBase {
 
     if (RobotContainer.isAutomaticDriveMode && RobotContainer.vision.hasTarget()) {
       fieldPose = RobotContainer.vision.getFieldPose();
-      // Pose3d aprilPose = AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape).getTagPose(reefSideToAprilTag(reefSide)).get();
-      Pose3d aprilPose = AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape).getTagPose(7).get();
+      Pose3d aprilPose = AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape).getTagPose(reefSideToAprilTag(reefSide)).get();
+      // Pose3d aprilPose = AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape).getTagPose(7).get();
 
-      xSpeed = RobotContainer.Deadzone(((aprilPose.getX() - fieldPose.getX()) - (fieldConstants.DriveL2andL3X * Math.cos(aprilPose.getRotation().getZ()) - fieldConstants.DriveLeftY * Math.sin(aprilPose.getRotation().getZ()))) * fieldConstants.DrivekP, fieldConstants.DriveMinAutoSpeed);
-      ySpeed = RobotContainer.Deadzone(((aprilPose.getY() - fieldPose.getY()) - (fieldConstants.DriveLeftY * Math.cos(aprilPose.getRotation().getZ()) + fieldConstants.DriveL2andL3X * Math.sin(aprilPose.getRotation().getZ()))) * fieldConstants.DrivekP, fieldConstants.DriveMinAutoSpeed);
-      rSpeed = RobotContainer.Deadzone((aprilPose.getRotation().getZ() - fieldPose.getRotation().getRadians()) * fieldConstants.DrivekP, fieldConstants.DriveMinAutoSpeed);
+      
+      if (isReefRight) yOffset = fieldConstants.DriveRightY;
+      else yOffset = fieldConstants.DriveLeftY;
+
+      xSpeed = -RobotContainer.Deadzone(((aprilPose.getX() - fieldPose.getX()) - (fieldConstants.DriveL2andL3X * Math.cos(aprilPose.getRotation().getZ()) - yOffset * Math.sin(aprilPose.getRotation().getZ()))) * fieldConstants.DrivekP, fieldConstants.DriveMinAutoSpeed);
+      ySpeed = -RobotContainer.Deadzone(((aprilPose.getY() - fieldPose.getY()) - (yOffset * Math.cos(aprilPose.getRotation().getZ()) + fieldConstants.DriveL2andL3X * Math.sin(aprilPose.getRotation().getZ()))) * fieldConstants.DrivekP, fieldConstants.DriveMinAutoSpeed);
+      rSpeed = RobotContainer.Deadzone((aprilPose.getRotation().getZ() - fieldPose.getRotation().getRadians()) * fieldConstants.DrivekP * 5, fieldConstants.DriveMinAutoSpeed);
     }
     else {
       xSpeed = 0;
@@ -149,6 +154,8 @@ public class PositionManager extends SubsystemBase {
 
     SmartDashboard.putNumber("Level", ButtonBox.lookup(ButtonBox.readBox())[0]);
     SmartDashboard.putNumber("Branch", ButtonBox.lookup(ButtonBox.readBox())[1]);
+    SmartDashboard.putNumber("Side", reefSide);
+    SmartDashboard.putNumber("Tag Target", reefSideToAprilTag(reefSide));
     SmartDashboard.putNumber("Button Box Reading", ButtonBox.readBox());
     SmartDashboard.putNumber("REEF TO HEIGHT", reefLevelToHeight(reefLevel));
 

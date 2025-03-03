@@ -63,13 +63,13 @@ public class Constants {
 
     public static final class elevatorConstants {
       
-        public final static double ArmRightLimit = -5.5; // Inches; -Y
-        public final static double ArmLeftLimit = 2; // Inches; +Y
+        public final static double ArmRightLimit = -5; // Inches; -Y
+        public final static double ArmLeftLimit = 1.5; // Inches; +Y
 
         public final static double ArmTopLimit = 60.0 - 0.5; // Was 60.75 //TODO add correct limit z-axis
         public final static double ArmBottomLimit = 10.75 + 0.25; //TODO add correct limit z-axis
 
-        public final static double Side2SideSpeedFactor = 1;
+        public final static double Side2SideSpeedFactor = 0.5;
         public final static double UpAndDownSpeedFactor = 0.4;
 
         public final static double UpAndDownOffset = 0.059; //Rotations at the lowest point
@@ -112,8 +112,15 @@ public class Constants {
 
     public static final class manipulatorConstants {
 
-        public final static double manipulatorIntakeSpeed = 0.3;
-        public final static double manipulatorOutakeSpeed = -0.3;
+        // public final static double manipulatorIntakeSpeed = 0.3;
+        // public final static double manipulatorOutakeSpeed = -0.3;
+
+        public final static double CoralIntakeSpeed = 0.3;
+        public final static double CoralPlaceSpeed = 0.3;
+        public final static double AlgaeIntakeSpeed = 0.3;
+        public final static double AlgaeShootSpeed = -1;
+        public final static double AlgaeHoldSpeed = 0.6;
+        public final static double IntakeReverseSpeed = -0.3;
 
         public final static double WristPIDkp = 0.2;
         public final static double WristPIDki = 0;
@@ -149,8 +156,8 @@ public class Constants {
 
         // Optimal Drive Distances: Meters
         public final static double DriveL2andL3X = 0.5; // Meters; optimal X distance away from the tag
-        public final static double DriveLeftY = 0; // Meters; optimal Y distance from tag for left pole
-        public final static double DriveRightY = 0; // Meters; optimal Y distance from tag for left pole
+        public final static double DriveLeftY = 0.14; // Meters; optimal Y distance from tag for left pole
+        public final static double DriveRightY = -0.04; // Meters; optimal Y distance from tag for left pole
 
         public final static double DriveMinAutoSpeed = 0;
         public final static double DrivekP = 2;
@@ -159,8 +166,8 @@ public class Constants {
         public final static double L1Angle = 100;
         public final static double L2Angle = 145;
         public final static double L3Angle = 145;
-        public final static double L4Angle = 150;
-        public final static double CoralStationAngle = 160;
+        public final static double L4Angle = 135;
+        public final static double CoralStationAngle = 145;
         public final static double ErrorAngle = 145; //TODO check with Aaron if this is acceptable
 
         //Reef left-right length
@@ -171,11 +178,11 @@ public class Constants {
         public final static double TagToL2and3XOffset = 2.0786;
         public final static double TagToL4XOffset = 2.0498;
 
-        public final static double L1Height = 21; // Was 18
-        public final static double L2Height = 33; // Was 31.875
-        public final static double L3Height = 49; // Was 47.75
-        public final static double L4Height = 74; // Was 71.75
-        public final static double CoralStationHeight = 33; // Bottom of station is 37.5 inches
+        public final static double L1Height = 20; // Was 18
+        public final static double L2Height = 29; // Was 31.875
+        public final static double L3Height = 45; // Was 47.75
+        public final static double L4Height = 100; // Was 71.75
+        public final static double CoralStationHeight = 0; // Bottom of station is 37.5 inches
       
     }
 }
