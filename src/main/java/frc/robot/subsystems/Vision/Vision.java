@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 
+import com.ctre.phoenix6.Utils;
+
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -17,6 +19,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
@@ -30,6 +33,7 @@ public class Vision extends SubsystemBase {
 
   
     public static CalculatedPhotonVision FrontRightM1Cam = new CalculatedPhotonVision("Front Right (M1)", visionConstants.FrontRightM1CamOffset);
+    // public static CalculatedPhotonVision FrontLeftM2Cam = new CalculatedPhotonVision("Front Left (M2)", visionConstants.FrontLeftM2CamOffset);
     // public final static CalculatedPhotonVision MicrosoftCamera = new CalculatedPhotonVision("Microsoft_Camera",visionConstants.MicrosoftCameraOffset);
     // public final static CalculatedPhotonVision ThriftyCamera = new CalculatedPhotonVision("Thrifty_Camera",visionConstants.ThriftyCameraOffset);
     // public final static CalculatedPhotonVision GenoCamera = new CalculatedPhotonVision("Geno_Camera", visionConstants.GenoCameraOffset); // geno camera
@@ -42,6 +46,7 @@ public class Vision extends SubsystemBase {
 
   public Vision() {
     cameras.add(FrontRightM1Cam);
+    // cameras.add(FrontLeftM2Cam);
     // cameras.add(MicrosoftCamera);
     // cameras.add(ThriftyCamera);
     // cameras.add(GenoCamera);
@@ -62,7 +67,6 @@ public class Vision extends SubsystemBase {
     double tot = 0;
 
     for (CalculatedCamera camera: cameras) {
-      camera.updateResult();
       if (camera.hasTarget()) {
         fX += camera.getFieldPose().getX() * camera.getTrust();
         fY += camera.getFieldPose().getY() * camera.getTrust();
@@ -105,26 +109,32 @@ public class Vision extends SubsystemBase {
   
   @Override
   public void periodic() {
-    // SmartDashboard.putBoolean("Microsoft_Camera HasTarget", MicrosoftCamera.hasTarget());
-    // SmartDashboard.putBoolean("Thrifty_Camera HasTarget", ThriftyCamera.hasTarget());
-    // SmartDashboard.putBoolean("Geno_Camera HasTarget", GenoCamera.hasTarget());
+    // Update camera readings to be in sync with the robot
+    for (CalculatedCamera camera: cameras) {
+      camera.updateResult();
+    }
 
-    SmartDashboard.putNumber("Camera X", FrontRightM1Cam.getTargetPose().getX());
-    SmartDashboard.putNumber("Camera Y", FrontRightM1Cam.getTargetPose().getY());
-    SmartDashboard.putNumber("Camera R", FrontRightM1Cam.getTargetPose().getRotation().getDegrees());
-    SmartDashboard.putNumber("Camera Trust", FrontRightM1Cam.getTrust());
+    // Add camera readings to odometry if they exist
+    if (hasTarget()) RobotContainer.drivetrain.addVisionMeasurement(getFieldPose(), Utils.fpgaToCurrentTime(Timer.getFPGATimestamp()));
 
+    SmartDashboard.putNumber("FR Camera X", FrontRightM1Cam.getTargetPose().getX());
+    SmartDashboard.putNumber("FR Camera Y", FrontRightM1Cam.getTargetPose().getY());
+    SmartDashboard.putNumber("FR Camera R", FrontRightM1Cam.getTargetPose().getRotation().getDegrees());
+    SmartDashboard.putNumber("FR Camera Trust", FrontRightM1Cam.getTrust());
+    
+    // SmartDashboard.putNumber("FL Camera X", FrontLeftM2Cam.getTargetPose().getX());
+    // SmartDashboard.putNumber("FL Camera Y", FrontLeftM2Cam.getTargetPose().getY());
+    // SmartDashboard.putNumber("FL Camera R", FrontLeftM2Cam.getTargetPose().getRotation().getDegrees());
+    // SmartDashboard.putNumber("FL Camera Trust", FrontLeftM2Cam.getTrust());
+    
     SmartDashboard.putNumber("Camera Field X" , getFieldPose().getX());
     SmartDashboard.putNumber("Camera Field Y" , getFieldPose().getY());
     SmartDashboard.putNumber("Camera Field R" , getFieldPose().getRotation().getDegrees());
-
-    SmartDashboard.putNumber("Camera Field To Tag R", getTagRelativePose(7).getRotation().getDegrees());
-
     SmartDashboard.putNumber("Camera Error", calculateError());
+    SmartDashboard.putBoolean("Has Target", hasTarget());
 
-    // SmartDashboard.putNumber("Microsoft_Camera Trust", MicrosoftCamera.getTrust());
-    // SmartDashboard.putNumber("Thrifty_Camera Trust", ThriftyCamera.getTrust());
-    // SmartDashboard.putNumber("Geno_Camera Trust", GenoCamera.getTrust());
-    // SmartDashboard.putNumber("limelight-main Trust", LimelightMain.getTrust());
+    SmartDashboard.putNumber("Odometry Field X", RobotContainer.drivetrain.getState().Pose.getX());
+    SmartDashboard.putNumber("Odometry Field Y", RobotContainer.drivetrain.getState().Pose.getY());
+    SmartDashboard.putNumber("Odometry Field R", RobotContainer.drivetrain.getState().Pose.getRotation().getDegrees());
   }
 }

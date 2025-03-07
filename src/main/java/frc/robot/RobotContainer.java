@@ -103,13 +103,10 @@ public class RobotContainer {
     public static SparkMax side2SideMotor = new SparkMax(23, MotorType.kBrushless);
     public static DutyCycleEncoder elevatorEncoder = new DutyCycleEncoder(1);
 
-
-    // Camera 
-    public static PhotonCamera camera = new PhotonCamera("PC_Camera");
-    // public static DigitalInput manipulatorProxSensor = new DigitalInput(0);
-
+    // Vision
     public static Vision vision = new Vision();
 
+    // Other?
     public static boolean hasFieldOriented = false;
 
 
@@ -117,7 +114,7 @@ public class RobotContainer {
     private final SendableChooser<Command> autoChooser;
 
     public RobotContainer() {
-        autoChooser = AutoBuilder.buildAutoChooser("Tests");
+        autoChooser = AutoBuilder.buildAutoChooser("lik and subscrib");
         SmartDashboard.putData("Auto Mode", autoChooser);
 
         elevator.setDefaultCommand(elevatorCommand);
@@ -154,7 +151,7 @@ public class RobotContainer {
         joystick.a().whileTrue(drivetrain.applyRequest(() -> DriveModes.brake));
 
         joystick.rightBumper().whileTrue(drivetrain.applyRequest(() ->
-            DriveModes.driveField
+            DriveModes.driveRobot
                 .withVelocityX(positionManager.xSpeed)
                 .withVelocityY(positionManager.ySpeed)
                 .withRotationalRate(positionManager.rSpeed)

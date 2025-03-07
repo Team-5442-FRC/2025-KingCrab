@@ -77,14 +77,10 @@ public class Manipulator extends SubsystemBase {
     RobotContainer.wristMotor.set(wristSpeed);
     RobotContainer.manipulatorIntakeMotor.set(-manipulatorSpeed);
 
-    SmartDashboard.putNumber("Wrist Position", getRotation());
     SmartDashboard.putNumber("Wrist Encoder", RobotContainer.wristMotor.getEncoder().getPosition());
     SmartDashboard.putNumber("Wrist Degrees", Math.toDegrees(getRotation()));
     SmartDashboard.putNumber("Wrist Speed", wristSpeed);
-    SmartDashboard.putNumber("Wrist Target Angle", targetWristAngle);
-    SmartDashboard.putBoolean("Wrist Manual Mode", wristManualMode);
     SmartDashboard.putBoolean("Proximity Sensor", RobotContainer.manipulatorProxSensor.get());
-    SmartDashboard.putNumber("Wrist Amps", RobotContainer.wristMotor.getOutputCurrent());
     
     SmartDashboard.putNumber("Intake State", RobotContainer.manipulatorCommand.state);
   }

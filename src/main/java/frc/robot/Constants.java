@@ -20,7 +20,7 @@ public class Constants {
     public static final class driveConstants {
 
         public final static double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
-        public final static double MaxAngularRate = RotationsPerSecond.of(2 * Math.PI).in(RadiansPerSecond); // 2 rotations per second max angular velocity
+        public final static double MaxAngularRate = RotationsPerSecond.of(Math.PI / 4).in(RadiansPerSecond); // 2 rotations per second max angular velocity
 
         // public final static double MaxSpeed = 5; //Max targeted speed in M/S (15 NORMALLY)
         // public final static double MaxAngularRate = 1.5 * Math.PI * 3; //Max targeted rotations / second -- 3/4ths of a rotation for now
@@ -84,7 +84,7 @@ public class Constants {
     public static final class armConstants {
 
         public final static double PivotToCoral = 22.5; // Inches; distance from pivot point to the coral piece
-        public final static double VerticalCoralOffset = 5; // Inches; how much clearance to add for the coral
+        public final static double VerticalCoralOffset = 7; // Inches; how much clearance to add for the coral
         public final static double CenterToPivot = 0.13335; // METERS; distance from imaginary center of drive base to pivot point
 
         ///// UNUSED \\\\\
@@ -115,7 +115,7 @@ public class Constants {
         // public final static double manipulatorIntakeSpeed = 0.3;
         // public final static double manipulatorOutakeSpeed = -0.3;
 
-        public final static double CoralIntakeSpeed = 0.3;
+        public final static double CoralIntakeSpeed = 0.7;
         public final static double CoralPlaceSpeed = 0.3;
         public final static double AlgaeIntakeSpeed = 0.3;
         public final static double AlgaeShootSpeed = -1;
@@ -138,6 +138,7 @@ public class Constants {
 
         // public final static Transform3d FrontRightM1CamOffset = new Transform3d(0.12065, -0.3683, 0.301625, new Rotation3d(Math.toRadians(90), 0, Math.toRadians(42.04))); // Old Mount (in between M1 and M4)
         public final static Transform3d FrontRightM1CamOffset = new Transform3d(0.2852, -0.1328, 0.301625, new Rotation3d(Math.toRadians(-90), Math.toRadians(16.7), Math.toRadians(14)));
+        public final static Transform3d FrontLeftM2CamOffset = new Transform3d(0.2259, 0.1287, 0.301625, new Rotation3d(Math.toRadians(-15.3), Math.toRadians(30), Math.toRadians(-28.7)));
         // public final static Transform3d MicrosoftCameraOffset = new Transform3d(0, 0, 0, new Rotation3d(0,0,0));
         // public final static Transform3d ThriftyCameraOffset   = new Transform3d(0, 0, 0, new Rotation3d(0,0,0));
         // public final static Transform3d GenoCameraOffset      = new Transform3d(0, 0, 0, new Rotation3d(0,0,0));
@@ -161,13 +162,14 @@ public class Constants {
 
         public final static double DriveMinAutoSpeed = 0;
         public final static double DrivekP = 2;
+        public final static double RotatekP = 5;
 
         //Reef level angles
         public final static double L1Angle = 100;
         public final static double L2Angle = 145;
         public final static double L3Angle = 145;
         public final static double L4Angle = 135;
-        public final static double CoralStationAngle = 145;
+        public final static double CoralStationAngle = 150;
         public final static double ErrorAngle = 145; //TODO check with Aaron if this is acceptable
 
         //Reef left-right length
@@ -182,7 +184,7 @@ public class Constants {
         public final static double L2Height = 29; // Was 31.875
         public final static double L3Height = 45; // Was 47.75
         public final static double L4Height = 100; // Was 71.75
-        public final static double CoralStationHeight = 0; // Bottom of station is 37.5 inches
+        public final static double CoralStationHeight = 34; // Bottom of station is 37.5 inches
       
     }
 }

@@ -50,16 +50,13 @@ double combinedHeight = 0;
     RobotContainer.upAndDownMotor.set(upAndDownSpeed);
     RobotContainer.side2SideMotor.set(-side2SideSpeed);
     
-    SmartDashboard.putNumber("Elevator Encoder", RobotContainer.elevatorEncoder.get());
-    SmartDashboard.putNumber("Elevator Combined Height", combinedHeight);
-    SmartDashboard.putNumber("Elevator Speed", upAndDownSpeed);
     SmartDashboard.putNumber("Elevator Height", getHeight());
+    SmartDashboard.putNumber("Elevator Encoder", RobotContainer.upAndDownMotor.getEncoder().getPosition());
+    SmartDashboard.putNumber("Elevator Speed", upAndDownSpeed);
 
-    SmartDashboard.putNumber("Elevator Side To Side Encoder", RobotContainer.side2SideMotor.getEncoder().getPosition());
     SmartDashboard.putNumber("Elevator Side To Side Value", getSideToSide());
+    SmartDashboard.putNumber("Elevator Side To Side Encoder", RobotContainer.side2SideMotor.getEncoder().getPosition());
     SmartDashboard.putNumber("Elevator Side To Side Speed", side2SideSpeed);
-
-    SmartDashboard.putNumber("Side To Side Amps", RobotContainer.side2SideMotor.getOutputCurrent());
   }
 
   public void setSide2SidePos(double side2SideTargtePos) {

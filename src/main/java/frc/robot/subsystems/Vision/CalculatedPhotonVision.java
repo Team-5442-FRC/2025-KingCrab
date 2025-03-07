@@ -59,7 +59,7 @@ public class CalculatedPhotonVision extends CalculatedCamera {
   public Pose2d getFieldPose() {
     if (hasTarget()) {
       return PhotonUtils.estimateFieldToRobotAprilTag(
-        new Transform3d(getTargetPose().getX(), getTargetPose().getY(), 0, new Rotation3d(getTargetPose().getRotation().unaryMinus())),
+        new Transform3d(getTargetPose().getX(), getTargetPose().getY(), 0, new Rotation3d(getTargetPose().getRotation().unaryMinus().plus(new Rotation2d(Math.PI)))),
         AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape).getTagPose((int)getTargetID()).get(),
         new Transform3d(0, 0, 0, new Rotation3d(0, 0, 0))
       ).toPose2d();

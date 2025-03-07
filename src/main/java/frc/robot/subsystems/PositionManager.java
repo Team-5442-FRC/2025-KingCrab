@@ -23,7 +23,7 @@ public class PositionManager extends SubsystemBase {
   int reefLevel, reefSide;
   double targetPivot, /*targetExtend,*/ targetHeight, targetSideToSide;
   public double xSpeed, ySpeed, rSpeed;
-  double yOffset;
+  double xOffset, yOffset, rOffset;
 
   /** Creates a new PositionManager. */
   public PositionManager() {}
@@ -130,17 +130,27 @@ public class PositionManager extends SubsystemBase {
     }
 
     if (RobotContainer.isAutomaticDriveMode && RobotContainer.vision.hasTarget()) {
-      fieldPose = RobotContainer.vision.getFieldPose();
-      Pose3d aprilPose = AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape).getTagPose(reefSideToAprilTag(reefSide)).get();
-      // Pose3d aprilPose = AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape).getTagPose(7).get();
-
+      // fieldPose = RobotContainer.vision.getFieldPose();
+      // Pose3d aprilPose = AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape).getTagPose(reefSideToAprilTag(reefSide)).get();
+      // // Pose3d aprilPose = AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape).getTagPose(7).get();
       
-      if (isReefRight) yOffset = fieldConstants.DriveRightY;
-      else yOffset = fieldConstants.DriveLeftY;
+      // if (isReefRight) yOffset = fieldConstants.DriveRightY;
+      // else yOffset = fieldConstants.DriveLeftY;
+      
+      // xSpeed = -RobotContainer.Deadzone(((aprilPose.getX() - fieldPose.getX()) - (fieldConstants.DriveL2andL3X * Math.cos(aprilPose.getRotation().getZ()) - yOffset * Math.sin(aprilPose.getRotation().getZ()))) * fieldConstants.DrivekP, fieldConstants.DriveMinAutoSpeed);
+      // ySpeed = -RobotContainer.Deadzone(((aprilPose.getY() - fieldPose.getY()) - (yOffset * Math.cos(aprilPose.getRotation().getZ()) + fieldConstants.DriveL2andL3X * Math.sin(aprilPose.getRotation().getZ()))) * fieldConstants.DrivekP, fieldConstants.DriveMinAutoSpeed);
+      // rSpeed = RobotContainer.Deadzone((aprilPose.getRotation().getZ() - fieldPose.getRotation().getRadians()) * fieldConstants.DrivekP * 5, fieldConstants.DriveMinAutoSpeed);
 
-      xSpeed = -RobotContainer.Deadzone(((aprilPose.getX() - fieldPose.getX()) - (fieldConstants.DriveL2andL3X * Math.cos(aprilPose.getRotation().getZ()) - yOffset * Math.sin(aprilPose.getRotation().getZ()))) * fieldConstants.DrivekP, fieldConstants.DriveMinAutoSpeed);
-      ySpeed = -RobotContainer.Deadzone(((aprilPose.getY() - fieldPose.getY()) - (yOffset * Math.cos(aprilPose.getRotation().getZ()) + fieldConstants.DriveL2andL3X * Math.sin(aprilPose.getRotation().getZ()))) * fieldConstants.DrivekP, fieldConstants.DriveMinAutoSpeed);
-      rSpeed = RobotContainer.Deadzone((aprilPose.getRotation().getZ() - fieldPose.getRotation().getRadians()) * fieldConstants.DrivekP * 5, fieldConstants.DriveMinAutoSpeed);
+      robotPose = RobotContainer.vision.getTagRelativePose(reefSideToAprilTag(reefSide));
+
+      xOffset = robotPose.getX() - fieldConstants.DriveL2andL3X;
+      if (isReefRight) yOffset = robotPose.getY() + fieldConstants.DriveRightY;
+      else yOffset = robotPose.getY() + fieldConstants.DriveLeftY;
+      rOffset = -robotPose.getRotation().getRadians();
+
+      xSpeed = RobotContainer.Deadzone(((xOffset * Math.cos(rOffset)) - (yOffset * Math.sin(rOffset))) * fieldConstants.DrivekP, fieldConstants.DriveMinAutoSpeed);
+      ySpeed = RobotContainer.Deadzone(((yOffset * Math.cos(rOffset)) + (xOffset * Math.sin(rOffset))) * fieldConstants.DrivekP, fieldConstants.DriveMinAutoSpeed);
+      rSpeed = RobotContainer.Deadzone(rOffset * fieldConstants.RotatekP, fieldConstants.DriveMinAutoSpeed);
     }
     else {
       xSpeed = 0;
@@ -157,7 +167,6 @@ public class PositionManager extends SubsystemBase {
     SmartDashboard.putNumber("Side", reefSide);
     SmartDashboard.putNumber("Tag Target", reefSideToAprilTag(reefSide));
     SmartDashboard.putNumber("Button Box Reading", ButtonBox.readBox());
-    SmartDashboard.putNumber("REEF TO HEIGHT", reefLevelToHeight(reefLevel));
 
     SmartDashboard.putNumber("Auto Drive X", xSpeed);
     SmartDashboard.putNumber("Auto Drive Y", ySpeed);
