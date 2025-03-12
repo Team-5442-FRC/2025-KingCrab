@@ -22,9 +22,9 @@ double upAndDownCurrentPos = elevatorConstants.PivotToFloorOffset;
 double side2SideSpeed = 0;
 double upAndDownSpeed = 0;
 PIDController upAndDownPID = new PIDController(0.075, 0, 0); // D was 0.02
-PIDController side2sidePID = new PIDController(2, 0, 0);
+PIDController side2sidePID = new PIDController(0.1, 0, 0);
 SlewRateLimiter upAndDownLimiter = new SlewRateLimiter(4); // Units per second; rateLimit of 2 means 0% to 100% in half a second
-SlewRateLimiter sideToSideLimiter = new SlewRateLimiter(8);
+SlewRateLimiter sideToSideLimiter = new SlewRateLimiter(4);
 
 // Counters for encoder rotations
 double lastHeight = 0;
@@ -50,13 +50,12 @@ double combinedHeight = 0;
     RobotContainer.upAndDownMotor.set(upAndDownSpeed);
     RobotContainer.side2SideMotor.set(-side2SideSpeed);
     
-    SmartDashboard.putNumber("Elevator Encoder", RobotContainer.elevatorEncoder.get());
-    SmartDashboard.putNumber("Elevator Combined Height", combinedHeight);
-    SmartDashboard.putNumber("Elevator Speed", upAndDownSpeed);
     SmartDashboard.putNumber("Elevator Height", getHeight());
+    SmartDashboard.putNumber("Elevator Encoder", RobotContainer.upAndDownMotor.getEncoder().getPosition());
+    SmartDashboard.putNumber("Elevator Speed", upAndDownSpeed);
 
-    SmartDashboard.putNumber("Elevator Side To Side Encoder", RobotContainer.side2SideMotor.getEncoder().getPosition());
     SmartDashboard.putNumber("Elevator Side To Side Value", getSideToSide());
+    SmartDashboard.putNumber("Elevator Side To Side Encoder", RobotContainer.side2SideMotor.getEncoder().getPosition());
     SmartDashboard.putNumber("Elevator Side To Side Speed", side2SideSpeed);
   }
 
@@ -153,7 +152,7 @@ double combinedHeight = 0;
   }
 
   public double getSideToSide() {
-    return -(((RobotContainer.side2SideMotor.getEncoder().getPosition() / 49) * (30/26d)) / (5/3d) + elevatorConstants.Side2SideOffset); // TODO figure out why it needs the 5/3 constant (incorrect gearbox ratio?)
+    return -(((RobotContainer.side2SideMotor.getEncoder().getPosition() / 9) * (30/26d)) + elevatorConstants.Side2SideOffset); // TODO figure out why it needs the 5/3 constant (incorrect gearbox ratio?)
   }
   
 }

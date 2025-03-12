@@ -20,7 +20,7 @@ public class Constants {
     public static final class driveConstants {
 
         public final static double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
-        public final static double MaxAngularRate = RotationsPerSecond.of(2 * Math.PI).in(RadiansPerSecond); // 2 rotations per second max angular velocity
+        public final static double MaxAngularRate = RotationsPerSecond.of(Math.PI / 4).in(RadiansPerSecond); // 2 rotations per second max angular velocity
 
         // public final static double MaxSpeed = 5; //Max targeted speed in M/S (15 NORMALLY)
         // public final static double MaxAngularRate = 1.5 * Math.PI * 3; //Max targeted rotations / second -- 3/4ths of a rotation for now
@@ -63,13 +63,13 @@ public class Constants {
 
     public static final class elevatorConstants {
       
-        public final static double ArmRightLimit = -5.5; // Inches; -Y
-        public final static double ArmLeftLimit = 2; // Inches; +Y
+        public final static double ArmRightLimit = -5; // Inches; -Y
+        public final static double ArmLeftLimit = 1.5; // Inches; +Y
 
         public final static double ArmTopLimit = 60.0 - 0.5; // Was 60.75 //TODO add correct limit z-axis
         public final static double ArmBottomLimit = 10.75 + 0.25; //TODO add correct limit z-axis
 
-        public final static double Side2SideSpeedFactor = 1;
+        public final static double Side2SideSpeedFactor = 0.5;
         public final static double UpAndDownSpeedFactor = 0.4;
 
         public final static double UpAndDownOffset = 0.059; //Rotations at the lowest point
@@ -84,7 +84,7 @@ public class Constants {
     public static final class armConstants {
 
         public final static double PivotToCoral = 22.5; // Inches; distance from pivot point to the coral piece
-        public final static double VerticalCoralOffset = 5; // Inches; how much clearance to add for the coral
+        public final static double VerticalCoralOffset = 7; // Inches; how much clearance to add for the coral
         public final static double CenterToPivot = 0.13335; // METERS; distance from imaginary center of drive base to pivot point
 
         ///// UNUSED \\\\\
@@ -95,8 +95,8 @@ public class Constants {
         ///// ------ \\\\\
 
         public final static double RotateUpLimit = Math.toRadians(160); //Hard limits (Was 170)
-        public final static double RotateDownLimit = Math.toRadians(80); //Hard Limits (Was 10)
-        public final static double RotateEncoderOffset = 0.487; //Offset in rotations at level (90 degrees)
+        public final static double RotateDownLimit = Math.toRadians(55); //Hard Limits (Was 10)
+        public final static double RotateEncoderOffset = 0.459; //Offset in rotations at level (90 degrees)
         
         public final static double ExtendPIDkp = 0.1;
         public final static double ExtendPIDki = 0;
@@ -112,8 +112,15 @@ public class Constants {
 
     public static final class manipulatorConstants {
 
-        public final static double manipulatorIntakeSpeed = 0.3;
-        public final static double manipulatorOutakeSpeed = -0.3;
+        // public final static double manipulatorIntakeSpeed = 0.3;
+        // public final static double manipulatorOutakeSpeed = -0.3;
+
+        public final static double CoralIntakeSpeed = 0.7;
+        public final static double CoralPlaceSpeed = 0.3;
+        public final static double AlgaeIntakeSpeed = 0.3;
+        public final static double AlgaeShootSpeed = -1;
+        public final static double AlgaeHoldSpeed = 0.6;
+        public final static double IntakeReverseSpeed = -0.3;
 
         public final static double WristPIDkp = 0.2;
         public final static double WristPIDki = 0;
@@ -129,7 +136,11 @@ public class Constants {
         
         public final static double AngleDistrust = 10; // How much the angle should impact vision trust
 
-        public final static Transform3d FrontRightM1CamOffset = new Transform3d(0.12065, -0.3683, 0.301625, new Rotation3d(Math.toRadians(90), 0, Math.toRadians(42.04))); //TODO make sure measurements correspond correctly
+        // public final static Transform3d FrontRightM1CamOffset = new Transform3d(0.12065, -0.3683, 0.301625, new Rotation3d(Math.toRadians(90), 0, Math.toRadians(42.04))); // Old Mount (in between M1 and M4)
+        // public final static Transform3d FrontRightM1CamOffset = new Transform3d(0.2852, -0.1328, 0.301625, new Rotation3d(Math.toRadians(-90), Math.toRadians(16.7), Math.toRadians(14))); // Other mount (front of robot)
+        public final static Transform3d FrontRightM1CamOffset = new Transform3d(0.1398, -0.3557, 0.301625, new Rotation3d(0, 0, Math.toRadians(35)));
+        // public final static Transform3d FrontLeftM2CamOffset = new Transform3d(0.2259, 0.1287, 0.301625, new Rotation3d(Math.toRadians(-15.3), Math.toRadians(30), Math.toRadians(-28.7)));
+        public final static Transform3d FrontLeftM2CamOffset = new Transform3d(0.1249, -0.138, 0.301625, new Rotation3d(0, Math.toRadians(20), Math.toRadians(15)));
         // public final static Transform3d MicrosoftCameraOffset = new Transform3d(0, 0, 0, new Rotation3d(0,0,0));
         // public final static Transform3d ThriftyCameraOffset   = new Transform3d(0, 0, 0, new Rotation3d(0,0,0));
         // public final static Transform3d GenoCameraOffset      = new Transform3d(0, 0, 0, new Rotation3d(0,0,0));
@@ -146,13 +157,29 @@ public class Constants {
 
     public static final class fieldConstants {
 
+        // Optimal Drive Distances: Meters
+        public final static double DriveL2andL3X = 0.5875; // Meters; optimal X distance away from the tag
+        public final static double DriveAlgaeX = 1; // Meters; optimal x distance away from the tag
+        public final static double DriveCoralX = 0.65;
+        public final static double DriveLeftY = 0.14; // Meters; optimal Y distance from tag for left pole
+        public final static double DriveRightY = -0.04; // Meters; optimal Y distance from tag for left pole
+
+        public final static double DriveMinAutoSpeed = 0;
+        public final static double DrivekP = 2;
+        public final static double RotatekP = 5;
+
+        public final static double PathfindOffset = 1; // Meters; how far away from the tag Pathfind should aim for
+
         //Reef level angles
         public final static double L1Angle = 100;
         public final static double L2Angle = 145;
         public final static double L3Angle = 145;
-        public final static double L4Angle = 150;
-        public final static double CoralStationAngle = 160;
-        public final static double ErrorAngle = 145; //TODO check with Aaron if this is acceptable
+        public final static double L4Angle = 135;
+        public final static double AlgaeAngle = 100;
+        public final static double CoralStationAngle = 150;
+        public final static double BargeShootAngle = 160;
+        public final static double FloorPickupAngle = 58;
+        public final static double ErrorAngle = 145;
 
         //Reef left-right length
         public final static double ReefSideToSide = 6.5; // Inches
@@ -162,11 +189,16 @@ public class Constants {
         public final static double TagToL2and3XOffset = 2.0786;
         public final static double TagToL4XOffset = 2.0498;
 
-        public final static double L1Height = 21; // Was 18
-        public final static double L2Height = 33; // Was 31.875
-        public final static double L3Height = 49; // Was 47.75
-        public final static double L4Height = 74; // Was 71.75
-        public final static double CoralStationHeight = 33; // Bottom of station is 37.5 inches
+        public final static double L1Height = 20; // Was 18
+        public final static double L2Height = 30; // Was 31.875
+        public final static double L3Height = 45; // Was 47.75
+        public final static double L4Height = 100; // Was 71.75
+        public final static double AlgaeL2Height = 32;
+        public final static double AlgaeL3Height = 47;
+        public final static double CoralStationHeight = 25; // Bottom of station is 37.5 inches
+        public final static double BargeShootHeight = 100; //TODO
+        public final static double FloorPickupHeight = 0;
+
       
     }
 }

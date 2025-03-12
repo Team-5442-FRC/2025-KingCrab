@@ -8,6 +8,7 @@ import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import frc.robot.Constants.visionConstants;
 
@@ -41,6 +42,11 @@ public class CalculatedPhotonVision extends CalculatedCamera {
   public PhotonPipelineResult getResult() {
     return result;
   }
+
+  @Override
+  public double getLatency() {
+    return 0;
+  }
     
   @Override
   public boolean hasTarget() {
@@ -58,9 +64,9 @@ public class CalculatedPhotonVision extends CalculatedCamera {
   public Pose2d getFieldPose() {
     if (hasTarget()) {
       return PhotonUtils.estimateFieldToRobotAprilTag(
-        getResult().getBestTarget().getBestCameraToTarget(),
+        new Transform3d(getTargetPose().getX(), getTargetPose().getY(), 0, new Rotation3d(getTargetPose().getRotation().unaryMinus().plus(new Rotation2d(Math.PI)))),
         AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape).getTagPose((int)getTargetID()).get(),
-        camOffset
+        new Transform3d(0, 0, 0, new Rotation3d(0, 0, 0))
       ).toPose2d();
     }
     return new Pose2d();
@@ -69,7 +75,7 @@ public class CalculatedPhotonVision extends CalculatedCamera {
   @Override
   public double getTrust() { //TODO might be able to take area the tag takes up and use that instead
     Pose2d targetRelative = getTargetPose();
-    if (hasTarget()) return (1 / Math.sqrt((targetRelative.getX() * targetRelative.getX()) + (targetRelative.getY() * targetRelative.getY())) + (visionConstants.AngleDistrust * Math.cos(targetRelative.getRotation().getRadians())));
+    if (hasTarget()) return (1 / ((targetRelative.getX() * targetRelative.getX()) + (targetRelative.getY() * targetRelative.getY())));
     return 0; 
   }
 

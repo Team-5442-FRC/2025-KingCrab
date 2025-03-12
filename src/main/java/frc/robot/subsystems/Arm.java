@@ -38,13 +38,9 @@ public class Arm extends SubsystemBase {
     // RobotContainer.extendMotor.set(-extendSpeed); // Inverted motor
     RobotContainer.rotateMotor.set(-rotateSpeed); // Inverted motor
     
-    SmartDashboard.putNumber("Pivot Encoder", RobotContainer.pivotEncoder.get() - armConstants.RotateEncoderOffset);
-    SmartDashboard.putNumber("Pivot Radians", getAngle());
+    SmartDashboard.putNumber("Pivot Raw Encoder", RobotContainer.pivotEncoder.get());
     SmartDashboard.putNumber("Pivot Degrees", Math.toDegrees(getAngle()));
     SmartDashboard.putNumber("Pivot Speed", rotateSpeed);
-    // SmartDashboard.putNumber("Extend Length", getExtension());
-    // SmartDashboard.putNumber("Extend Speed", extendSpeed);
-    // SmartDashboard.putNumber("Extend Raw Encoder", RobotContainer.extendMotor.getEncoder().getPosition());
   }
 
   // public void extend(double speed){

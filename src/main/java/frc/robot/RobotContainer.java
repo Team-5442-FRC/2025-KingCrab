@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.util.function.BooleanSupplier;
+
 import org.photonvision.PhotonCamera;
 
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -11,6 +13,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
@@ -18,6 +21,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.driveConstants;
 import frc.robot.commands.ArmCommand;
 import frc.robot.commands.ClimberCommand;
@@ -81,41 +85,45 @@ public class RobotContainer {
     public static ManipulatorCommand manipulatorCommand = new ManipulatorCommand(); // Try to say that five times fast
     public static TalonFX manipulatorIntakeMotor = new TalonFX(26); //TODO add the right motor ids
     public static SparkMax wristMotor = new SparkMax(21, MotorType.kBrushless);
+    public static DigitalInput manipulatorProxSensor = new DigitalInput(8);
 
     // Position Manager
     public static PositionManager positionManager = new PositionManager();
     public static PositionManagerCommand positionManagerCommand = new PositionManagerCommand();
+    public static boolean isAutomaticPositioningMode = false;
+    public static boolean isAutomaticDriveMode = false;
+
     
     // Climber variables
-    
     public static Climber climber = new Climber();
     public static ClimberCommand climberCommand = new ClimberCommand();
     public static SparkMax climberMotor = new SparkMax(25, MotorType.kBrushless);
 
     // Elevator variables
-    
     public static Elevator elevator = new Elevator();
     public static ElevatorCommand elevatorCommand = new ElevatorCommand();
     public static SparkMax upAndDownMotor = new SparkMax(20, MotorType.kBrushless);
     public static SparkMax side2SideMotor = new SparkMax(23, MotorType.kBrushless);
     public static DutyCycleEncoder elevatorEncoder = new DutyCycleEncoder(1);
 
-
-    // Camera 
-    public static PhotonCamera camera = new PhotonCamera("PC_Camera");
-    // public static DigitalInput manipulatorProxSensor = new DigitalInput(0);
-
+    // Vision
     public static Vision vision = new Vision();
 
-    // Position Manager
-    public static boolean isAutomaticPositioningMode = false;
+    // Other?
+    public static boolean hasFieldOriented = false;
+    public static Trigger autoDriveToTag = new Trigger(new BooleanSupplier() {
+        @Override
+        public boolean getAsBoolean() {
+            return isAutomaticDriveMode;
+        };
+    });
 
 
     /* Path follower */
     private final SendableChooser<Command> autoChooser;
 
     public RobotContainer() {
-        autoChooser = AutoBuilder.buildAutoChooser("Tests");
+        autoChooser = AutoBuilder.buildAutoChooser("None");
         SmartDashboard.putData("Auto Mode", autoChooser);
 
         elevator.setDefaultCommand(elevatorCommand);
@@ -151,6 +159,20 @@ public class RobotContainer {
 
         joystick.a().whileTrue(drivetrain.applyRequest(() -> DriveModes.brake));
 
+        // joystick.rightBumper().whileTrue(drivetrain.applyRequest(() ->
+        //     DriveModes.driveRobot
+        //         .withVelocityX(positionManager.xSpeed)
+        //         .withVelocityY(positionManager.ySpeed)
+        //         .withRotationalRate(positionManager.rSpeed)
+        // ));
+
+        autoDriveToTag.whileTrue(drivetrain.applyRequest(() ->
+            DriveModes.driveRobot
+                .withVelocityX(positionManager.xSpeed)
+                .withVelocityY(positionManager.ySpeed)
+                .withRotationalRate(positionManager.rSpeed)
+        ));
+        
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
         // What is this? We don't know! 2/6/25
@@ -168,6 +190,12 @@ public class RobotContainer {
     /** Function that returns a given speed, as long as it is above the deadzone set in Constants. */
     public static double Deadzone(double speed) {
         if (Math.abs(speed) > driveConstants.ControllerDeadzone) return speed;
+        return 0;
+    }
+
+    /** Function that returns a given speed, as long as it is above the given deadzone. */
+    public static double Deadzone(double speed, double minValue) {
+        if (Math.abs(speed) > minValue) return speed;
         return 0;
     }
 
