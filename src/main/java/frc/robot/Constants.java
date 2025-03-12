@@ -166,7 +166,7 @@ public class Constants {
 
         public final static double DriveMinAutoSpeed = 0;
         public final static double DrivekP = 2;
-        public final static double RotatekP = 3;
+        public final static double RotatekP = 5;
 
         public final static double PathfindOffset = 1; // Meters; how far away from the tag Pathfind should aim for
 

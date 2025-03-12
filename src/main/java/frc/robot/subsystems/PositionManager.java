@@ -196,8 +196,8 @@ public class PositionManager extends SubsystemBase {
       rOffset = -robotPose.getRotation().getRadians();
     }
 
-    xSpeed = RobotContainer.Deadzone(((xOffset * Math.cos(rOffset)) - (yOffset * Math.sin(rOffset))) * fieldConstants.DrivekP, fieldConstants.DriveMinAutoSpeed);
-    ySpeed = RobotContainer.Deadzone(((yOffset * Math.cos(rOffset)) + (xOffset * Math.sin(rOffset))) * fieldConstants.DrivekP, fieldConstants.DriveMinAutoSpeed);
+    xSpeed = RobotContainer.Deadzone((xOffset * Math.cos(rOffset)) - (yOffset * Math.sin(rOffset)) * fieldConstants.DrivekP, fieldConstants.DriveMinAutoSpeed);
+    ySpeed = RobotContainer.Deadzone((yOffset * Math.cos(rOffset)) + (xOffset * Math.sin(rOffset)) * fieldConstants.DrivekP, fieldConstants.DriveMinAutoSpeed);
     rSpeed = RobotContainer.Deadzone(rOffset * fieldConstants.RotatekP, fieldConstants.DriveMinAutoSpeed);
 
     
