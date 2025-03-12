@@ -22,6 +22,11 @@ public class CalculatedCamera {
     return key;
   }
 
+  /** Returns the delay from when the frame was calculated. */
+  public double getLatency() {
+    return 0;
+  }
+
   /** Returns true if there is a target in view. */
   public boolean hasTarget() {
     return false;

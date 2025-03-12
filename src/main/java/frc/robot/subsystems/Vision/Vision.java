@@ -80,9 +80,8 @@ public class Vision extends SubsystemBase {
     return new Pose2d(fX,fY, new Rotation2d(fR));
   }
 
-  public Pose2d getTagRelativePose(int aprilTag) {
+  public Pose2d getTagRelativePose(Pose2d robotPose, int aprilTag) {
     Pose3d aprilPose = AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape).getTagPose(aprilTag).get();
-    Pose2d robotPose = getFieldPose();
 
     double x0 = aprilPose.getX() - robotPose.getX();
     double y0 = aprilPose.getY() - robotPose.getY();
@@ -90,11 +89,19 @@ public class Vision extends SubsystemBase {
     double distance = Math.sqrt((x0*x0)+(y0*y0));
     
     double angle0 = Math.atan2(y0,x0);
-    double angle = angle0 - aprilPose.getRotation().getZ();
+    double angle = angle0 - aprilPose.getRotation().getZ() + Math.PI;
+    if (angle > Math.PI) angle -= (2*Math.PI);
     double x = distance * Math.cos(angle);
     double y = distance * Math.sin(angle);
 
-    return new Pose2d(x,y,new Rotation2d(angle));
+    double botAngle = robotPose.getRotation().getRadians() - aprilPose.getRotation().getZ() + Math.PI;
+    if (botAngle > Math.PI) botAngle -= (2*Math.PI);
+
+    return new Pose2d(x,y,new Rotation2d(botAngle));
+  }
+
+  public Pose2d getTagRelativePose(int aprilTag) {
+    return getTagRelativePose(getFieldPose(), aprilTag);
   }
 
   public double calculateError() {
@@ -115,7 +122,7 @@ public class Vision extends SubsystemBase {
     }
 
     // Add camera readings to odometry if they exist
-    if (hasTarget()) RobotContainer.drivetrain.addVisionMeasurement(getFieldPose(), Utils.fpgaToCurrentTime(Timer.getFPGATimestamp()));
+    if (hasTarget()) RobotContainer.drivetrain.addVisionMeasurement(getFieldPose(), Utils.fpgaToCurrentTime(Timer.getFPGATimestamp()) - 0.05);
 
     SmartDashboard.putNumber("FR Camera X", FrontRightM1Cam.getTargetPose().getX());
     SmartDashboard.putNumber("FR Camera Y", FrontRightM1Cam.getTargetPose().getY());
@@ -136,5 +143,9 @@ public class Vision extends SubsystemBase {
     SmartDashboard.putNumber("Odometry Field X", RobotContainer.drivetrain.getState().Pose.getX());
     SmartDashboard.putNumber("Odometry Field Y", RobotContainer.drivetrain.getState().Pose.getY());
     SmartDashboard.putNumber("Odometry Field R", RobotContainer.drivetrain.getState().Pose.getRotation().getDegrees());
+
+    SmartDashboard.putNumber("Tag 7 X", getTagRelativePose(RobotContainer.drivetrain.getState().Pose, 7).getX());
+    SmartDashboard.putNumber("Tag 7 Y", getTagRelativePose(RobotContainer.drivetrain.getState().Pose, 7).getY());
+    SmartDashboard.putNumber("Tag 7 R", getTagRelativePose(RobotContainer.drivetrain.getState().Pose, 7).getRotation().getDegrees());
   }
 }

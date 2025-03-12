@@ -23,13 +23,21 @@ public class PositionManagerCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    int[] target = ButtonBox.lookup(ButtonBox.readBox());
-    RobotContainer.positionManager.setReefTarget(target[1] % 2 == 1, target[0], (target[1] / 2) + 1);
+    int boxValue = ButtonBox.readBox();
+    int[] target = ButtonBox.lookup(boxValue);
+    boolean isAlgae = ButtonBox.isAlgae(boxValue);
+
+    RobotContainer.positionManager.setReefTarget(target[1] % 2 == 1, target[0], (target[1] / 2) + 1, isAlgae);
     // if (RobotContainer.xbox2.getRightBumperButton()) RobotContainer.isAutomaticPositioningMode = true;
     // else RobotContainer.isAutomaticPositioningMode = false;
 
-    if (RobotContainer.xbox1.getRightBumperButton()) RobotContainer.isAutomaticDriveMode = true;
+    if (RobotContainer.xbox1.getRightBumperButton() || RobotContainer.xbox1.getXButton() || RobotContainer.xbox1.getYButton()) RobotContainer.isAutomaticDriveMode = true;
     else RobotContainer.isAutomaticDriveMode = false;
+
+    if (RobotContainer.xbox1.getXButton()) RobotContainer.positionManager.driveLeftCoralStation = true;
+    else RobotContainer.positionManager.driveLeftCoralStation = false;
+    if (RobotContainer.xbox1.getBButton()) RobotContainer.positionManager.driveRightCoralStation = true;
+    else RobotContainer.positionManager.driveRightCoralStation = false;
 
     if (RobotContainer.xbox2.getRightBumperButtonPressed()) {
       RobotContainer.positionManager.updatePositions(
@@ -41,7 +49,7 @@ public class PositionManagerCommand extends Command {
         RobotContainer.positionManager.calculateWristAngle(target[0])
       );
     }
-    if (RobotContainer.xbox2.getPOV() == 180) {
+    if (RobotContainer.xbox2.getPOV() == 0) {
       RobotContainer.positionManager.updatePositions(
         RobotContainer.positionManager.calculateArmPivot(5),
         RobotContainer.positionManager.calculateHeight(RobotContainer.positionManager.calculateArmPivot(5),
@@ -49,8 +57,24 @@ public class PositionManagerCommand extends Command {
         0,
         RobotContainer.positionManager.calculateWristAngle(5)
       );
-    } 
-
+    }
+    if (RobotContainer.xbox2.getPOV() == 90) { // Set to starting/lowest position
+      RobotContainer.positionManager.updatePositions(
+        Math.toRadians(170),
+        0,
+        0,
+        0
+      );
+    }
+    if (RobotContainer.xbox2.getPOV() == 180) {
+      RobotContainer.positionManager.updatePositions(
+        RobotContainer.positionManager.calculateArmPivot(6),
+        RobotContainer.positionManager.calculateHeight(RobotContainer.positionManager.calculateArmPivot(6),
+        RobotContainer.positionManager.reefLevelToHeight(6)),
+        0,
+        RobotContainer.positionManager.calculateWristAngle(6)
+      );
+    }
   }
 
   // Called once the command ends or is interrupted.

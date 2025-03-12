@@ -5,6 +5,8 @@
 package frc.robot;
 
 import com.ctre.phoenix6.Utils;
+import com.pathplanner.lib.commands.PathfindingCommand;
+import com.pathplanner.lib.pathfinding.Pathfinding;
 
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -24,13 +26,16 @@ public class Robot extends TimedRobot {
   public Robot() {
     m_robotContainer = new RobotContainer();
     m_gcTimer.start();
+
+    // Warm up pathfinder so it doesn't lag on startup
+    PathfindingCommand.warmupCommand().schedule();
   }
 
   @Override
   public void robotPeriodic() {
 
     if (!RobotContainer.hasFieldOriented && RobotContainer.vision.hasTarget()) {
-      RobotContainer.drivetrain.resetRotation(RobotContainer.vision.getFieldPose().getRotation());;
+      RobotContainer.drivetrain.resetRotation(RobotContainer.vision.getFieldPose().getRotation());
       RobotContainer.hasFieldOriented = true;
     }
 

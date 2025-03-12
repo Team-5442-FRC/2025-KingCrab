@@ -42,6 +42,11 @@ public class CalculatedPhotonVision extends CalculatedCamera {
   public PhotonPipelineResult getResult() {
     return result;
   }
+
+  @Override
+  public double getLatency() {
+    return 0;
+  }
     
   @Override
   public boolean hasTarget() {
@@ -70,7 +75,7 @@ public class CalculatedPhotonVision extends CalculatedCamera {
   @Override
   public double getTrust() { //TODO might be able to take area the tag takes up and use that instead
     Pose2d targetRelative = getTargetPose();
-    if (hasTarget()) return (1 / Math.sqrt((targetRelative.getX() * targetRelative.getX()) + (targetRelative.getY() * targetRelative.getY())) + (visionConstants.AngleDistrust * Math.cos(targetRelative.getRotation().getRadians())));
+    if (hasTarget()) return (1 / ((targetRelative.getX() * targetRelative.getX()) + (targetRelative.getY() * targetRelative.getY())));
     return 0; 
   }
 

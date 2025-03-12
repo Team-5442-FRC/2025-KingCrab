@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.util.function.BooleanSupplier;
+
 import org.photonvision.PhotonCamera;
 
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -19,6 +21,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.driveConstants;
 import frc.robot.commands.ArmCommand;
 import frc.robot.commands.ClimberCommand;
@@ -108,13 +111,19 @@ public class RobotContainer {
 
     // Other?
     public static boolean hasFieldOriented = false;
+    public static Trigger autoDriveToTag = new Trigger(new BooleanSupplier() {
+        @Override
+        public boolean getAsBoolean() {
+            return isAutomaticDriveMode;
+        };
+    });
 
 
     /* Path follower */
     private final SendableChooser<Command> autoChooser;
 
     public RobotContainer() {
-        autoChooser = AutoBuilder.buildAutoChooser("lik and subscrib");
+        autoChooser = AutoBuilder.buildAutoChooser("None");
         SmartDashboard.putData("Auto Mode", autoChooser);
 
         elevator.setDefaultCommand(elevatorCommand);
@@ -150,13 +159,20 @@ public class RobotContainer {
 
         joystick.a().whileTrue(drivetrain.applyRequest(() -> DriveModes.brake));
 
-        joystick.rightBumper().whileTrue(drivetrain.applyRequest(() ->
+        // joystick.rightBumper().whileTrue(drivetrain.applyRequest(() ->
+        //     DriveModes.driveRobot
+        //         .withVelocityX(positionManager.xSpeed)
+        //         .withVelocityY(positionManager.ySpeed)
+        //         .withRotationalRate(positionManager.rSpeed)
+        // ));
+
+        autoDriveToTag.whileTrue(drivetrain.applyRequest(() ->
             DriveModes.driveRobot
                 .withVelocityX(positionManager.xSpeed)
                 .withVelocityY(positionManager.ySpeed)
                 .withRotationalRate(positionManager.rSpeed)
         ));
-
+        
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
         // What is this? We don't know! 2/6/25
