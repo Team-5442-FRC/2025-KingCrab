@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.armConstants;
+import frc.robot.Constants.elevatorConstants;
 import frc.robot.Constants.fieldConstants;
 
 public class PositionManager extends SubsystemBase {
@@ -131,8 +132,10 @@ public class PositionManager extends SubsystemBase {
 
   public double calculateSideToSide(double y, boolean isReefRight) {
     if (isAlgae) return 0;
-    if (isReefRight) return fieldConstants.ReefSideToSide + mToIn(y);
-    else return -fieldConstants.ReefSideToSide + mToIn(y);
+    // if (isReefRight) return fieldConstants.ReefSideToSide + mToIn(y);
+    if (isReefRight) return elevatorConstants.ArmRightLimit;
+    // else return -fieldConstants.ReefSideToSide + mToIn(y);
+    else return elevatorConstants.ArmLeftLimit;
   }
 
   public Command generatePathToTag(int aprilTag) {

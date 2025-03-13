@@ -41,8 +41,8 @@ public class Vision implements Runnable {
     Telemetry logger = RobotContainer.logger;
 
   public Vision() {
-    // cameras.add(FrontRightM1Cam); TODO PLASDJFLASDJFLKJASDLKFJASDLKJFALSKDJFLK;ASHVPH AIUVAOFPSID FPOASDH FPASH VPOFASH PODHSAPODHFPOIASDHFASHDOPFIHASDOP IHF AS
-    cameras.add(FrontLeftM2Cam);
+    cameras.add(FrontRightM1Cam);
+    // cameras.add(FrontLeftM2Cam);
   }
 
   public boolean hasTarget() {

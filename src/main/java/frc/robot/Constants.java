@@ -63,7 +63,7 @@ public class Constants {
 
     public static final class elevatorConstants {
       
-        public final static double ArmRightLimit = -7; // Inches; -Y
+        public final static double ArmRightLimit = -6.5; // Inches; -Y
         public final static double ArmLeftLimit = 1.5; // Inches; +Y
 
         public final static double ArmTopLimit = 60.0 - 0.5; // Was 60.75
@@ -174,7 +174,7 @@ public class Constants {
         public final static double L1Angle = 100;
         public final static double L2Angle = 145;
         public final static double L3Angle = 145;
-        public final static double L4Angle = 135;
+        public final static double L4Angle = 140;
         public final static double AlgaeAngle = 100;
         public final static double CoralStationAngle = 150;
         public final static double BargeShootAngle = 160;
@@ -190,8 +190,8 @@ public class Constants {
         public final static double TagToL4XOffset = 2.0498;
 
         public final static double L1Height = 20; // Was 18
-        public final static double L2Height = 30; // Was 31.875
-        public final static double L3Height = 45; // Was 47.75
+        public final static double L2Height = 32; // Was 31.875
+        public final static double L3Height = 47; // Was 47.75
         public final static double L4Height = 100; // Was 71.75
         public final static double AlgaeL2Height = 32;
         public final static double AlgaeL3Height = 47;
