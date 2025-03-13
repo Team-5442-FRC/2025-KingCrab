@@ -152,7 +152,7 @@ double combinedHeight = 0;
   }
 
   public double getSideToSide() {
-    return -(((RobotContainer.side2SideMotor.getEncoder().getPosition() / 9) * (30/26d)) + elevatorConstants.Side2SideOffset); // TODO figure out why it needs the 5/3 constant (incorrect gearbox ratio?)
+    return -(((RobotContainer.side2SideMotor.getEncoder().getPosition() / 9) * (30/26d)) + elevatorConstants.Side2SideOffset);
   }
   
 }

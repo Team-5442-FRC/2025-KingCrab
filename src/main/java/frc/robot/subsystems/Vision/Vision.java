@@ -21,22 +21,18 @@ import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.Telemetry;
 import frc.robot.Constants.visionConstants;
 
 
-public class Vision extends SubsystemBase {
+public class Vision implements Runnable {
   
   ArrayList<CalculatedCamera> cameras = new ArrayList<CalculatedCamera>(); // the binder binder of binding binders like melvin sneedly invented at his 5th grade invention convention in the hit movie the first epic captain underpants movie
 
   
     public static CalculatedPhotonVision FrontRightM1Cam = new CalculatedPhotonVision("Front Right (M1)", visionConstants.FrontRightM1CamOffset);
-    // public static CalculatedPhotonVision FrontLeftM2Cam = new CalculatedPhotonVision("Front Left (M2)", visionConstants.FrontLeftM2CamOffset);
-    // public final static CalculatedPhotonVision MicrosoftCamera = new CalculatedPhotonVision("Microsoft_Camera",visionConstants.MicrosoftCameraOffset);
-    // public final static CalculatedPhotonVision ThriftyCamera = new CalculatedPhotonVision("Thrifty_Camera",visionConstants.ThriftyCameraOffset);
-    // public final static CalculatedPhotonVision GenoCamera = new CalculatedPhotonVision("Geno_Camera", visionConstants.GenoCameraOffset); // geno camera
+    public static CalculatedPhotonVision FrontLeftM2Cam = new CalculatedPhotonVision("Front Left (M2)", visionConstants.FrontLeftM2CamOffset);
     // public final static CalculatedLimelight LimelightMain = new CalculatedLimelight("limelight-main");
 
     PhotonPoseEstimator microsoftPoseEstimator = new PhotonPoseEstimator(AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape), PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, new Transform3d(new Translation3d(0,0,0), new Rotation3d(0,0,0)));
@@ -45,11 +41,8 @@ public class Vision extends SubsystemBase {
     Telemetry logger = RobotContainer.logger;
 
   public Vision() {
-    cameras.add(FrontRightM1Cam);
-    // cameras.add(FrontLeftM2Cam);
-    // cameras.add(MicrosoftCamera);
-    // cameras.add(ThriftyCamera);
-    // cameras.add(GenoCamera);
+    // cameras.add(FrontRightM1Cam); TODO PLASDJFLASDJFLKJASDLKFJASDLKJFALSKDJFLK;ASHVPH AIUVAOFPSID FPOASDH FPASH VPOFASH PODHSAPODHFPOIASDHFASHDOPFIHASDOP IHF AS
+    cameras.add(FrontLeftM2Cam);
   }
 
   public boolean hasTarget() {
@@ -115,7 +108,7 @@ public class Vision extends SubsystemBase {
   }
   
   @Override
-  public void periodic() {
+  public void run() {
     // Update camera readings to be in sync with the robot
     for (CalculatedCamera camera: cameras) {
       camera.updateResult();
@@ -129,10 +122,10 @@ public class Vision extends SubsystemBase {
     SmartDashboard.putNumber("FR Camera R", FrontRightM1Cam.getTargetPose().getRotation().getDegrees());
     SmartDashboard.putNumber("FR Camera Trust", FrontRightM1Cam.getTrust());
     
-    // SmartDashboard.putNumber("FL Camera X", FrontLeftM2Cam.getTargetPose().getX());
-    // SmartDashboard.putNumber("FL Camera Y", FrontLeftM2Cam.getTargetPose().getY());
-    // SmartDashboard.putNumber("FL Camera R", FrontLeftM2Cam.getTargetPose().getRotation().getDegrees());
-    // SmartDashboard.putNumber("FL Camera Trust", FrontLeftM2Cam.getTrust());
+    SmartDashboard.putNumber("FL Camera X", FrontLeftM2Cam.getTargetPose().getX());
+    SmartDashboard.putNumber("FL Camera Y", FrontLeftM2Cam.getTargetPose().getY());
+    SmartDashboard.putNumber("FL Camera R", FrontLeftM2Cam.getTargetPose().getRotation().getDegrees());
+    SmartDashboard.putNumber("FL Camera Trust", FrontLeftM2Cam.getTrust());
     
     SmartDashboard.putNumber("Camera Field X" , getFieldPose().getX());
     SmartDashboard.putNumber("Camera Field Y" , getFieldPose().getY());

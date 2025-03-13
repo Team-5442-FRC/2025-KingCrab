@@ -156,7 +156,6 @@ public class Arm extends SubsystemBase {
   //   return lowerArmLimit;
   // }
   
-  //TODO, need to do math to find it at some point
   public double getAngle(){
     return (-(RobotContainer.pivotEncoder.get() - armConstants.RotateEncoderOffset) + 0.25) * 2 * Math.PI; /*The arm will always be extended forward (real)*/
   }

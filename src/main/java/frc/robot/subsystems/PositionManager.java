@@ -10,7 +10,6 @@ import com.pathplanner.lib.path.PathConstraints;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
@@ -159,7 +158,6 @@ public class PositionManager extends SubsystemBase {
       // // targetExtend = calculateArmExtend(reefLevel, robotPose.getX());
       // targetHeight = calculateHeight(targetPivot, reefLevelToHeight(reefLevel));
       // targetSideToSide = calculateSideToSide(robotPose.getY(), isReefRight);
-      // targetSideToSide = 0; // TODO - DELETEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE
 
       // updatePositions(targetPivot, /*targetExtend,*/ targetHeight, targetSideToSide);
 
@@ -196,9 +194,13 @@ public class PositionManager extends SubsystemBase {
       rOffset = -robotPose.getRotation().getRadians();
     }
 
-    xSpeed = RobotContainer.Deadzone((xOffset * Math.cos(rOffset)) - (yOffset * Math.sin(rOffset)) * fieldConstants.DrivekP, fieldConstants.DriveMinAutoSpeed);
-    ySpeed = RobotContainer.Deadzone((yOffset * Math.cos(rOffset)) + (xOffset * Math.sin(rOffset)) * fieldConstants.DrivekP, fieldConstants.DriveMinAutoSpeed);
-    rSpeed = RobotContainer.Deadzone(rOffset * fieldConstants.RotatekP, fieldConstants.DriveMinAutoSpeed);
+    double xSpeedTemp = RobotContainer.Deadzone(((xOffset * Math.cos(rOffset)) - (yOffset * Math.sin(rOffset))) * fieldConstants.DrivekP, fieldConstants.DriveMinAutoSpeed);
+    double ySpeedTemp = RobotContainer.Deadzone(((yOffset * Math.cos(rOffset)) + (xOffset * Math.sin(rOffset))) * fieldConstants.DrivekP, fieldConstants.DriveMinAutoSpeed);
+    xSpeed = RobotContainer.Cosine(xSpeedTemp, ySpeedTemp, 0.5);
+    ySpeed = RobotContainer.Sine(xSpeedTemp, ySpeedTemp, 0.5);
+    double rSpeedTemp = RobotContainer.Deadzone(rOffset * fieldConstants.RotatekP, fieldConstants.DriveMinAutoSpeed);
+    if (rSpeedTemp >= 0) rSpeed = Math.pow(rSpeedTemp, 0.5);
+    else rSpeed = -Math.pow(-rSpeedTemp, 0.5);
 
     
     if (RobotContainer.xbox1.getYButtonPressed() && !autoDriveToTag.isScheduled()) {

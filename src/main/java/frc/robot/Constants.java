@@ -63,18 +63,18 @@ public class Constants {
 
     public static final class elevatorConstants {
       
-        public final static double ArmRightLimit = -5; // Inches; -Y
+        public final static double ArmRightLimit = -7; // Inches; -Y
         public final static double ArmLeftLimit = 1.5; // Inches; +Y
 
-        public final static double ArmTopLimit = 60.0 - 0.5; // Was 60.75 //TODO add correct limit z-axis
-        public final static double ArmBottomLimit = 10.75 + 0.25; //TODO add correct limit z-axis
+        public final static double ArmTopLimit = 60.0 - 0.5; // Was 60.75
+        public final static double ArmBottomLimit = 10.75 + 0.25;
 
         public final static double Side2SideSpeedFactor = 0.5;
         public final static double UpAndDownSpeedFactor = 0.4;
 
         public final static double UpAndDownOffset = 0.059; //Rotations at the lowest point
         public final static double PivotToFloorOffset = 10.75; //Inches from floor to pivot point at lowest position
-        public final static double InchesPerRotation = 10.95; // Was 11.3125  //TODO Do more research - Inches for every full rotation of the elevator encoder 
+        public final static double InchesPerRotation = 10.95; // Was 11.3125 
 
         public final static double Side2SideOffset = 0; // Inches; offset if starting from center
 
@@ -138,7 +138,7 @@ public class Constants {
 
         // public final static Transform3d FrontRightM1CamOffset = new Transform3d(0.12065, -0.3683, 0.301625, new Rotation3d(Math.toRadians(90), 0, Math.toRadians(42.04))); // Old Mount (in between M1 and M4)
         // public final static Transform3d FrontRightM1CamOffset = new Transform3d(0.2852, -0.1328, 0.301625, new Rotation3d(Math.toRadians(-90), Math.toRadians(16.7), Math.toRadians(14))); // Other mount (front of robot)
-        public final static Transform3d FrontRightM1CamOffset = new Transform3d(0.1398, -0.3557, 0.301625, new Rotation3d(0, 0, Math.toRadians(35)));
+        public final static Transform3d FrontRightM1CamOffset = new Transform3d(0.1398, -0.3557, 0.301625, new Rotation3d(0, 0, Math.toRadians(33.5)));
         // public final static Transform3d FrontLeftM2CamOffset = new Transform3d(0.2259, 0.1287, 0.301625, new Rotation3d(Math.toRadians(-15.3), Math.toRadians(30), Math.toRadians(-28.7)));
         public final static Transform3d FrontLeftM2CamOffset = new Transform3d(0.1249, -0.138, 0.301625, new Rotation3d(0, Math.toRadians(20), Math.toRadians(15)));
         // public final static Transform3d MicrosoftCameraOffset = new Transform3d(0, 0, 0, new Rotation3d(0,0,0));
@@ -196,7 +196,7 @@ public class Constants {
         public final static double AlgaeL2Height = 32;
         public final static double AlgaeL3Height = 47;
         public final static double CoralStationHeight = 25; // Bottom of station is 37.5 inches
-        public final static double BargeShootHeight = 100; //TODO
+        public final static double BargeShootHeight = 100;
         public final static double FloorPickupHeight = 0;
 
       
