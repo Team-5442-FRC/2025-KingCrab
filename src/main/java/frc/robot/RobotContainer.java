@@ -6,8 +6,6 @@ package frc.robot;
 
 import java.util.function.BooleanSupplier;
 
-import org.photonvision.PhotonCamera;
-
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
@@ -16,6 +14,7 @@ import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -83,7 +82,7 @@ public class RobotContainer {
     // Manipulator
     public static Manipulator manipulator = new Manipulator();
     public static ManipulatorCommand manipulatorCommand = new ManipulatorCommand(); // Try to say that five times fast
-    public static TalonFX manipulatorIntakeMotor = new TalonFX(26); //TODO add the right motor ids
+    public static TalonFX manipulatorIntakeMotor = new TalonFX(26);
     public static SparkMax wristMotor = new SparkMax(21, MotorType.kBrushless);
     public static DigitalInput manipulatorProxSensor = new DigitalInput(8);
 
@@ -108,6 +107,7 @@ public class RobotContainer {
 
     // Vision
     public static Vision vision = new Vision();
+    public static Notifier visionThread = new Notifier(vision);
 
     // Other?
     public static boolean hasFieldOriented = false;
@@ -133,6 +133,7 @@ public class RobotContainer {
         climber.setDefaultCommand(climberCommand);
         positionManager.setDefaultCommand(positionManagerCommand);
 
+        visionThread.startPeriodic(0.1);
 
         configureBindings();
     }
@@ -205,12 +206,22 @@ public class RobotContainer {
         y = Deadzone(y);
         return Math.pow(Math.sqrt((x*x)+(y*y)), driveConstants.Linearity) * Math.cos(Math.atan2(y,x));
     }
+    public static double Cosine(double x, double y, double exp) {
+        x = Deadzone(x);
+        y = Deadzone(y);
+        return Math.pow(Math.sqrt((x*x)+(y*y)), exp) * Math.cos(Math.atan2(y,x));
+    }
 
     ///// Controller X value curving \\\\\
     public static double Sine(double x, double y) {
         x = Deadzone(x);
         y = Deadzone(y);
         return Math.pow(Math.sqrt((x*x)+(y*y)), driveConstants.Linearity) * Math.sin(Math.atan2(y,x));
+    }
+    public static double Sine(double x, double y, double exp) {
+        x = Deadzone(x);
+        y = Deadzone(y);
+        return Math.pow(Math.sqrt((x*x)+(y*y)), exp) * Math.sin(Math.atan2(y,x));
     }
 
     public Command getAutonomousCommand() {

@@ -10,7 +10,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
-import frc.robot.Constants.visionConstants;
 
 /** It's like the instructions for making an apple pie. */
 public class CalculatedPhotonVision extends CalculatedCamera {

@@ -22,7 +22,7 @@
 //   double leftSpeed;
 //   double rightSpeed;
 //   double pivotSpeed;
-//   double targetAngle = intakeConstants.PivotAngleAlgae; // TODO Update position to inside frame!
+//   double targetAngle = intakeConstants.PivotAngleAlgae;
 //   PIDController pivotPID = new PIDController(intakeConstants.IntakePIDkp, intakeConstants.IntakePIDki, intakeConstants.IntakePIDkd);
 
 //   /** Creates a new Intake. */
