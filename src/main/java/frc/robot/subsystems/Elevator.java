@@ -21,9 +21,9 @@ double side2SideCurrentPos = 0;
 double upAndDownCurrentPos = elevatorConstants.PivotToFloorOffset;
 double side2SideSpeed = 0;
 double upAndDownSpeed = 0;
-PIDController upAndDownPID = new PIDController(0.075, 0, 0); // D was 0.02
+PIDController upAndDownPID = new PIDController(0.075, 0.0025, 0); // D was 0.02
 PIDController side2sidePID = new PIDController(0.1, 0, 0);
-SlewRateLimiter upAndDownLimiter = new SlewRateLimiter(4); // Units per second; rateLimit of 2 means 0% to 100% in half a second
+SlewRateLimiter upAndDownLimiter = new SlewRateLimiter(3); // Units per second; rateLimit of 2 means 0% to 100% in half a second
 SlewRateLimiter sideToSideLimiter = new SlewRateLimiter(4);
 
 // Counters for encoder rotations
