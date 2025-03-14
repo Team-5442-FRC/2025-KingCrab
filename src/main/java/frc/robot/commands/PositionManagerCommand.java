@@ -52,7 +52,7 @@ public class PositionManagerCommand extends Command {
         // RobotContainer.positionManager.calculateArmExtend(target[0], 0.5),
         RobotContainer.positionManager.calculateHeight(RobotContainer.positionManager.calculateArmPivot(target[0]),
         RobotContainer.positionManager.reefLevelToHeight(target[0])),
-        RobotContainer.positionManager.calculateSideToSide(0, target[1] % 2 == 0),
+        RobotContainer.positionManager.calculateSideToSide(0, target[1] % 2 == 1),
         RobotContainer.positionManager.calculateWristAngle(target[0])
       );
     }

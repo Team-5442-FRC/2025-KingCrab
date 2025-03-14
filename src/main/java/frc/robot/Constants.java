@@ -63,8 +63,8 @@ public class Constants {
 
     public static final class elevatorConstants {
       
-        public final static double ArmRightLimit = -7; // Inches; -Y
-        public final static double ArmLeftLimit = 1.5; // Inches; +Y
+        public final static double ArmRightLimit = -6.5; // Inches; -Y
+        public final static double ArmLeftLimit = 3; // Inches; +Y
 
         public final static double ArmTopLimit = 60.0 - 0.5; // Was 60.75
         public final static double ArmBottomLimit = 10.75 + 0.25;
@@ -159,12 +159,15 @@ public class Constants {
 
         // Optimal Drive Distances: Meters
         public final static double DriveL2andL3X = 0.5875; // Meters; optimal X distance away from the tag
+        public final static double DriveL4X = 0.59; // Meters; optimal x distance away from the tag
         public final static double DriveAlgaeX = 1; // Meters; optimal x distance away from the tag
         public final static double DriveCoralX = 0.65;
-        public final static double DriveLeftY = 0.14; // Meters; optimal Y distance from tag for left pole
-        public final static double DriveRightY = -0.04; // Meters; optimal Y distance from tag for left pole
+        public final static double DriveLeftY = 0.1; // Meters; optimal Y distance from tag for left pole
+        public final static double DriveRightY = 0; // Meters; optimal Y distance from tag for left pole
 
-        public final static double DriveMinAutoSpeed = 0;
+        public final static double DriveMinAutoSpeedX = 0.1;
+        public final static double DriveMinAutoSpeedY = 0.01;
+        public final static double DriveminAutoSpeedR = 0.1;
         public final static double DrivekP = 2;
         public final static double RotatekP = 5;
 
@@ -174,7 +177,7 @@ public class Constants {
         public final static double L1Angle = 100;
         public final static double L2Angle = 145;
         public final static double L3Angle = 145;
-        public final static double L4Angle = 135;
+        public final static double L4Angle = 150;
         public final static double AlgaeAngle = 100;
         public final static double CoralStationAngle = 150;
         public final static double BargeShootAngle = 160;
@@ -190,8 +193,8 @@ public class Constants {
         public final static double TagToL4XOffset = 2.0498;
 
         public final static double L1Height = 20; // Was 18
-        public final static double L2Height = 30; // Was 31.875
-        public final static double L3Height = 45; // Was 47.75
+        public final static double L2Height = 32; // Was 31.875
+        public final static double L3Height = 47; // Was 47.75
         public final static double L4Height = 100; // Was 71.75
         public final static double AlgaeL2Height = 32;
         public final static double AlgaeL3Height = 47;

@@ -207,8 +207,8 @@ public class RobotContainer {
         return Math.pow(Math.sqrt((x*x)+(y*y)), driveConstants.Linearity) * Math.cos(Math.atan2(y,x));
     }
     public static double Cosine(double x, double y, double exp) {
-        x = Deadzone(x);
-        y = Deadzone(y);
+        x = Deadzone(x, 0);
+        y = Deadzone(y, 0);
         return Math.pow(Math.sqrt((x*x)+(y*y)), exp) * Math.cos(Math.atan2(y,x));
     }
 
@@ -219,8 +219,8 @@ public class RobotContainer {
         return Math.pow(Math.sqrt((x*x)+(y*y)), driveConstants.Linearity) * Math.sin(Math.atan2(y,x));
     }
     public static double Sine(double x, double y, double exp) {
-        x = Deadzone(x);
-        y = Deadzone(y);
+        x = Deadzone(x, 0);
+        y = Deadzone(y, 0);
         return Math.pow(Math.sqrt((x*x)+(y*y)), exp) * Math.sin(Math.atan2(y,x));
     }
 

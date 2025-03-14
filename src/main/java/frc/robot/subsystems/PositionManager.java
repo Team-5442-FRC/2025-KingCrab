@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.armConstants;
+import frc.robot.Constants.elevatorConstants;
 import frc.robot.Constants.fieldConstants;
 
 public class PositionManager extends SubsystemBase {
@@ -131,8 +132,10 @@ public class PositionManager extends SubsystemBase {
 
   public double calculateSideToSide(double y, boolean isReefRight) {
     if (isAlgae) return 0;
-    if (isReefRight) return fieldConstants.ReefSideToSide + mToIn(y);
-    else return -fieldConstants.ReefSideToSide + mToIn(y);
+    // if (isReefRight) return fieldConstants.ReefSideToSide + mToIn(y);
+    if (isReefRight) return elevatorConstants.ArmRightLimit;
+    // else return -fieldConstants.ReefSideToSide + mToIn(y);
+    else return elevatorConstants.ArmLeftLimit;
   }
 
   public Command generatePathToTag(int aprilTag) {
@@ -171,7 +174,8 @@ public class PositionManager extends SubsystemBase {
         yOffset = 0;
       }
       else {
-        xOffset = robotPose.getX() - fieldConstants.DriveL2andL3X;
+        if (reefLevel == 4) xOffset = robotPose.getX() - fieldConstants.DriveL4X;
+        else xOffset = robotPose.getX() - fieldConstants.DriveL2andL3X;
         if (isReefRight) yOffset = robotPose.getY() + fieldConstants.DriveRightY;
         else yOffset = robotPose.getY() + fieldConstants.DriveLeftY;
       }
@@ -194,11 +198,11 @@ public class PositionManager extends SubsystemBase {
       rOffset = -robotPose.getRotation().getRadians();
     }
 
-    double xSpeedTemp = RobotContainer.Deadzone(((xOffset * Math.cos(rOffset)) - (yOffset * Math.sin(rOffset))) * fieldConstants.DrivekP, fieldConstants.DriveMinAutoSpeed);
-    double ySpeedTemp = RobotContainer.Deadzone(((yOffset * Math.cos(rOffset)) + (xOffset * Math.sin(rOffset))) * fieldConstants.DrivekP, fieldConstants.DriveMinAutoSpeed);
-    xSpeed = RobotContainer.Cosine(xSpeedTemp, ySpeedTemp, 0.5);
-    ySpeed = RobotContainer.Sine(xSpeedTemp, ySpeedTemp, 0.5);
-    double rSpeedTemp = RobotContainer.Deadzone(rOffset * fieldConstants.RotatekP, fieldConstants.DriveMinAutoSpeed);
+    double xSpeedTemp = ((xOffset * Math.cos(rOffset)) - (yOffset * Math.sin(rOffset))) * fieldConstants.DrivekP;
+    double ySpeedTemp = ((yOffset * Math.cos(rOffset)) + (xOffset * Math.sin(rOffset))) * fieldConstants.DrivekP;
+    xSpeed = RobotContainer.Deadzone(RobotContainer.Cosine(xSpeedTemp, ySpeedTemp, 0.5), fieldConstants.DriveMinAutoSpeedX);
+    ySpeed = RobotContainer.Deadzone(RobotContainer.Sine(xSpeedTemp, ySpeedTemp, 0.5), fieldConstants.DriveMinAutoSpeedY);
+    double rSpeedTemp = RobotContainer.Deadzone(rOffset * fieldConstants.RotatekP, fieldConstants.DriveminAutoSpeedR);
     if (rSpeedTemp >= 0) rSpeed = Math.pow(rSpeedTemp, 0.5);
     else rSpeed = -Math.pow(-rSpeedTemp, 0.5);
 
