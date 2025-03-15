@@ -8,6 +8,7 @@ import java.util.function.BooleanSupplier;
 
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 
@@ -27,6 +28,7 @@ import frc.robot.commands.ClimberCommand;
 import frc.robot.commands.ElevatorCommand;
 import frc.robot.commands.ManipulatorCommand;
 import frc.robot.commands.PositionManagerCommand;
+import frc.robot.commands.autoCommands.AutoCommands;
 // import frc.robot.commands.IntakeCommand;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Arm;
@@ -109,6 +111,37 @@ public class RobotContainer {
     public static Vision vision = new Vision();
     public static Notifier visionThread = new Notifier(vision);
 
+    // Autonomous
+    // public static Command PlaceReef = AutoCommands.placeReef4L4Command;
+    public static Command PlaceReef = new Command() {
+
+        @Override
+        public void initialize() {
+            positionManager.setReefTarget(true, 4, 4, false);
+            isAutomaticPositioningMode = true;
+            isAutomaticDriveMode = true;
+        }
+        
+        @Override
+        public void execute() {
+            isAutomaticPositioningMode = true;
+            isAutomaticDriveMode = true;
+            // System.out.println("got here");
+        }
+
+        @Override
+        public void end(boolean interrupted) {
+            RobotContainer.isAutomaticPositioningMode = false;
+            RobotContainer.isAutomaticDriveMode = false;
+        }
+
+        @Override
+        public boolean isFinished() {
+            return false;
+            // return RobotContainer.positionManager.xSpeed <= 0.5 && RobotContainer.positionManager.ySpeed <= 0.5 && RobotContainer.positionManager.ySpeed <= 1;
+        }
+    };
+
     // Other?
     public static boolean hasFieldOriented = false;
     public static Trigger autoDriveToTag = new Trigger(new BooleanSupplier() {
@@ -123,6 +156,9 @@ public class RobotContainer {
     private final SendableChooser<Command> autoChooser;
 
     public RobotContainer() {
+        // Named commands must be placed before autochooser!
+        NamedCommands.registerCommand("Place Reef", PlaceReef);
+
         autoChooser = AutoBuilder.buildAutoChooser("None");
         SmartDashboard.putData("Auto Mode", autoChooser);
 

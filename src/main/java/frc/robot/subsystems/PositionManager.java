@@ -20,6 +20,7 @@ import frc.robot.RobotContainer;
 import frc.robot.Constants.armConstants;
 import frc.robot.Constants.elevatorConstants;
 import frc.robot.Constants.fieldConstants;
+import frc.robot.Robot;
 
 public class PositionManager extends SubsystemBase {
 
@@ -230,5 +231,8 @@ public class PositionManager extends SubsystemBase {
     SmartDashboard.putNumber("Auto Drive X", xSpeed);
     SmartDashboard.putNumber("Auto Drive Y", ySpeed);
     SmartDashboard.putNumber("Auto Drive R", rSpeed);
+
+    SmartDashboard.putBoolean("Auto Drive Enabled", RobotContainer.isAutomaticDriveMode);
+    SmartDashboard.putBoolean("isAutonomous", Robot.isAutonomous);
   }
 }
