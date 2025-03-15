@@ -9,6 +9,7 @@ import static edu.wpi.first.units.Units.*;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.util.Units;
 import frc.robot.generated.TunerConstants;
 
 
@@ -69,7 +70,7 @@ public class Constants {
         public final static double ArmTopLimit = 60.0 - 0.5; // Was 60.75
         public final static double ArmBottomLimit = 10.75 + 0.25;
 
-        public final static double Side2SideSpeedFactor = 0.5;
+        public final static double Side2SideSpeedFactor = 1;
         public final static double UpAndDownSpeedFactor = 0.4;
 
         public final static double UpAndDownOffset = 0.059; //Rotations at the lowest point
@@ -162,8 +163,8 @@ public class Constants {
         public final static double DriveL4X = 0.59; // Meters; optimal x distance away from the tag
         public final static double DriveAlgaeX = 1; // Meters; optimal x distance away from the tag
         public final static double DriveCoralX = 0.65;
-        public final static double DriveLeftY = 0.1; // Meters; optimal Y distance from tag for left pole
-        public final static double DriveRightY = 0; // Meters; optimal Y distance from tag for left pole
+        public final static double DriveLeftY = 0.1 + Units.inchesToMeters(elevatorConstants.ArmLeftLimit); // Meters; optimal Y distance from tag for left pole
+        public final static double DriveRightY = 0 + Units.inchesToMeters(elevatorConstants.ArmRightLimit); // Meters; optimal Y distance from tag for left pole
 
         public final static double DriveMinAutoSpeedX = 0.1;
         public final static double DriveMinAutoSpeedY = 0.01;

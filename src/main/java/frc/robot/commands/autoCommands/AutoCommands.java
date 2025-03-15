@@ -11,11 +11,11 @@ import frc.robot.RobotContainer;
 
 /** Add your docs here. */
 public class AutoCommands {
-    public static Command placeReef4L4Command = new Command() {
+    public static Command placeReef4R4Command = new Command() {
 
         @Override
         public void initialize() {
-            RobotContainer.positionManager.setReefTarget(false, 4, 4, false);
+            RobotContainer.positionManager.setReefTarget(true, 4, 4, false);
             RobotContainer.isAutomaticPositioningMode = true;
             RobotContainer.isAutomaticDriveMode = true;
         }
@@ -24,12 +24,13 @@ public class AutoCommands {
         public void execute() {
             RobotContainer.isAutomaticPositioningMode = true;
             RobotContainer.isAutomaticDriveMode = true;
+            System.out.println("got here");
         }
 
         @Override
         public void end(boolean interrupted) {
-            RobotContainer.isAutomaticPositioningMode = false;
-            RobotContainer.isAutomaticDriveMode = false;
+            // RobotContainer.isAutomaticPositioningMode = false;
+            // RobotContainer.isAutomaticDriveMode = false;
         }
 
         @Override

@@ -5,15 +5,15 @@
     "data": {
       "commands": [
         {
-          "type": "path",
-          "data": {
-            "pathName": "BC Place"
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": "Place Reef"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BC Place"
           }
         }
       ]

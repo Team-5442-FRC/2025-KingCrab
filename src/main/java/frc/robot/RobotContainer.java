@@ -112,35 +112,35 @@ public class RobotContainer {
     public static Notifier visionThread = new Notifier(vision);
 
     // Autonomous
-    // public static Command PlaceReef = AutoCommands.placeReef4L4Command;
-    public static Command PlaceReef = new Command() {
+    public static Command PlaceReef = AutoCommands.placeReef4R4Command;
+    // public static Command PlaceReef = new Command() {
 
-        @Override
-        public void initialize() {
-            positionManager.setReefTarget(true, 4, 4, false);
-            isAutomaticPositioningMode = true;
-            isAutomaticDriveMode = true;
-        }
+    //     @Override
+    //     public void initialize() {
+    //         positionManager.setReefTarget(true, 4, 4, false);
+    //         isAutomaticPositioningMode = true;
+    //         isAutomaticDriveMode = true;
+    //     }
         
-        @Override
-        public void execute() {
-            isAutomaticPositioningMode = true;
-            isAutomaticDriveMode = true;
-            // System.out.println("got here");
-        }
+    //     @Override
+    //     public void execute() {
+    //         isAutomaticPositioningMode = true;
+    //         isAutomaticDriveMode = true;
+    //         // System.out.println("got here");
+    //     }
 
-        @Override
-        public void end(boolean interrupted) {
-            RobotContainer.isAutomaticPositioningMode = false;
-            RobotContainer.isAutomaticDriveMode = false;
-        }
+    //     @Override
+    //     public void end(boolean interrupted) {
+    //         RobotContainer.isAutomaticPositioningMode = false;
+    //         RobotContainer.isAutomaticDriveMode = false;
+    //     }
 
-        @Override
-        public boolean isFinished() {
-            return false;
-            // return RobotContainer.positionManager.xSpeed <= 0.5 && RobotContainer.positionManager.ySpeed <= 0.5 && RobotContainer.positionManager.ySpeed <= 1;
-        }
-    };
+    //     @Override
+    //     public boolean isFinished() {
+    //         return false;
+    //         // return RobotContainer.positionManager.xSpeed <= 0.5 && RobotContainer.positionManager.ySpeed <= 0.5 && RobotContainer.positionManager.ySpeed <= 1;
+    //     }
+    // };
 
     // Other?
     public static boolean hasFieldOriented = false;
