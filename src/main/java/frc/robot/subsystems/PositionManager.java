@@ -20,6 +20,7 @@ import frc.robot.RobotContainer;
 import frc.robot.Constants.armConstants;
 import frc.robot.Constants.elevatorConstants;
 import frc.robot.Constants.fieldConstants;
+import frc.robot.Robot;
 
 public class PositionManager extends SubsystemBase {
 
@@ -74,6 +75,7 @@ public class PositionManager extends SubsystemBase {
     if (reefLevel == 4) return fieldConstants.L4Height;
     if (reefLevel == 5) return fieldConstants.CoralStationHeight; // 5 is Coral Station
     if (reefLevel == 6) return fieldConstants.FloorPickupHeight; // 6 is Floor Pickup
+    if (reefLevel == 7) return fieldConstants.ProcessorHeight; // 7 is Algae Processor
     return fieldConstants.L2Height;
   }
 
@@ -101,6 +103,7 @@ public class PositionManager extends SubsystemBase {
     if (isAlgae && reefLevel == 4) return Math.toRadians(fieldConstants.BargeShootAngle);
     if (reefLevel == 5) return Math.toRadians(fieldConstants.CoralStationAngle); // 5 means Coral Station
     if (reefLevel == 6) return Math.toRadians(fieldConstants.FloorPickupAngle); // 6 means Floor Pickup
+    if (reefLevel == 7) return Math.toRadians(fieldConstants.ProcessorAngle); // 7 means Algae Processor
     
     return Math.toRadians(fieldConstants.ErrorAngle);
   }
@@ -108,7 +111,7 @@ public class PositionManager extends SubsystemBase {
   public double calculateWristAngle(int reefLevel) {
     if (isAlgae && (reefLevel >= 2 && reefLevel <= 4)) return Math.toRadians(90);
     if (!isAlgae && (reefLevel >= 2 && reefLevel <= 4)) return 0;
-    if (reefLevel == 1 || reefLevel == 5 || reefLevel == 6) return Math.toRadians(90);
+    if (reefLevel == 1 || reefLevel == 5 || reefLevel == 6 || reefLevel == 7) return Math.toRadians(90);
     return 0;
   }
 
@@ -171,10 +174,11 @@ public class PositionManager extends SubsystemBase {
 
       if (isAlgae) {
         xOffset = robotPose.getX() - fieldConstants.DriveAlgaeX;
-        yOffset = 0;
+        yOffset = robotPose.getY();
       }
       else {
-        if (reefLevel == 4) xOffset = robotPose.getX() - fieldConstants.DriveL4X;
+        if (reefLevel == 1) xOffset = robotPose.getX() - fieldConstants.DriveL1X;
+        else if (reefLevel == 4) xOffset = robotPose.getX() - fieldConstants.DriveL4X;
         else xOffset = robotPose.getX() - fieldConstants.DriveL2andL3X;
         if (isReefRight) yOffset = robotPose.getY() + fieldConstants.DriveRightY;
         else yOffset = robotPose.getY() + fieldConstants.DriveLeftY;
@@ -186,7 +190,7 @@ public class PositionManager extends SubsystemBase {
       else RobotContainer.vision.getTagRelativePose(RobotContainer.drivetrain.getState().Pose, 13);
 
       xOffset = robotPose.getX() - fieldConstants.DriveCoralX;
-      yOffset = 0;
+      yOffset = robotPose.getY();
       rOffset = -robotPose.getRotation().getRadians();
     }
     else if (driveRightCoralStation) {
@@ -194,7 +198,7 @@ public class PositionManager extends SubsystemBase {
       else RobotContainer.vision.getTagRelativePose(RobotContainer.drivetrain.getState().Pose, 12);
 
       xOffset = robotPose.getX() - fieldConstants.DriveCoralX;
-      yOffset = 0;
+      yOffset = robotPose.getY();
       rOffset = -robotPose.getRotation().getRadians();
     }
 
@@ -230,5 +234,8 @@ public class PositionManager extends SubsystemBase {
     SmartDashboard.putNumber("Auto Drive X", xSpeed);
     SmartDashboard.putNumber("Auto Drive Y", ySpeed);
     SmartDashboard.putNumber("Auto Drive R", rSpeed);
+
+    SmartDashboard.putBoolean("Auto Drive Enabled", RobotContainer.isAutomaticDriveMode);
+    SmartDashboard.putBoolean("isAutonomous", Robot.isAutonomous);
   }
 }

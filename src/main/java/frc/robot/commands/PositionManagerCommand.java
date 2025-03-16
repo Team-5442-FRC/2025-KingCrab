@@ -5,7 +5,10 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Notifier;
+import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.RuntimeType;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.ButtonBox;
 
@@ -34,12 +37,14 @@ public class PositionManagerCommand extends Command {
     int[] target = ButtonBox.lookup(boxValue);
     boolean isAlgae = ButtonBox.isAlgae(boxValue);
 
-    RobotContainer.positionManager.setReefTarget(target[1] % 2 == 1, target[0], (target[1] / 2) + 1, isAlgae);
     // if (RobotContainer.xbox2.getRightBumperButton()) RobotContainer.isAutomaticPositioningMode = true;
     // else RobotContainer.isAutomaticPositioningMode = false;
-
-    if (RobotContainer.xbox1.getRightBumperButton() || RobotContainer.xbox1.getXButton() || RobotContainer.xbox1.getYButton()) RobotContainer.isAutomaticDriveMode = true;
-    else RobotContainer.isAutomaticDriveMode = false;
+    
+    if (!Robot.isAutonomous) {
+      RobotContainer.positionManager.setReefTarget(target[1] % 2 == 1, target[0], (target[1] / 2) + 1, isAlgae);
+      if (RobotContainer.xbox1.getRightBumperButton() || RobotContainer.xbox1.getXButton() || RobotContainer.xbox1.getBButton()) RobotContainer.isAutomaticDriveMode = true;
+      else RobotContainer.isAutomaticDriveMode = false;
+    }
 
     if (RobotContainer.xbox1.getXButton()) RobotContainer.positionManager.driveLeftCoralStation = true;
     else RobotContainer.positionManager.driveLeftCoralStation = false;
@@ -80,6 +85,15 @@ public class PositionManagerCommand extends Command {
         RobotContainer.positionManager.reefLevelToHeight(6)),
         0,
         RobotContainer.positionManager.calculateWristAngle(6)
+      );
+    }
+    if (RobotContainer.xbox2.getPOV() == 270) {
+      RobotContainer.positionManager.updatePositions(
+        RobotContainer.positionManager.calculateArmPivot(7),
+        RobotContainer.positionManager.calculateHeight(RobotContainer.positionManager.calculateArmPivot(7),
+        RobotContainer.positionManager.reefLevelToHeight(7)),
+        0,
+        RobotContainer.positionManager.calculateWristAngle(7)
       );
     }
   }
