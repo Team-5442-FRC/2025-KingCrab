@@ -112,6 +112,29 @@ public class RobotContainer {
     public static Notifier visionThread = new Notifier(vision);
 
     // Autonomous
+    public static Command testCommand = new Command() {
+        @Override
+        public void initialize() {
+            System.out.println("\n\nINITIALIZED\n\n");
+            isAutomaticPositioningMode = true;
+            // isAutomaticDriveMode = true;
+        }
+
+        @Override
+        public void execute() {
+            System.out.println("EXECUTING");
+        }
+
+        @Override
+        public void end(boolean interrupted) {
+            System.out.println("\n\nENDED\n\n");
+        }
+
+        @Override
+        public boolean isFinished() {
+            return false;
+        }
+    };
     public static Command PlaceReef = AutoCommands.placeReef4R4Command;
     // public static Command PlaceReef = new Command() {
 
@@ -150,18 +173,20 @@ public class RobotContainer {
             return isAutomaticDriveMode;
         };
     });
+    public static void setAutoOn() {
+        isAutomaticDriveMode = true;
+        isAutomaticPositioningMode = true;
+    }
+    public static void setAutoOff() {
+        isAutomaticDriveMode = false;
+        isAutomaticPositioningMode = false;
+    }
 
 
     /* Path follower */
     private final SendableChooser<Command> autoChooser;
 
     public RobotContainer() {
-        // Named commands must be placed before autochooser!
-        NamedCommands.registerCommand("Place Reef", PlaceReef);
-
-        autoChooser = AutoBuilder.buildAutoChooser("None");
-        SmartDashboard.putData("Auto Mode", autoChooser);
-
         elevator.setDefaultCommand(elevatorCommand);
         arm.setDefaultCommand(armCommand);
         manipulator.setDefaultCommand(manipulatorCommand);
@@ -169,7 +194,14 @@ public class RobotContainer {
         climber.setDefaultCommand(climberCommand);
         positionManager.setDefaultCommand(positionManagerCommand);
 
-        visionThread.startPeriodic(0.1);
+        // Named commands must be placed before autochooser!
+        NamedCommands.registerCommand("Place Reef", PlaceReef);
+        NamedCommands.registerCommand("Test Command", testCommand);
+
+        autoChooser = AutoBuilder.buildAutoChooser("None");
+        SmartDashboard.putData("Auto Mode", autoChooser);
+
+        visionThread.startPeriodic(0.05);
 
         configureBindings();
     }

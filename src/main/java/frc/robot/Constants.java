@@ -159,7 +159,8 @@ public class Constants {
     public static final class fieldConstants {
 
         // Optimal Drive Distances: Meters
-        public final static double DriveL2andL3X = 0.5875; // Meters; optimal X distance away from the tag
+        public final static double DriveL1X = 0.85; // Meters; optimal x distance away from the tag
+        public final static double DriveL2andL3X = 0.5875; // Meters; optimal x distance away from the tag
         public final static double DriveL4X = 0.59; // Meters; optimal x distance away from the tag
         public final static double DriveAlgaeX = 1; // Meters; optimal x distance away from the tag
         public final static double DriveCoralX = 0.65;
@@ -180,7 +181,8 @@ public class Constants {
         public final static double L3Angle = 145;
         public final static double L4Angle = 150;
         public final static double AlgaeAngle = 100;
-        public final static double CoralStationAngle = 150;
+        public final static double CoralStationAngle = 155;
+        public final static double ProcessorAngle = 100;
         public final static double BargeShootAngle = 160;
         public final static double FloorPickupAngle = 58;
         public final static double ErrorAngle = 145;
@@ -201,6 +203,7 @@ public class Constants {
         public final static double AlgaeL3Height = 47;
         public final static double CoralStationHeight = 25; // Bottom of station is 37.5 inches
         public final static double BargeShootHeight = 100;
+        public final static double ProcessorHeight = 0;
         public final static double FloorPickupHeight = 0;
 
       

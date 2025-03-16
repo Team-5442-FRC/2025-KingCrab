@@ -42,7 +42,7 @@ public class PositionManagerCommand extends Command {
     
     if (!Robot.isAutonomous) {
       RobotContainer.positionManager.setReefTarget(target[1] % 2 == 1, target[0], (target[1] / 2) + 1, isAlgae);
-      if (RobotContainer.xbox1.getRightBumperButton() || RobotContainer.xbox1.getXButton() || RobotContainer.xbox1.getYButton()) RobotContainer.isAutomaticDriveMode = true;
+      if (RobotContainer.xbox1.getRightBumperButton() || RobotContainer.xbox1.getXButton() || RobotContainer.xbox1.getBButton()) RobotContainer.isAutomaticDriveMode = true;
       else RobotContainer.isAutomaticDriveMode = false;
     }
 
@@ -85,6 +85,15 @@ public class PositionManagerCommand extends Command {
         RobotContainer.positionManager.reefLevelToHeight(6)),
         0,
         RobotContainer.positionManager.calculateWristAngle(6)
+      );
+    }
+    if (RobotContainer.xbox2.getPOV() == 270) {
+      RobotContainer.positionManager.updatePositions(
+        RobotContainer.positionManager.calculateArmPivot(7),
+        RobotContainer.positionManager.calculateHeight(RobotContainer.positionManager.calculateArmPivot(7),
+        RobotContainer.positionManager.reefLevelToHeight(7)),
+        0,
+        RobotContainer.positionManager.calculateWristAngle(7)
       );
     }
   }

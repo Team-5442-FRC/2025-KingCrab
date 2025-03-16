@@ -16,27 +16,23 @@ public class AutoCommands {
         @Override
         public void initialize() {
             RobotContainer.positionManager.setReefTarget(true, 4, 4, false);
-            RobotContainer.isAutomaticPositioningMode = true;
-            RobotContainer.isAutomaticDriveMode = true;
         }
-
+        
         @Override
         public void execute() {
-            RobotContainer.isAutomaticPositioningMode = true;
-            RobotContainer.isAutomaticDriveMode = true;
-            System.out.println("got here");
+            RobotContainer.setAutoOn();
+            System.out.println("\nGOT HERE\n");
         }
 
         @Override
         public void end(boolean interrupted) {
-            // RobotContainer.isAutomaticPositioningMode = false;
-            // RobotContainer.isAutomaticDriveMode = false;
+            RobotContainer.setAutoOff();
         }
 
         @Override
         public boolean isFinished() {
-            return false;
             // return RobotContainer.positionManager.xSpeed <= 0.5 && RobotContainer.positionManager.ySpeed <= 0.5 && RobotContainer.positionManager.ySpeed <= 1;
+            return false;
         }
     };
 }
