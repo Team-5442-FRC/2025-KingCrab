@@ -112,58 +112,12 @@ public class RobotContainer {
     public static Notifier visionThread = new Notifier(vision);
 
     // Autonomous
-    public static Command testCommand = new Command() {
-        @Override
-        public void initialize() {
-            System.out.println("\n\nINITIALIZED\n\n");
-            isAutomaticPositioningMode = true;
-            // isAutomaticDriveMode = true;
-        }
-
-        @Override
-        public void execute() {
-            System.out.println("EXECUTING");
-        }
-
-        @Override
-        public void end(boolean interrupted) {
-            System.out.println("\n\nENDED\n\n");
-        }
-
-        @Override
-        public boolean isFinished() {
-            return false;
-        }
-    };
-    public static Command PlaceReef = AutoCommands.placeReef4R4Command;
-    // public static Command PlaceReef = new Command() {
-
-    //     @Override
-    //     public void initialize() {
-    //         positionManager.setReefTarget(true, 4, 4, false);
-    //         isAutomaticPositioningMode = true;
-    //         isAutomaticDriveMode = true;
-    //     }
-        
-    //     @Override
-    //     public void execute() {
-    //         isAutomaticPositioningMode = true;
-    //         isAutomaticDriveMode = true;
-    //         // System.out.println("got here");
-    //     }
-
-    //     @Override
-    //     public void end(boolean interrupted) {
-    //         RobotContainer.isAutomaticPositioningMode = false;
-    //         RobotContainer.isAutomaticDriveMode = false;
-    //     }
-
-    //     @Override
-    //     public boolean isFinished() {
-    //         return false;
-    //         // return RobotContainer.positionManager.xSpeed <= 0.5 && RobotContainer.positionManager.ySpeed <= 0.5 && RobotContainer.positionManager.ySpeed <= 1;
-    //     }
-    // };
+    public static Command PlaceReef = AutoCommands.placeReef4R4;
+    public static Command DropR4 = AutoCommands.dropOnReefR4;
+    public static Command BackUp = AutoCommands.backUpR4;
+    public static Command PositionAlgae = AutoCommands.positionAlgae4;
+    public static Command GrabAlgae = AutoCommands.grabAlgae4;
+    public static Command BargeAlgae = AutoCommands.bargeAlgae;
 
     // Other?
     public static boolean hasFieldOriented = false;
@@ -173,14 +127,6 @@ public class RobotContainer {
             return isAutomaticDriveMode;
         };
     });
-    public static void setAutoOn() {
-        isAutomaticDriveMode = true;
-        isAutomaticPositioningMode = true;
-    }
-    public static void setAutoOff() {
-        isAutomaticDriveMode = false;
-        isAutomaticPositioningMode = false;
-    }
 
 
     /* Path follower */
@@ -196,7 +142,11 @@ public class RobotContainer {
 
         // Named commands must be placed before autochooser!
         NamedCommands.registerCommand("Place Reef", PlaceReef);
-        NamedCommands.registerCommand("Test Command", testCommand);
+        NamedCommands.registerCommand("Drop R4", DropR4);
+        NamedCommands.registerCommand("Back Up", BackUp);
+        NamedCommands.registerCommand("Position Algae", PositionAlgae);
+        NamedCommands.registerCommand("Grab Algae", GrabAlgae);
+        NamedCommands.registerCommand("Barge Algae", BargeAlgae);
 
         autoChooser = AutoBuilder.buildAutoChooser("None");
         SmartDashboard.putData("Auto Mode", autoChooser);

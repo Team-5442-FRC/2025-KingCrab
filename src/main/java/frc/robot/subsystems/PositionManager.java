@@ -210,6 +210,13 @@ public class PositionManager extends SubsystemBase {
     if (rSpeedTemp >= 0) rSpeed = Math.pow(rSpeedTemp, 0.5);
     else rSpeed = -Math.pow(-rSpeedTemp, 0.5);
 
+    // if (RobotContainer.isAutomaticDriveMode) RobotContainer.drivetrain.setControl(
+    //   DriveModes.driveRobot
+    //       .withVelocityX(xSpeed)
+    //       .withVelocityY(ySpeed)
+    //       .withRotationalRate(rSpeed)
+    // );
+
     
     if (RobotContainer.xbox1.getYButtonPressed() && !autoDriveToTag.isScheduled()) {
       autoDriveToTag = generatePathToTag(reefSideToAprilTag(reefSide));

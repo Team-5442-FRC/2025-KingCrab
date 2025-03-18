@@ -6,9 +6,6 @@ package frc.robot.subsystems.Vision;
 
 import java.util.ArrayList;
 
-import org.ejml.data.Matrix;
-import org.ejml.equation.MatrixConstructor;
-import org.ejml.simple.SimpleMatrix;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 
@@ -17,12 +14,15 @@ import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -44,6 +44,8 @@ public class Vision implements Runnable {
     PhotonPoseEstimator thriftyPoseEstimator = new PhotonPoseEstimator(AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape), PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, new Transform3d(new Translation3d(0,0,0), new Rotation3d(0,0,0)));
 
     Telemetry logger = RobotContainer.logger;
+
+    Matrix<N3, N1> visionStandardDeviation = VecBuilder.fill(0,0,30);
 
   public Vision() {
     cameras.add(FrontRightM1Cam);
@@ -119,10 +121,17 @@ public class Vision implements Runnable {
       camera.updateResult();
     }
 
+    // Update standard deviation based on trust
+    // if (FrontRightM1Cam.hasTarget()) {
+    //   visionStandardDeviation.set(0, 0, 1/FrontRightM1Cam.getTrust());
+    //   visionStandardDeviation.set(0, 1, 1/FrontRightM1Cam.getTrust());
+    // }
+
     // Add camera readings to odometry if they exist
     if (hasTarget()) RobotContainer.drivetrain.addVisionMeasurement(
       getFieldPose(),
-      Utils.fpgaToCurrentTime(Timer.getFPGATimestamp()) - 0.05
+      Utils.fpgaToCurrentTime(Timer.getFPGATimestamp()) - 0.05//,
+      // visionStandardDeviation
     );
 
     SmartDashboard.putNumber("FR Camera X", FrontRightM1Cam.getTargetPose().getX());
