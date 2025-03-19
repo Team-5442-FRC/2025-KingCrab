@@ -23,9 +23,15 @@ public class ClimberCommand extends Command {
   @Override
   public void execute() {
     // tests input to see if the input is greater than the deadzone and sets the climb motor speed to its ascosatied button pressing amount
-//What if you press down both triggers?
-    if (RobotContainer.Deadzone(RobotContainer.xbox1.getRightTriggerAxis()) > 0) RobotContainer.climber.setClimbSpeed(RobotContainer.xbox1.getRightTriggerAxis());
-    else if (RobotContainer.Deadzone(RobotContainer.xbox1.getLeftTriggerAxis()) > 0) RobotContainer.climber.setClimbSpeed(-RobotContainer.xbox1.getLeftTriggerAxis());
+    //What if you press down both triggers?  ¯\_(ツ)_/¯
+    if (RobotContainer.Deadzone(RobotContainer.xbox1.getRightTriggerAxis()) > 0) {
+      RobotContainer.climber.setClimbSpeed(-RobotContainer.xbox1.getRightTriggerAxis());
+      RobotContainer.climber.setServoAngle(180);
+    }
+    else if (RobotContainer.Deadzone(RobotContainer.xbox1.getLeftTriggerAxis()) > 0) {
+      RobotContainer.climber.setClimbSpeed(RobotContainer.xbox1.getLeftTriggerAxis());
+      RobotContainer.climber.setServoAngle(0);
+    }
     else RobotContainer.climber.setClimbSpeed(0);
   }
 

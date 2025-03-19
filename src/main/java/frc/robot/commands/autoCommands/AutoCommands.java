@@ -14,8 +14,12 @@ import frc.robot.subsystems.DriveModes;
 /** Add your docs here. */
 public class AutoCommands {
     public static Command placeReef4R4 = new Command() {
+        WaitCommand wait = new WaitCommand(3);
+
         @Override
         public void initialize() {
+            wait.schedule();
+
             RobotContainer.isAutomaticDriveMode = true;
 
             RobotContainer.positionManager.setReefTarget(true, 4, 4, false);
@@ -35,19 +39,19 @@ public class AutoCommands {
 
         @Override
         public boolean isFinished() {
-            // return false;
-            return RobotContainer.positionManager.xSpeed <= 0.1 && RobotContainer.positionManager.ySpeed <= 0.1 && RobotContainer.positionManager.rSpeed <= 1;
+            return wait.isFinished();
+            // return RobotContainer.positionManager.xSpeed <= 0.1 && RobotContainer.positionManager.ySpeed <= 0.1 && RobotContainer.positionManager.rSpeed <= 1;
         }
     };
 
 
 
     public static Command dropOnReefR4 = new Command() {
-        WaitCommand wait = new WaitCommand(2);
+        WaitCommand wait = new WaitCommand(0.5);
         
         @Override
         public void initialize() {
-            RobotContainer.arm.setTargetAngle(Math.toRadians(95));
+            RobotContainer.arm.setTargetAngle(Math.toRadians(110));
             wait.schedule();
         }
 
@@ -71,7 +75,7 @@ public class AutoCommands {
         public void execute() {
             RobotContainer.drivetrain.setControl(
                 DriveModes.driveRobot
-                    .withVelocityX(-0.1)
+                    .withVelocityX(-0.3)
                     .withVelocityY(0)
                     .withRotationalRate(0)
             );
@@ -89,13 +93,13 @@ public class AutoCommands {
         public void initialize() {
             RobotContainer.isAutomaticDriveMode = true;
 
-            RobotContainer.positionManager.setReefTarget(false, 3, 4, true);
+            RobotContainer.positionManager.setReefTarget(false, 2, 4, true);
             RobotContainer.positionManager.updatePositions(
-                RobotContainer.positionManager.calculateArmPivot(3),
-                RobotContainer.positionManager.calculateHeight(RobotContainer.positionManager.calculateArmPivot(3),
-                RobotContainer.positionManager.reefLevelToHeight(3)),
+                RobotContainer.positionManager.calculateArmPivot(2),
+                RobotContainer.positionManager.calculateHeight(RobotContainer.positionManager.calculateArmPivot(2),
+                RobotContainer.positionManager.reefLevelToHeight(2)),
                 0,
-                RobotContainer.positionManager.calculateWristAngle(3)
+                RobotContainer.positionManager.calculateWristAngle(2)
             );
         }
         
@@ -125,7 +129,7 @@ public class AutoCommands {
         public void execute() {
             RobotContainer.drivetrain.setControl(
                 DriveModes.driveRobot
-                    .withVelocityX(0.15)
+                    .withVelocityX(0.4)
                     .withVelocityY(0)
                     .withRotationalRate(0)
             );
@@ -168,6 +172,7 @@ public class AutoCommands {
         @Override
         public void end(boolean interrupted) {
             RobotContainer.manipulatorCommand.state = 0;
+
             RobotContainer.positionManager.updatePositions(
                 Math.toRadians(170),
                 0,

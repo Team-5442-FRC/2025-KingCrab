@@ -37,7 +37,8 @@ public class Vision implements Runnable {
 
   
     public static CalculatedPhotonVision FrontRightM1Cam = new CalculatedPhotonVision("Front Right (M1)", visionConstants.FrontRightM1CamOffset);
-    public static CalculatedPhotonVision FrontLeftM2Cam = new CalculatedPhotonVision("Front Left (M2)", visionConstants.FrontLeftM2CamOffset);
+    public static CalculatedPhotonVision BackRightM4Cam = new CalculatedPhotonVision("Back Right (M4)", visionConstants.BackRightM4CamOffset);
+    // public static CalculatedPhotonVision FrontLeftM2Cam = new CalculatedPhotonVision("Front Left (M2)", visionConstants.FrontLeftM2CamOffset);
     // public final static CalculatedLimelight LimelightMain = new CalculatedLimelight("limelight-main");
 
     PhotonPoseEstimator microsoftPoseEstimator = new PhotonPoseEstimator(AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape), PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, new Transform3d(new Translation3d(0,0,0), new Rotation3d(0,0,0)));
@@ -49,7 +50,7 @@ public class Vision implements Runnable {
 
   public Vision() {
     cameras.add(FrontRightM1Cam);
-    // cameras.add(FrontLeftM2Cam);
+    cameras.add(BackRightM4Cam);
   }
 
   public boolean hasTarget() {
@@ -123,14 +124,15 @@ public class Vision implements Runnable {
 
     // Update standard deviation based on trust
     // if (FrontRightM1Cam.hasTarget()) {
-    //   visionStandardDeviation.set(0, 0, 1/FrontRightM1Cam.getTrust());
-    //   visionStandardDeviation.set(0, 1, 1/FrontRightM1Cam.getTrust());
+    //   double trust = 0.05 * Math.sqrt(1/FrontRightM1Cam.getTrust());
+    //   visionStandardDeviation.set(0, 0, trust);
+    //   visionStandardDeviation.set(1, 0, trust);
     // }
 
     // Add camera readings to odometry if they exist
     if (hasTarget()) RobotContainer.drivetrain.addVisionMeasurement(
       getFieldPose(),
-      Utils.fpgaToCurrentTime(Timer.getFPGATimestamp()) - 0.05//,
+      Utils.fpgaToCurrentTime(Timer.getFPGATimestamp()) - 0.05
       // visionStandardDeviation
     );
 
@@ -139,10 +141,10 @@ public class Vision implements Runnable {
     SmartDashboard.putNumber("FR Camera R", FrontRightM1Cam.getTargetPose().getRotation().getDegrees());
     SmartDashboard.putNumber("FR Camera Trust", FrontRightM1Cam.getTrust());
     
-    SmartDashboard.putNumber("FL Camera X", FrontLeftM2Cam.getTargetPose().getX());
-    SmartDashboard.putNumber("FL Camera Y", FrontLeftM2Cam.getTargetPose().getY());
-    SmartDashboard.putNumber("FL Camera R", FrontLeftM2Cam.getTargetPose().getRotation().getDegrees());
-    SmartDashboard.putNumber("FL Camera Trust", FrontLeftM2Cam.getTrust());
+    SmartDashboard.putNumber("FL Camera X", BackRightM4Cam.getTargetPose().getX());
+    SmartDashboard.putNumber("FL Camera Y", BackRightM4Cam.getTargetPose().getY());
+    SmartDashboard.putNumber("FL Camera R", BackRightM4Cam.getTargetPose().getRotation().getDegrees());
+    SmartDashboard.putNumber("FL Camera Trust", BackRightM4Cam.getTrust());
     
     SmartDashboard.putNumber("Camera Field X" , getFieldPose().getX());
     SmartDashboard.putNumber("Camera Field Y" , getFieldPose().getY());

@@ -4,30 +4,41 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
+import frc.robot.Constants.climberConstants;
 
 public class Climber extends SubsystemBase {
   // makes a speed varible set to zero
   double speed = 0;
   double position = 0;
+  double targetAngle = 0;
 
   /** Creates a new Climber. */
   public Climber() {}
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    RobotContainer.climberMotor.set(-speed);
+    RobotContainer.climberServo.setAngle(targetAngle);
 
-    // position = RobotContainer.climberMotor.getAbsoluteEncoder().getPosition();
-
-    // sets speed to newley created speed
-    RobotContainer.climberMotor.set(speed);
+    SmartDashboard.putNumber("Climber Encoder", getEncoderValue());
+    SmartDashboard.putNumber("Climber Speed", speed);
   }
+
   // creates new speed and sets it the the prevousily metioned speed
   public void setClimbSpeed(double speed) {
-    // if (position > climberConstants.MaxPosition && speed > 0) speed = 0;
-    // if (position < climberConstants.MinPosition && speed < 0) speed = 0;
+    // if (speed > 0 && getEncoderValue() > climberConstants.MaxPosition) speed = 0;
+    // else if (speed < 0 && getEncoderValue() < climberConstants.MinPosition) speed = 0;
     this.speed = speed;
+  }
+
+  public void setServoAngle(double angle) {
+    this.targetAngle = angle;
+  }
+
+  public double getEncoderValue() {
+    return RobotContainer.climberMotor.getEncoder().getPosition();
   }
 }
