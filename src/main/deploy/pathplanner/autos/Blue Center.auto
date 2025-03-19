@@ -13,7 +13,43 @@
         {
           "type": "named",
           "data": {
-            "name": "Test Command"
+            "name": "Place Reef"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Drop R4"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Back Up"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Position Algae"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Grab Algae"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BC Barge"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Barge Algae"
           }
         }
       ]

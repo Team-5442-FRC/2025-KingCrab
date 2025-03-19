@@ -99,10 +99,16 @@ public class ManipulatorCommand extends Command {
 
     ///// Algae Hold \\\\\
     if (state == 4) {
-      if (y) speed = manipulatorConstants.AlgaeShootSpeed;
-      else speed = manipulatorConstants.AlgaeHoldSpeed;
+      speed = manipulatorConstants.AlgaeHoldSpeed;
 
-      if (yReleased) state = 0; // Return to At Rest
+      if (yPressed) state = 5; // Return to At Rest
+    }
+
+    ///// Algae Shoot \\\\\
+    if (state == 5) {
+      speed = manipulatorConstants.AlgaeShootSpeed;
+
+      if (yReleased) state = 0;
     }
 
     ///// Reverse Intake \\\\\

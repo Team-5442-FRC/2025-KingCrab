@@ -12,10 +12,12 @@ import com.pathplanner.lib.auto.NamedCommands;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Notifier;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -99,6 +101,7 @@ public class RobotContainer {
     public static Climber climber = new Climber();
     public static ClimberCommand climberCommand = new ClimberCommand();
     public static SparkMax climberMotor = new SparkMax(25, MotorType.kBrushless);
+    public static Servo climberServo = new Servo(9);
 
     // Elevator variables
     public static Elevator elevator = new Elevator();
@@ -112,79 +115,62 @@ public class RobotContainer {
     public static Notifier visionThread = new Notifier(vision);
 
     // Autonomous
-    public static Command testCommand = new Command() {
-        @Override
-        public void initialize() {
-            System.out.println("\n\nINITIALIZED\n\n");
-            isAutomaticPositioningMode = true;
-            // isAutomaticDriveMode = true;
-        }
+    public static Command PlaceReef = AutoCommands.placeReef4R4;
+    public static Command DropR4 = AutoCommands.dropOnReefR4;
+    public static Command BackUp = AutoCommands.backUpR4;
+    public static Command PositionAlgae = AutoCommands.positionAlgae4;
+    public static Command GrabAlgae = AutoCommands.grabAlgae4;
+    public static Command BargeAlgae = AutoCommands.bargeAlgae;
 
+    // Other?
+    static SlewRateLimiter xSlew = new SlewRateLimiter(2);
+    static SlewRateLimiter ySlew = new SlewRateLimiter(2);
+    static SlewRateLimiter rSlew = new SlewRateLimiter(25);
+
+    public static Command autoDriveCommand = new Command() {
         @Override
         public void execute() {
-            System.out.println("EXECUTING");
-        }
-
-        @Override
-        public void end(boolean interrupted) {
-            System.out.println("\n\nENDED\n\n");
+            RobotContainer.drivetrain.setControl( // go nyoom
+                DriveModes.driveRobot
+                    .withVelocityX(xSlew.calculate(positionManager.xSpeed))
+                    .withVelocityY(ySlew.calculate(positionManager.ySpeed))
+                    .withRotationalRate(rSlew.calculate(positionManager.rSpeed))
+            );
         }
 
         @Override
         public boolean isFinished() {
-            return false;
+            return !isAutomaticDriveMode;
         }
     };
-    public static Command PlaceReef = AutoCommands.placeReef4R4Command;
-    // public static Command PlaceReef = new Command() {
 
-    //     @Override
-    //     public void initialize() {
-    //         positionManager.setReefTarget(true, 4, 4, false);
-    //         isAutomaticPositioningMode = true;
-    //         isAutomaticDriveMode = true;
-    //     }
-        
-    //     @Override
-    //     public void execute() {
-    //         isAutomaticPositioningMode = true;
-    //         isAutomaticDriveMode = true;
-    //         // System.out.println("got here");
-    //     }
-
-    //     @Override
-    //     public void end(boolean interrupted) {
-    //         RobotContainer.isAutomaticPositioningMode = false;
-    //         RobotContainer.isAutomaticDriveMode = false;
-    //     }
-
-    //     @Override
-    //     public boolean isFinished() {
-    //         return false;
-    //         // return RobotContainer.positionManager.xSpeed <= 0.5 && RobotContainer.positionManager.ySpeed <= 0.5 && RobotContainer.positionManager.ySpeed <= 1;
-    //     }
-    // };
-
-    // Other?
     public static boolean hasFieldOriented = false;
-    public static Trigger autoDriveToTag = new Trigger(new BooleanSupplier() {
-        @Override
-        public boolean getAsBoolean() {
-            return isAutomaticDriveMode;
-        };
-    });
-    public static void setAutoOn() {
-        isAutomaticDriveMode = true;
-        isAutomaticPositioningMode = true;
+    // public static Trigger autoDriveToTag = new Trigger(new BooleanSupplier() {
+    //     @Override
+    //     public boolean getAsBoolean() {
+    //         return isAutomaticDriveMode;
+    //     };
+    // });
+
+    public static void disableDefaultCommand() {
+        drivetrain.setDefaultCommand(null);
     }
-    public static void setAutoOff() {
-        isAutomaticDriveMode = false;
-        isAutomaticPositioningMode = false;
+    public static void enableDefaultCommand() {
+        drivetrain.setDefaultCommand(
+            // Drivetrain will execute this command periodically
+            drivetrain.applyRequest(() ->
+                DriveModes.driveField
+                    .withVelocityX(-Sine(joystick.getLeftX(), joystick.getLeftY()) * driveConstants.MaxSpeed) // Drive forward with negative Y (forward)
+                    .withVelocityY(-Cosine(joystick.getLeftX(), joystick.getLeftY()) * driveConstants.MaxSpeed) // Drive left with negative X (left)
+                    .withRotationalRate(-Math.pow(Deadzone(joystick.getRightX()), driveConstants.Linearity) * driveConstants.MaxAngularRate) // Drive counterclockwise with negative X (left)
+            )
+        );
     }
 
 
     /* Path follower */
-    private final SendableChooser<Command> autoChooser;
+    // private final SendableChooser<Command> autoChooser = new SendableChooser<>();
+    private final SendableChooser<String> autoChooser = new SendableChooser<>();
 
     public RobotContainer() {
         elevator.setDefaultCommand(elevatorCommand);
@@ -196,9 +182,14 @@ public class RobotContainer {
 
         // Named commands must be placed before autochooser!
         NamedCommands.registerCommand("Place Reef", PlaceReef);
-        NamedCommands.registerCommand("Test Command", testCommand);
+        NamedCommands.registerCommand("Drop R4", DropR4);
+        NamedCommands.registerCommand("Back Up", BackUp);
+        NamedCommands.registerCommand("Position Algae", PositionAlgae);
+        NamedCommands.registerCommand("Grab Algae", GrabAlgae);
+        NamedCommands.registerCommand("Barge Algae", BargeAlgae);
 
-        autoChooser = AutoBuilder.buildAutoChooser("None");
+        // autoChooser = AutoBuilder.buildAutoChooser("None");
+        autoChooser.addOption("Blue Center", "Blue Center");
         SmartDashboard.putData("Auto Mode", autoChooser);
 
         visionThread.startPeriodic(0.05);
@@ -235,12 +226,12 @@ public class RobotContainer {
         //         .withRotationalRate(positionManager.rSpeed)
         // ));
 
-        autoDriveToTag.whileTrue(drivetrain.applyRequest(() ->
-            DriveModes.driveRobot
-                .withVelocityX(positionManager.xSpeed)
-                .withVelocityY(positionManager.ySpeed)
-                .withRotationalRate(positionManager.rSpeed)
-        ));
+        // autoDriveToTag.whileTrue(drivetrain.applyRequest(() ->
+        //     DriveModes.driveRobot
+        //         .withVelocityX(positionManager.xSpeed)
+        //         .withVelocityY(positionManager.ySpeed)
+        //         .withRotationalRate(positionManager.rSpeed)
+        // ));
         
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
@@ -294,6 +285,6 @@ public class RobotContainer {
 
     public Command getAutonomousCommand() {
         /* Run the path selected from the auto chooser */
-        return autoChooser.getSelected();
+        return AutoBuilder.buildAuto(autoChooser.getSelected());
     }
 }

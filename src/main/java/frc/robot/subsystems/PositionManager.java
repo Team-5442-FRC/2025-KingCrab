@@ -9,6 +9,7 @@ import com.pathplanner.lib.path.PathConstraints;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -33,6 +34,11 @@ public class PositionManager extends SubsystemBase {
   public boolean driveLeftCoralStation = false;
   public boolean driveRightCoralStation = false;
   double xOffset, yOffset, rOffset;
+  SlewRateLimiter xSlew = new SlewRateLimiter(0.5);
+  SlewRateLimiter ySlew = new SlewRateLimiter(0.5);
+  SlewRateLimiter rSlew = new SlewRateLimiter(0.5);
+
+  boolean lastAutoBoolean = false;
 
   Command autoDriveToTag = new Command() {};
 
@@ -209,6 +215,23 @@ public class PositionManager extends SubsystemBase {
     double rSpeedTemp = RobotContainer.Deadzone(rOffset * fieldConstants.RotatekP, fieldConstants.DriveminAutoSpeedR);
     if (rSpeedTemp >= 0) rSpeed = Math.pow(rSpeedTemp, 0.5);
     else rSpeed = -Math.pow(-rSpeedTemp, 0.5);
+
+    // TODO - add slew limiter plz
+    if (RobotContainer.isAutomaticDriveMode && !lastAutoBoolean) {
+      RobotContainer.disableDefaultCommand(); // Disable auto drive so you can go nyoom
+      RobotContainer.autoDriveCommand.schedule();
+
+      // RobotContainer.drivetrain.setControl( // go nyoom
+      //   DriveModes.driveRobot
+      //       .withVelocityX(xSlew.calculate(xSpeed))
+      //       .withVelocityY(ySlew.calculate(ySpeed))
+      //       .withRotationalRate(rSlew.calculate(rSpeed))
+      // );
+    }
+    else if (lastAutoBoolean && !RobotContainer.isAutomaticDriveMode) { // Auto drive was just disabled
+      // RobotContainer.enableDefaultCommand();
+    }
+    lastAutoBoolean = RobotContainer.isAutomaticDriveMode; // Update boolean for memory
 
     
     if (RobotContainer.xbox1.getYButtonPressed() && !autoDriveToTag.isScheduled()) {
