@@ -128,7 +128,7 @@ public class RobotContainer {
     // Other?
     static SlewRateLimiter xSlew = new SlewRateLimiter(2);
     static SlewRateLimiter ySlew = new SlewRateLimiter(2);
-    static SlewRateLimiter rSlew = new SlewRateLimiter(25);
+    static SlewRateLimiter rSlew = new SlewRateLimiter(4);
 
     public static Command autoDriveCommand = new Command() {
         @Override

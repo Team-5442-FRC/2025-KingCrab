@@ -5,22 +5,15 @@
     "data": {
       "commands": [
         {
-          "type": "parallel",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "BC Place"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Arm Up Reef"
-                }
-              }
-            ]
+            "pathName": "BC Place"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Arm Up Reef"
           }
         },
         {
@@ -54,22 +47,15 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "BC Barge"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Arm Up Algae"
-                }
-              }
-            ]
+            "pathName": "BC Barge"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Arm Up Algae"
           }
         },
         {

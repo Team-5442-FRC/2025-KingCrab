@@ -15,15 +15,12 @@ import frc.robot.subsystems.DriveModes;
 public class AutoCommands {
 
     public static Command armUpReef4R4 = new Command() {
-        WaitCommand wait = new WaitCommand(0.25);
+        WaitCommand wait = new WaitCommand(2);
 
         @Override
         public void initialize() {
             wait.schedule();
-        }
 
-        @Override
-        public void execute() {
             RobotContainer.positionManager.setReefTarget(true, 4, 4, false);
             RobotContainer.positionManager.updatePositions(
                 RobotContainer.positionManager.calculateArmPivot(4),
@@ -167,32 +164,25 @@ public class AutoCommands {
 
 
     public static Command armUpAlgae = new Command() {
-        WaitCommand delay = new WaitCommand(1);
-        boolean finished = false;
+        WaitCommand wait = new WaitCommand(1);
 
         @Override
         public void initialize() {
-            delay.schedule();
-        }
-        
-        @Override
-        public void execute() {
-            if (delay.isFinished()) {
-                RobotContainer.positionManager.setReefTarget(false, 4, 4, true);
-                RobotContainer.positionManager.updatePositions(
-                    RobotContainer.positionManager.calculateArmPivot(4),
-                    RobotContainer.positionManager.calculateHeight(RobotContainer.positionManager.calculateArmPivot(4),
-                    RobotContainer.positionManager.reefLevelToHeight(4)),
-                    0,
-                    RobotContainer.positionManager.calculateWristAngle(4)
-                );
-                finished = true;
-            }
+            wait.schedule();
+            
+            RobotContainer.positionManager.setReefTarget(false, 4, 4, true);
+            RobotContainer.positionManager.updatePositions(
+                RobotContainer.positionManager.calculateArmPivot(4),
+                RobotContainer.positionManager.calculateHeight(RobotContainer.positionManager.calculateArmPivot(4),
+                RobotContainer.positionManager.reefLevelToHeight(4)),
+                0,
+                RobotContainer.positionManager.calculateWristAngle(4)
+            );
         }
 
         @Override
         public boolean isFinished() {
-            return finished;
+            return wait.isFinished();
         }
     };
 
