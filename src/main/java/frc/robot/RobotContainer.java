@@ -115,12 +115,15 @@ public class RobotContainer {
     public static Notifier visionThread = new Notifier(vision);
 
     // Autonomous
+    public static Command ArmUpReef = AutoCommands.armUpReef4R4;
     public static Command PlaceReef = AutoCommands.placeReef4R4;
     public static Command DropR4 = AutoCommands.dropOnReefR4;
     public static Command BackUp = AutoCommands.backUpR4;
     public static Command PositionAlgae = AutoCommands.positionAlgae4;
     public static Command GrabAlgae = AutoCommands.grabAlgae4;
+    public static Command ArmUpAlgae = AutoCommands.armUpAlgae;
     public static Command BargeAlgae = AutoCommands.bargeAlgae;
+    public static Command EndPosition = AutoCommands.endPosition;
 
     // Other?
     static SlewRateLimiter xSlew = new SlewRateLimiter(2);
@@ -181,12 +184,15 @@ public class RobotContainer {
         positionManager.setDefaultCommand(positionManagerCommand);
 
         // Named commands must be placed before autochooser!
+        NamedCommands.registerCommand("Arm Up Reef", ArmUpReef);
         NamedCommands.registerCommand("Place Reef", PlaceReef);
         NamedCommands.registerCommand("Drop R4", DropR4);
         NamedCommands.registerCommand("Back Up", BackUp);
         NamedCommands.registerCommand("Position Algae", PositionAlgae);
         NamedCommands.registerCommand("Grab Algae", GrabAlgae);
+        NamedCommands.registerCommand("Arm Up Algae", ArmUpAlgae);
         NamedCommands.registerCommand("Barge Algae", BargeAlgae);
+        NamedCommands.registerCommand("End Position", EndPosition);
 
         // autoChooser = AutoBuilder.buildAutoChooser("None");
         autoChooser.addOption("Blue Center", "Blue Center");
@@ -261,25 +267,17 @@ public class RobotContainer {
 
     ///// Controller Y value curving \\\\\
     public static double Cosine(double x, double y) {
-        x = Deadzone(x);
-        y = Deadzone(y);
-        return Math.pow(Math.sqrt((x*x)+(y*y)), driveConstants.Linearity) * Math.cos(Math.atan2(y,x));
+        return Math.pow(Deadzone(Math.sqrt((x*x)+(y*y))), driveConstants.Linearity) * Math.cos(Math.atan2(y,x));
     }
     public static double Cosine(double x, double y, double exp) {
-        x = Deadzone(x, 0);
-        y = Deadzone(y, 0);
         return Math.pow(Math.sqrt((x*x)+(y*y)), exp) * Math.cos(Math.atan2(y,x));
     }
 
     ///// Controller X value curving \\\\\
     public static double Sine(double x, double y) {
-        x = Deadzone(x);
-        y = Deadzone(y);
-        return Math.pow(Math.sqrt((x*x)+(y*y)), driveConstants.Linearity) * Math.sin(Math.atan2(y,x));
+        return Math.pow(Deadzone(Math.sqrt((x*x)+(y*y))), driveConstants.Linearity) * Math.sin(Math.atan2(y,x));
     }
     public static double Sine(double x, double y, double exp) {
-        x = Deadzone(x, 0);
-        y = Deadzone(y, 0);
         return Math.pow(Math.sqrt((x*x)+(y*y)), exp) * Math.sin(Math.atan2(y,x));
     }
 
