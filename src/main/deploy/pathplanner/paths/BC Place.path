@@ -60,7 +60,7 @@
   "folder": "Blue Center",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 165.0
   },
   "useDefaultConstraints": true
 }

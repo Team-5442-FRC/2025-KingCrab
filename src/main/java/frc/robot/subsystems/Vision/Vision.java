@@ -46,8 +46,8 @@ public class Vision implements Runnable {
 
     Telemetry logger = RobotContainer.logger;
 
-    // Matrix<N3, N1> visionStandardDeviationSingleTag = VecBuilder.fill(2,2,4);
-    // Matrix<N3, N1> visionStandardDeviationMultiTag = VecBuilder.fill(0.5,0.5,1);
+    Matrix<N3, N1> visionStandardDeviationSingleTag = VecBuilder.fill(2,2,4);
+    Matrix<N3, N1> visionStandardDeviationMultiTag = VecBuilder.fill(0.5,0.5,1);
 
   public Vision() {
     cameras.add(FrontRightM1Cam);
@@ -132,6 +132,9 @@ public class Vision implements Runnable {
 
     // Add camera readings to odometry if they exist
     if (hasTarget()) {
+      Matrix<N3, N1> deviation;
+      if (FrontRightM1Cam.getResult().getMultiTagResult().isPresent()) deviation = visionStandardDeviationMultiTag;
+      else deviation = visionStandardDeviationSingleTag;
       // double now = Timer.getFPGATimestamp();
       // double latency = now - FrontRightM1Cam.getLatency();
       // if (latency < 0 || latency > 0.05) latency = 0.05;
@@ -139,9 +142,9 @@ public class Vision implements Runnable {
 
       RobotContainer.drivetrain.addVisionMeasurement(
         getFieldPose(),
-        Utils.fpgaToCurrentTime(Timer.getFPGATimestamp()) - 0.05
+        Utils.fpgaToCurrentTime(Timer.getFPGATimestamp()) - 0.03,
         // timestamp,
-        // visionStandardDeviationSingleTag
+        deviation
       );
     }
 
