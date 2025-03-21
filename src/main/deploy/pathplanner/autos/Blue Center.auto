@@ -13,12 +13,6 @@
         {
           "type": "named",
           "data": {
-            "name": "Arm Up Reef"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
             "name": "Place Reef"
           }
         },
@@ -50,12 +44,6 @@
           "type": "path",
           "data": {
             "pathName": "BC Barge"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Arm Up Algae"
           }
         },
         {

@@ -13,14 +13,42 @@ import frc.robot.subsystems.DriveModes;
 
 /** Add your docs here. */
 public class AutoCommands {
-
-    public static Command armUpReef4R4 = new Command() {
-        WaitCommand wait = new WaitCommand(2);
+    
+    public static Command test = new Command() {
+        WaitCommand wait = new WaitCommand(1);
 
         @Override
         public void initialize() {
             wait.schedule();
+            System.out.println("\n\nSTARTED\n\n");
+        }
 
+        @Override
+        public void execute() {
+            System.out.println("\nRUNNING\n");
+        }
+
+        @Override
+        public void end(boolean interrupted) {
+            System.out.println("\n\nENDED\n\n");
+        }
+
+        @Override
+        public boolean isFinished() {
+            return wait.isFinished();
+        }
+    };
+
+    public static Command armUpReef4R4 = new Command() {
+        WaitCommand wait = new WaitCommand(0.25);
+
+        @Override
+        public void initialize() {
+            wait.schedule();
+        }
+
+        @Override
+        public void execute() {
             RobotContainer.positionManager.setReefTarget(true, 4, 4, false);
             RobotContainer.positionManager.updatePositions(
                 RobotContainer.positionManager.calculateArmPivot(4),
@@ -80,7 +108,7 @@ public class AutoCommands {
 
 
     public static Command backUpR4 = new Command() {
-        WaitCommand wait = new WaitCommand(1);
+        WaitCommand wait = new WaitCommand(1.5);
 
         @Override
         public void initialize() {
@@ -137,7 +165,7 @@ public class AutoCommands {
 
 
     public static Command grabAlgae4 = new Command() {
-        WaitCommand wait = new WaitCommand(1);
+        WaitCommand wait = new WaitCommand(1.5);
 
         @Override
         public void initialize() {
@@ -149,7 +177,7 @@ public class AutoCommands {
         public void execute() {
             RobotContainer.drivetrain.setControl(
                 DriveModes.driveRobot
-                    .withVelocityX(0.7)
+                    .withVelocityX(0.8)
                     .withVelocityY(0)
                     .withRotationalRate(0)
             );
@@ -189,7 +217,7 @@ public class AutoCommands {
 
 
     public static Command bargeAlgae = new Command() {
-        WaitCommand shootWait = new WaitCommand(0.5);
+        WaitCommand shootWait = new WaitCommand(0.25);
 
         @Override
         public void initialize() {
@@ -211,8 +239,12 @@ public class AutoCommands {
 
 
     public static Command endPosition = new Command() {
+        WaitCommand wait = new WaitCommand(1);
+
         @Override
         public void initialize() {
+            wait.schedule();
+
             RobotContainer.positionManager.updatePositions(
                 Math.toRadians(170),
                 0,
@@ -223,7 +255,7 @@ public class AutoCommands {
 
         @Override
         public boolean isFinished() {
-            return true;
+            return wait.isFinished();
         }
     };
 }

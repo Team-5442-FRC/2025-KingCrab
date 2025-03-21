@@ -107,7 +107,7 @@ public class RobotContainer {
     public static Elevator elevator = new Elevator();
     public static ElevatorCommand elevatorCommand = new ElevatorCommand();
     public static SparkMax upAndDownMotor = new SparkMax(20, MotorType.kBrushless);
-    public static SparkMax side2SideMotor = new SparkMax(23, MotorType.kBrushless);
+    // public static SparkMax side2SideMotor = new SparkMax(23, MotorType.kBrushless);
     public static DutyCycleEncoder elevatorEncoder = new DutyCycleEncoder(1);
 
     // Vision
@@ -115,6 +115,7 @@ public class RobotContainer {
     public static Notifier visionThread = new Notifier(vision);
 
     // Autonomous
+    public static Command TEST = AutoCommands.test;
     public static Command ArmUpReef = AutoCommands.armUpReef4R4;
     public static Command PlaceReef = AutoCommands.placeReef4R4;
     public static Command DropR4 = AutoCommands.dropOnReefR4;
@@ -172,8 +173,8 @@ public class RobotContainer {
 
 
     /* Path follower */
-    // private final SendableChooser<Command> autoChooser = new SendableChooser<>();
-    private final SendableChooser<String> autoChooser = new SendableChooser<>();
+    private final SendableChooser<Command> autoChooser;
+    // private final SendableChooser<String> autoChooser = new SendableChooser<>();
 
     public RobotContainer() {
         elevator.setDefaultCommand(elevatorCommand);
@@ -184,6 +185,7 @@ public class RobotContainer {
         positionManager.setDefaultCommand(positionManagerCommand);
 
         // Named commands must be placed before autochooser!
+        NamedCommands.registerCommand("TEST", TEST);
         NamedCommands.registerCommand("Arm Up Reef", ArmUpReef);
         NamedCommands.registerCommand("Place Reef", PlaceReef);
         NamedCommands.registerCommand("Drop R4", DropR4);
@@ -194,8 +196,9 @@ public class RobotContainer {
         NamedCommands.registerCommand("Barge Algae", BargeAlgae);
         NamedCommands.registerCommand("End Position", EndPosition);
 
-        // autoChooser = AutoBuilder.buildAutoChooser("None");
-        autoChooser.addOption("Blue Center", "Blue Center");
+        autoChooser = AutoBuilder.buildAutoChooser("Blue Center");
+        // autoChooser.addOption("Blue Center", "Blue Center");
+        // autoChooser.addOption("TEST", "TEST");
         SmartDashboard.putData("Auto Mode", autoChooser);
 
         visionThread.startPeriodic(0.05);
@@ -283,6 +286,7 @@ public class RobotContainer {
 
     public Command getAutonomousCommand() {
         /* Run the path selected from the auto chooser */
-        return AutoBuilder.buildAuto(autoChooser.getSelected());
+        // return AutoBuilder.buildAuto(autoChooser.getSelected());
+        return autoChooser.getSelected();
     }
 }
