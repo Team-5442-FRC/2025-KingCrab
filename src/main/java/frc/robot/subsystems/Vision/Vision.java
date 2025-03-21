@@ -46,7 +46,8 @@ public class Vision implements Runnable {
 
     Telemetry logger = RobotContainer.logger;
 
-    Matrix<N3, N1> visionStandardDeviation = VecBuilder.fill(0,0,30);
+    // Matrix<N3, N1> visionStandardDeviationSingleTag = VecBuilder.fill(2,2,4);
+    // Matrix<N3, N1> visionStandardDeviationMultiTag = VecBuilder.fill(0.5,0.5,1);
 
   public Vision() {
     cameras.add(FrontRightM1Cam);
@@ -130,11 +131,19 @@ public class Vision implements Runnable {
     // }
 
     // Add camera readings to odometry if they exist
-    if (hasTarget()) RobotContainer.drivetrain.addVisionMeasurement(
-      getFieldPose(),
-      Utils.fpgaToCurrentTime(Timer.getFPGATimestamp()) - 0.05
-      // visionStandardDeviation
-    );
+    if (hasTarget()) {
+      // double now = Timer.getFPGATimestamp();
+      // double latency = now - FrontRightM1Cam.getLatency();
+      // if (latency < 0 || latency > 0.05) latency = 0.05;
+      // double timestamp = now - latency;
+
+      RobotContainer.drivetrain.addVisionMeasurement(
+        getFieldPose(),
+        Utils.fpgaToCurrentTime(Timer.getFPGATimestamp()) - 0.05
+        // timestamp,
+        // visionStandardDeviationSingleTag
+      );
+    }
 
     SmartDashboard.putNumber("FR Camera X", FrontRightM1Cam.getTargetPose().getX());
     SmartDashboard.putNumber("FR Camera Y", FrontRightM1Cam.getTargetPose().getY());
