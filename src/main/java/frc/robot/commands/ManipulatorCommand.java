@@ -42,6 +42,30 @@ public class ManipulatorCommand extends Command {
     }
   };
 
+  Command dropArmAlgae = new Command() {
+    WaitCommand wait = new WaitCommand(0.25);
+
+    @Override
+    public void initialize () {
+      wait.schedule();
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+      RobotContainer.positionManager.updatePositions(
+        Math.toRadians(170),
+        0,
+        0,
+        0
+      );
+    }
+
+    @Override
+    public boolean isFinished() {
+      return wait.isFinished();
+    }
+  };
+
   /** Creates a new ManipulatorCommand. */
   public ManipulatorCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -132,6 +156,7 @@ public class ManipulatorCommand extends Command {
     ///// Algae Shoot \\\\\
     if (state == 5) {
       speed = manipulatorConstants.AlgaeShootSpeed;
+      if (yPressed) dropArmAlgae.schedule();
 
       if (yReleased) state = 0;
     }
