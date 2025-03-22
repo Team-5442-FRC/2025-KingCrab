@@ -4,7 +4,9 @@
 
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.manipulatorConstants;
 
@@ -17,6 +19,28 @@ public class ManipulatorCommand extends Command {
   public boolean aPressed, bPressed, xPressed, yPressed;
   public boolean a, b, x, y;
   public boolean aReleased, bReleased, xReleased, yReleased;
+
+  Command vibrate = new Command() {
+    WaitCommand wait = new WaitCommand(0.25);
+
+    @Override
+    public void initialize() {
+      wait.schedule();
+      RobotContainer.xbox1.setRumble(RumbleType.kBothRumble, 1);
+      RobotContainer.xbox2.setRumble(RumbleType.kBothRumble, 1);
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+      RobotContainer.xbox1.setRumble(RumbleType.kBothRumble, 0);
+      RobotContainer.xbox2.setRumble(RumbleType.kBothRumble, 0);
+    }
+
+    @Override
+    public boolean isFinished() {
+      return wait.isFinished();
+    }
+  };
 
   /** Creates a new ManipulatorCommand. */
   public ManipulatorCommand() {
@@ -74,6 +98,7 @@ public class ManipulatorCommand extends Command {
       if (RobotContainer.manipulatorProxSensor.get()) {
         speed = 0;
         state = 2; // Go to Coral Placement
+        vibrate.schedule();
       }
       if (xPressed) state = 0; // Return to At Rest
     }
