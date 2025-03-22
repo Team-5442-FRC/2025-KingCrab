@@ -17,11 +17,11 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.RobotContainer;
 import frc.robot.Constants.armConstants;
 import frc.robot.Constants.elevatorConstants;
 import frc.robot.Constants.fieldConstants;
 import frc.robot.Robot;
+import frc.robot.RobotContainer;
 
 public class PositionManager extends SubsystemBase {
 
@@ -67,6 +67,41 @@ public class PositionManager extends SubsystemBase {
       if (reefSide == 6) return 19;
     }
     return 1;
+  }
+
+  public int positionToAprilTag(Pose2d fieldPose) {
+    if (DriverStation.getAlliance().get().equals(Alliance.Red)) {
+      double reefX = 13.06;
+      double reefY = 4.03;
+
+      double x = fieldPose.getX() - reefX;
+      double y = fieldPose.getY() - reefY;
+
+      double angle = Math.toDegrees(Math.atan2(y, x));
+
+      if (angle <= -90 && angle > -150) return 11; // Side 5
+      if (angle <= -30 && angle > -90) return 6; // Side 6
+      if (angle <= 30 && angle > -30) return 7; // Side 1
+      if (angle <= 90 && angle > 30) return 8; // Side 2
+      if (angle <= 150 && angle > 90) return 9; // Side 3
+      else return 10; // Side 4
+    }
+    else {
+      double reefX = 4.49;
+      double reefY = 4.03;
+
+      double x = fieldPose.getX() - reefX;
+      double y = fieldPose.getY() - reefY;
+
+      double angle = Math.toDegrees(Math.atan2(y, x));
+
+      if (angle <= -90 && angle > -150) return 17; // Side 2
+      if (angle <= -30 && angle > -90) return 22; // Side 3
+      if (angle <= 30 && angle > -30) return 21; // Side 4
+      if (angle <= 90 && angle > 30) return 20; // Side 5
+      if (angle <= 150 && angle > 90) return 19; // Side 6
+      else return 18; // Side 1
+    }
   }
 
   public double reefLevelToHeight(int reefLevel) {
@@ -176,7 +211,8 @@ public class PositionManager extends SubsystemBase {
     }
 
     if (!driveLeftCoralStation && !driveRightCoralStation) {
-      robotPose = RobotContainer.vision.getTagRelativePose(RobotContainer.drivetrain.getState().Pose, reefSideToAprilTag(reefSide));
+      Pose2d tempPose = RobotContainer.drivetrain.getState().Pose;
+      robotPose = RobotContainer.vision.getTagRelativePose(tempPose, positionToAprilTag(tempPose));
 
       if (isAlgae) {
         xOffset = robotPose.getX() - fieldConstants.DriveAlgaeX;
