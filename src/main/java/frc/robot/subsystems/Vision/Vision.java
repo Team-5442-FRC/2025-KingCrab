@@ -46,9 +46,6 @@ public class Vision implements Runnable {
 
     Telemetry logger = RobotContainer.logger;
 
-    Matrix<N3, N1> visionStandardDeviationSingleTag = VecBuilder.fill(2,2,4);
-    Matrix<N3, N1> visionStandardDeviationMultiTag = VecBuilder.fill(0.5,0.5,1);
-
   public Vision() {
     cameras.add(FrontRightM1Cam);
     cameras.add(BackRightM4Cam);
@@ -120,32 +117,28 @@ public class Vision implements Runnable {
   public void run() {
     // Update camera readings to be in sync with the robot
     for (CalculatedCamera camera: cameras) {
-      camera.updateResult();
-    }
+      camera.updateResult(); // Grab readings from the camera
 
-    // Update standard deviation based on trust
-    // if (FrontRightM1Cam.hasTarget()) {
-    //   double trust = 0.05 * Math.sqrt(1/FrontRightM1Cam.getTrust());
-    //   visionStandardDeviation.set(0, 0, trust);
-    //   visionStandardDeviation.set(1, 0, trust);
-    // }
+      ///// Add to Odometry \\\\\
+      if (camera.hasTarget()) {
+        // Setting standard deviation
+        Matrix<N3, N1> deviation;
+        if (camera.hasMultiTag()) deviation = visionConstants.VisionStandardDeviationMultiTag;
+        else deviation = visionConstants.VisionStandardDeviationSingleTag;
 
-    // Add camera readings to odometry if they exist
-    if (hasTarget()) {
-      Matrix<N3, N1> deviation;
-      if (FrontRightM1Cam.getResult().getMultiTagResult().isPresent()) deviation = visionStandardDeviationMultiTag;
-      else deviation = visionStandardDeviationSingleTag;
-      // double now = Timer.getFPGATimestamp();
-      // double latency = now - FrontRightM1Cam.getLatency();
-      // if (latency < 0 || latency > 0.05) latency = 0.05;
-      // double timestamp = now - latency;
+        // Latency correction
+        double now = Timer.getFPGATimestamp();
+        double latency = now - FrontRightM1Cam.getLatency();
+        if (latency < 0 || latency > 0.05) latency = 0.05; // Clamp latency if it's been more than 50ms
+        double timestamp = Utils.fpgaToCurrentTime(now - latency);
 
-      RobotContainer.drivetrain.addVisionMeasurement(
-        getFieldPose(),
-        Utils.fpgaToCurrentTime(Timer.getFPGATimestamp()) - 0.03,
-        // timestamp,
-        deviation
-      );
+        // Update drivetrain odometry
+        RobotContainer.drivetrain.addVisionMeasurement(
+          camera.getFieldPose(),
+          timestamp,
+          deviation
+        );
+      }
     }
 
     SmartDashboard.putNumber("FR Camera X", FrontRightM1Cam.getTargetPose().getX());

@@ -53,6 +53,11 @@ public class CalculatedPhotonVision extends CalculatedCamera {
   }
 
   @Override
+  public boolean hasMultiTag() {
+    return getResult().multitagResult.isPresent();
+  }
+
+  @Override
   public long getTargetID() {
     if (hasTarget()) return getResult().getBestTarget().fiducialId;
     return 0;

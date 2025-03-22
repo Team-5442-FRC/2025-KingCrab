@@ -6,9 +6,13 @@ package frc.robot;
 
 import static edu.wpi.first.units.Units.*;
 
+import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.util.Units;
 import frc.robot.generated.TunerConstants;
 
@@ -137,12 +141,15 @@ public class Constants {
         
         public final static double AngleDistrust = 10; // How much the angle should impact vision trust
 
+        public final static Matrix<N3, N1> VisionStandardDeviationSingleTag = VecBuilder.fill(2,2,4);
+        public final static Matrix<N3, N1> VisionStandardDeviationMultiTag = VecBuilder.fill(0.5,0.5,1);
+
         // public final static Transform3d FrontRightM1CamOffset = new Transform3d(0.12065, -0.3683, 0.301625, new Rotation3d(Math.toRadians(90), 0, Math.toRadians(42.04))); // Old Mount (in between M1 and M4)
         // public final static Transform3d FrontRightM1CamOffset = new Transform3d(0.2852, -0.1328, 0.301625, new Rotation3d(Math.toRadians(-90), Math.toRadians(16.7), Math.toRadians(14))); // Other mount (front of robot)
-        public final static Transform3d FrontRightM1CamOffset = new Transform3d(0.1398, -0.3557, 0.301625, new Rotation3d(0, 0, Math.toRadians(33.5)));
+        public final static Transform3d FrontRightM1CamOffset = new Transform3d(0.1334, -0.3620, 0.301625, new Rotation3d(0, 0, Math.toRadians(33.5)));
         // public final static Transform3d FrontLeftM2CamOffset = new Transform3d(0.2259, 0.1287, 0.301625, new Rotation3d(Math.toRadians(-15.3), Math.toRadians(30), Math.toRadians(-28.7)));
         // public final static Transform3d FrontLeftM2CamOffset = new Transform3d(0.1249, -0.138, 0.301625, new Rotation3d(0, Math.toRadians(20), Math.toRadians(15)));
-        public final static Transform3d BackRightM4CamOffset = new Transform3d(-0.3048, -0.3493, 0.301625, new Rotation3d(0, 0, Math.toRadians(-169)));
+        public final static Transform3d BackRightM4CamOffset = new Transform3d(-0.3112, -0.3556, 0.301625, new Rotation3d(0, 0, Math.toRadians(-169)));
         
     }
     
