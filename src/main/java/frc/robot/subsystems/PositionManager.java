@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.armConstants;
+import frc.robot.Constants.driveConstants;
 import frc.robot.Constants.elevatorConstants;
 import frc.robot.Constants.fieldConstants;
 import frc.robot.Robot;
@@ -277,6 +278,11 @@ public class PositionManager extends SubsystemBase {
     else if (!RobotContainer.xbox1.getYButton()) {
       autoDriveToTag.cancel();
     }
+
+    // Upper level speed adjustment
+    if (reefLevel == 4) RobotContainer.driveSpeed = driveConstants.MaxSpeed / 2;
+
+
     SmartDashboard.putBoolean("Auto Drive Command Scheduled?", autoDriveToTag.isScheduled());
 
 

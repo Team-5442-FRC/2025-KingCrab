@@ -67,6 +67,7 @@ public class RobotContainer {
   
     // Drivetrain
     public static final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+    public static double driveSpeed = driveConstants.MaxSpeed;
 
     // Intake variables
     // public static Intake intake = new Intake();
@@ -164,8 +165,8 @@ public class RobotContainer {
             // Drivetrain will execute this command periodically
             drivetrain.applyRequest(() ->
                 DriveModes.driveField
-                    .withVelocityX(-Sine(joystick.getLeftX(), joystick.getLeftY()) * driveConstants.MaxSpeed) // Drive forward with negative Y (forward)
-                    .withVelocityY(-Cosine(joystick.getLeftX(), joystick.getLeftY()) * driveConstants.MaxSpeed) // Drive left with negative X (left)
+                    .withVelocityX(-Sine(joystick.getLeftX(), joystick.getLeftY()) * driveSpeed) // Drive forward with negative Y (forward)
+                    .withVelocityY(-Cosine(joystick.getLeftX(), joystick.getLeftY()) * driveSpeed) // Drive left with negative X (left)
                     .withRotationalRate(-Math.pow(Deadzone(joystick.getRightX()), driveConstants.Linearity) * driveConstants.MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
         );
@@ -213,16 +214,16 @@ public class RobotContainer {
             // Drivetrain will execute this command periodically
             drivetrain.applyRequest(() ->
                 DriveModes.driveField
-                    .withVelocityX(-Sine(joystick.getLeftX(), joystick.getLeftY()) * driveConstants.MaxSpeed) // Drive forward with negative Y (forward)
-                    .withVelocityY(-Cosine(joystick.getLeftX(), joystick.getLeftY()) * driveConstants.MaxSpeed) // Drive left with negative X (left)
+                    .withVelocityX(-Sine(joystick.getLeftX(), joystick.getLeftY()) * driveSpeed) // Drive forward with negative Y (forward)
+                    .withVelocityY(-Cosine(joystick.getLeftX(), joystick.getLeftY()) * driveSpeed) // Drive left with negative X (left)
                     .withRotationalRate(-Math.pow(Deadzone(joystick.getRightX()), driveConstants.Linearity) * driveConstants.MaxAngularRate) // Drive counterclockwise with negative X (left)
             )
         );
 
         joystick.leftBumper().whileTrue(drivetrain.applyRequest(() -> 
             DriveModes.driveRobot
-                .withVelocityX(-Sine(RobotContainer.joystick.getLeftX(), RobotContainer.joystick.getLeftY()) * driveConstants.MaxSpeed) // Drive forward with negative Y (forward)
-                .withVelocityY(-Cosine(RobotContainer.joystick.getLeftX(), RobotContainer.joystick.getLeftY()) * driveConstants.MaxSpeed) // Drive left with negative X (left)
+                .withVelocityX(-Sine(RobotContainer.joystick.getLeftX(), RobotContainer.joystick.getLeftY()) * driveSpeed) // Drive forward with negative Y (forward)
+                .withVelocityY(-Cosine(RobotContainer.joystick.getLeftX(), RobotContainer.joystick.getLeftY()) * driveSpeed) // Drive left with negative X (left)
                 .withRotationalRate(-Math.pow(Deadzone(RobotContainer.joystick.getRightX()), driveConstants.Linearity) * driveConstants.MaxAngularRate) // Drive counterclockwise with negative X (left)
         ));
 
