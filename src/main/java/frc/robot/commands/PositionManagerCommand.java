@@ -15,8 +15,13 @@ import frc.robot.subsystems.ButtonBox;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class PositionManagerCommand extends Command {
 
+  // Button Box
   ButtonBox buttonBox = new ButtonBox();
   Notifier buttonThread = new Notifier(buttonBox);
+
+  int boxValue;
+  int[] target;
+  boolean isAlgae;
 
   /** Creates a new PositionManagerCommand. */
   public PositionManagerCommand() {
@@ -33,9 +38,9 @@ public class PositionManagerCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    int boxValue = ButtonBox.readBox();
-    int[] target = ButtonBox.lookup(boxValue);
-    boolean isAlgae = ButtonBox.isAlgae(boxValue);
+    boxValue = ButtonBox.readBox();
+    target = ButtonBox.lookup(boxValue);
+    isAlgae = ButtonBox.isAlgae(boxValue);
 
     // if (RobotContainer.xbox2.getRightBumperButton()) RobotContainer.isAutomaticPositioningMode = true;
     // else RobotContainer.isAutomaticPositioningMode = false;

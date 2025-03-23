@@ -32,6 +32,11 @@ public class CalculatedCamera {
     return false;
   }
 
+  /** Returns true if the camera sees more than one tag. */
+  public boolean hasMultiTag() {
+    return false;
+  }
+
   public void updateResult() {};
 
   /** Returns the ID of the currently visible target, or -1 if none are present. */

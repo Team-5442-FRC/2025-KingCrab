@@ -5,15 +5,12 @@
 package frc.robot.subsystems;
 
 import frc.robot.RobotContainer;
-import frc.robot.commands.RumbleCommand;
 
 public class ButtonBox implements Runnable {
   /** Creates a new ButtonBox. */
   public ButtonBox() {}
 
   static int value = 0;
-  static int lastValue = 0;
-  static RumbleCommand rumble = new RumbleCommand();
 
   public void run() {
     int totalValue = 0;
@@ -28,10 +25,6 @@ public class ButtonBox implements Runnable {
     if (RobotContainer.arduino.getRawButton(7)) totalValue = -totalValue;
 
     value = totalValue;
-
-    // let's get ready to rumble!
-    // if (value != lastValue) rumble.schedule();
-    lastValue = value;
   }
 
   public static int readBox() { 
