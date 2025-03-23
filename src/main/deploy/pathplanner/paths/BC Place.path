@@ -31,7 +31,19 @@
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Arm Up Reef",
+      "waypointRelativePos": 0.0,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Arm Up Reef"
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
@@ -48,7 +60,7 @@
   "folder": "Blue Center",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 165.0
   },
   "useDefaultConstraints": true
 }

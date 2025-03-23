@@ -13,15 +13,42 @@ import frc.robot.subsystems.DriveModes;
 
 /** Add your docs here. */
 public class AutoCommands {
-    public static Command placeReef4R4 = new Command() {
-        WaitCommand wait = new WaitCommand(3);
+    
+    public static Command test = new Command() {
+        WaitCommand wait = new WaitCommand(1);
 
         @Override
         public void initialize() {
             wait.schedule();
+            System.out.println("\n\nSTARTED\n\n");
+        }
 
-            RobotContainer.isAutomaticDriveMode = true;
+        @Override
+        public void execute() {
+            System.out.println("\nRUNNING\n");
+        }
 
+        @Override
+        public void end(boolean interrupted) {
+            System.out.println("\n\nENDED\n\n");
+        }
+
+        @Override
+        public boolean isFinished() {
+            return wait.isFinished();
+        }
+    };
+
+    public static Command armUpReef4R4 = new Command() {
+        WaitCommand wait = new WaitCommand(0.25);
+
+        @Override
+        public void initialize() {
+            wait.schedule();
+        }
+
+        @Override
+        public void execute() {
             RobotContainer.positionManager.setReefTarget(true, 4, 4, false);
             RobotContainer.positionManager.updatePositions(
                 RobotContainer.positionManager.calculateArmPivot(4),
@@ -31,6 +58,24 @@ public class AutoCommands {
                 RobotContainer.positionManager.calculateWristAngle(4)
             );
         }
+        
+        @Override
+        public boolean isFinished() {
+            return wait.isFinished();
+        }
+    };
+
+
+
+    public static Command placeReef4R4 = new Command() {
+        WaitCommand timeout = new WaitCommand(2);
+
+        @Override
+        public void initialize() {
+            timeout.schedule();
+
+            RobotContainer.isAutomaticDriveMode = true;
+        }
 
         @Override
         public void end(boolean interrupted) {
@@ -38,16 +83,15 @@ public class AutoCommands {
         }
 
         @Override
-        public boolean isFinished() {
-            return wait.isFinished();
-            // return RobotContainer.positionManager.xSpeed <= 0.1 && RobotContainer.positionManager.ySpeed <= 0.1 && RobotContainer.positionManager.rSpeed <= 1;
+        public boolean isFinished() { // Finish if in poistion; if it takes more than 2 seconds, ends early
+            return timeout.isFinished() || (RobotContainer.positionManager.xSpeed <= 0.05 && RobotContainer.positionManager.ySpeed <= 0.05 && RobotContainer.positionManager.rSpeed <= 1);
         }
     };
 
 
 
     public static Command dropOnReefR4 = new Command() {
-        WaitCommand wait = new WaitCommand(0.5);
+        WaitCommand wait = new WaitCommand(0.25);
         
         @Override
         public void initialize() {
@@ -64,7 +108,7 @@ public class AutoCommands {
 
 
     public static Command backUpR4 = new Command() {
-        WaitCommand wait = new WaitCommand(2);
+        WaitCommand wait = new WaitCommand(1.5);
 
         @Override
         public void initialize() {
@@ -75,7 +119,7 @@ public class AutoCommands {
         public void execute() {
             RobotContainer.drivetrain.setControl(
                 DriveModes.driveRobot
-                    .withVelocityX(-0.3)
+                    .withVelocityX(-0.5)
                     .withVelocityY(0)
                     .withRotationalRate(0)
             );
@@ -89,8 +133,12 @@ public class AutoCommands {
 
 
     public static Command positionAlgae4 = new Command() {
+        WaitCommand timeout = new WaitCommand(2);
+
         @Override
         public void initialize() {
+            timeout.schedule();
+
             RobotContainer.isAutomaticDriveMode = true;
 
             RobotContainer.positionManager.setReefTarget(false, 2, 4, true);
@@ -110,14 +158,14 @@ public class AutoCommands {
 
         @Override
         public boolean isFinished() {
-            return RobotContainer.positionManager.xSpeed <= 0.05 && RobotContainer.positionManager.ySpeed <= 0.05 && RobotContainer.positionManager.rSpeed <= 1;
+            return timeout.isFinished() || (RobotContainer.positionManager.xSpeed <= 0.05 && RobotContainer.positionManager.ySpeed <= 0.05 && RobotContainer.positionManager.rSpeed <= 1);
         }
     };
 
 
 
     public static Command grabAlgae4 = new Command() {
-        WaitCommand wait = new WaitCommand(2);
+        WaitCommand wait = new WaitCommand(1.5);
 
         @Override
         public void initialize() {
@@ -129,7 +177,7 @@ public class AutoCommands {
         public void execute() {
             RobotContainer.drivetrain.setControl(
                 DriveModes.driveRobot
-                    .withVelocityX(0.4)
+                    .withVelocityX(0.8)
                     .withVelocityY(0)
                     .withRotationalRate(0)
             );
@@ -143,14 +191,13 @@ public class AutoCommands {
 
 
 
-    public static Command bargeAlgae = new Command() {
-        WaitCommand moveWait = new WaitCommand(2);
-        WaitCommand shootWait = new WaitCommand(0.5);
+    public static Command armUpAlgae = new Command() {
+        WaitCommand wait = new WaitCommand(1);
 
         @Override
         public void initialize() {
-            moveWait.schedule();
-
+            wait.schedule();
+            
             RobotContainer.positionManager.setReefTarget(false, 4, 4, true);
             RobotContainer.positionManager.updatePositions(
                 RobotContainer.positionManager.calculateArmPivot(4),
@@ -162,16 +209,41 @@ public class AutoCommands {
         }
 
         @Override
-        public void execute() {
-            if (moveWait.isFinished()) {
-                shootWait.schedule();
-                RobotContainer.manipulatorCommand.state = 5;
-            }
+        public boolean isFinished() {
+            return wait.isFinished();
+        }
+    };
+
+
+
+    public static Command bargeAlgae = new Command() {
+        WaitCommand shootWait = new WaitCommand(0.25);
+
+        @Override
+        public void initialize() {
+            shootWait.schedule();
+            RobotContainer.manipulatorCommand.state = 5;
         }
 
         @Override
         public void end(boolean interrupted) {
             RobotContainer.manipulatorCommand.state = 0;
+        }
+
+        @Override
+        public boolean isFinished() {
+            return shootWait.isFinished();
+        }
+    };
+
+
+
+    public static Command endPosition = new Command() {
+        WaitCommand wait = new WaitCommand(1);
+
+        @Override
+        public void initialize() {
+            wait.schedule();
 
             RobotContainer.positionManager.updatePositions(
                 Math.toRadians(170),
@@ -183,7 +255,7 @@ public class AutoCommands {
 
         @Override
         public boolean isFinished() {
-            return shootWait.isFinished();
+            return wait.isFinished();
         }
     };
 }

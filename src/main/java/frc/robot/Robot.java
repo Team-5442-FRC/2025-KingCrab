@@ -30,7 +30,7 @@ public class Robot extends TimedRobot {
     m_gcTimer.start();
 
     // Warm up pathfinder so it doesn't lag on startup
-    PathfindingCommand.warmupCommand().schedule();
+    // PathfindingCommand.warmupCommand().schedule();
   }
 
   @Override

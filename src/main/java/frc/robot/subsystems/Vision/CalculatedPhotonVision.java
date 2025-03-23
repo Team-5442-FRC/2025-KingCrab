@@ -44,7 +44,7 @@ public class CalculatedPhotonVision extends CalculatedCamera {
 
   @Override
   public double getLatency() {
-    return 0;
+    return getResult().getTimestampSeconds();
   }
     
   @Override

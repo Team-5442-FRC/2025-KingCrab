@@ -165,7 +165,7 @@ public class Constants {
         public final static double DriveRightY = 0 + Units.inchesToMeters(elevatorConstants.ArmRightLimit); // Meters; optimal Y distance from tag for left pole
 
         public final static double DriveMinAutoSpeedX = 0.1;
-        public final static double DriveMinAutoSpeedY = 0.01;
+        public final static double DriveMinAutoSpeedY = 0.05;
         public final static double DriveminAutoSpeedR = 0.1;
         public final static double DrivekP = 2;
         public final static double RotatekP = 5;

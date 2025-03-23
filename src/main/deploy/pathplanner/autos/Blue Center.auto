@@ -51,6 +51,18 @@
           "data": {
             "name": "Barge Algae"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "End Position"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "BC Move Back"
+          }
         }
       ]
     }
