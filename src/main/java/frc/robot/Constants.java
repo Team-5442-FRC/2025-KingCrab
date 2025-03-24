@@ -36,6 +36,7 @@ public class Constants {
         public final static double Linearity = 3; // How steep the response curve is (typically cubic, meaning 50% on stick = 12.5% speed)
 
         public final static double ControllerDeadzone = 0.15;
+        public final static double Controller2Deadzone = 0.3;
 
         public final static PIDController chassisPID = new PIDController(0.01, 0, 0);
         public final static double ChassisPidTolerence = Math.PI/180;
@@ -71,14 +72,14 @@ public class Constants {
         public final static double ArmRightLimit = -6.5; // Inches; -Y
         public final static double ArmLeftLimit = 3; // Inches; +Y
 
-        public final static double ArmTopLimit = 60.0 - 0.5; // Was 60.75
-        public final static double ArmBottomLimit = 10.75 + 0.25;
+        public final static double ArmTopLimit = 61.5; // Was 59.5
+        public final static double ArmBottomLimit = 9.375 + 0.25;
 
         public final static double Side2SideSpeedFactor = 1;
         public final static double UpAndDownSpeedFactor = 0.4;
 
         public final static double UpAndDownOffset = 0.059; //Rotations at the lowest point
-        public final static double PivotToFloorOffset = 10.75; //Inches from floor to pivot point at lowest position
+        public final static double PivotToFloorOffset = 9.375; //Inches from floor to pivot point at lowest position
         public final static double InchesPerRotation = 10.95; // Was 11.3125 
 
         public final static double Side2SideOffset = 0; // Inches; offset if starting from center
@@ -123,7 +124,7 @@ public class Constants {
         public final static double CoralIntakeSpeed = 0.7;
         public final static double CoralPlaceSpeed = 0.3;
         public final static double AlgaeIntakeSpeed = 0.3;
-        public final static double AlgaeShootSpeed = -1;
+        public final static double AlgaeShootSpeed = -0.6;
         public final static double AlgaeHoldSpeed = 0.6;
         public final static double IntakeReverseSpeed = -0.3;
 
@@ -163,7 +164,7 @@ public class Constants {
     public static final class fieldConstants {
 
         // Optimal Drive Distances: Meters
-        public final static double DriveL1X = 0.85; // Meters; optimal x distance away from the tag
+        public final static double DriveL1X = 0.825; // Meters; optimal x distance away from the tag
         public final static double DriveL2andL3X = 0.5875; // Meters; optimal x distance away from the tag
         public final static double DriveL4X = 0.59; // Meters; optimal x distance away from the tag
         public final static double DriveAlgaeX = 1; // Meters; optimal x distance away from the tag
@@ -173,22 +174,23 @@ public class Constants {
 
         public final static double DriveMinAutoSpeedX = 0.1;
         public final static double DriveMinAutoSpeedY = 0.05;
-        public final static double DriveminAutoSpeedR = 0.1;
-        public final static double DrivekP = 2;
+        public final static double DriveminAutoSpeedR = 0.5;
+        public final static double DrivekP = 4;
         public final static double RotatekP = 5;
 
         public final static double PathfindOffset = 1; // Meters; how far away from the tag Pathfind should aim for
 
         //Reef level angles
         public final static double L1Angle = 100;
-        public final static double L2Angle = 145;
-        public final static double L3Angle = 145;
+        public final static double L2Angle = 150;
+        public final static double L3Angle = 150;
         public final static double L4Angle = 150;
-        public final static double AlgaeAngle = 100;
+        public final static double AlgaeAngle = 80;
         public final static double CoralStationAngle = 155;
         public final static double ProcessorAngle = 100;
         public final static double BargeShootAngle = 160;
         public final static double FloorPickupAngle = 58;
+        public final static double AlgaeFloorAngle = 55;
         public final static double ErrorAngle = 145;
 
         //Reef left-right length
@@ -199,7 +201,7 @@ public class Constants {
         public final static double TagToL2and3XOffset = 2.0786;
         public final static double TagToL4XOffset = 2.0498;
 
-        public final static double L1Height = 20; // Was 18
+        public final static double L1Height = 22; // Was 18
         public final static double L2Height = 32; // Was 31.875
         public final static double L3Height = 47; // Was 47.75
         public final static double L4Height = 100; // Was 71.75
@@ -209,6 +211,7 @@ public class Constants {
         public final static double BargeShootHeight = 100;
         public final static double ProcessorHeight = 0;
         public final static double FloorPickupHeight = 0;
+        public final static double AlgaeFloorHeight = 8;
 
       
     }

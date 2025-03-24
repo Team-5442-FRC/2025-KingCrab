@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.armConstants;
+import frc.robot.Constants.driveConstants;
 
 public class Arm extends SubsystemBase {
   /** Creates a new Arm. */
@@ -98,10 +99,10 @@ public class Arm extends SubsystemBase {
   public void rotate(double speed) {
 
     //If the speed is enough above the deadzone, turn on manual mode.
-    if (Math.abs(RobotContainer.Deadzone(speed))>0) manualRotateMode = true;
+    if (Math.abs(RobotContainer.Deadzone(speed, driveConstants.Controller2Deadzone))>0) manualRotateMode = true;
 
     //If the user has stopped using the stick and manual mode is on, turn it off and set the target to be where it is right now.
-    else if (manualRotateMode && RobotContainer.Deadzone(speed)==0) {
+    else if (manualRotateMode && RobotContainer.Deadzone(speed, driveConstants.Controller2Deadzone)==0) {
       manualRotateMode = false;
       targetAngle = getAngle();
     }

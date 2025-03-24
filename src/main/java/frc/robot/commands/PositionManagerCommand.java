@@ -66,7 +66,7 @@ public class PositionManagerCommand extends Command {
         RobotContainer.positionManager.calculateWristAngle(target[0])
       );
     }
-    if (RobotContainer.xbox2.getPOV() == 0) {
+    if (RobotContainer.xbox2.getPOV() == 0 || RobotContainer.xbox2.getRightStickButton()) { // Coral Station
       RobotContainer.positionManager.updatePositions(
         RobotContainer.positionManager.calculateArmPivot(5),
         RobotContainer.positionManager.calculateHeight(RobotContainer.positionManager.calculateArmPivot(5),
@@ -83,7 +83,7 @@ public class PositionManagerCommand extends Command {
         0
       );
     }
-    if (RobotContainer.xbox2.getPOV() == 180) {
+    if (RobotContainer.xbox2.getPOV() == 180 || RobotContainer.xbox2.getRightTriggerAxis() >= 0.2) { // Floor Pickup
       RobotContainer.positionManager.updatePositions(
         RobotContainer.positionManager.calculateArmPivot(6),
         RobotContainer.positionManager.calculateHeight(RobotContainer.positionManager.calculateArmPivot(6),
@@ -92,13 +92,22 @@ public class PositionManagerCommand extends Command {
         RobotContainer.positionManager.calculateWristAngle(6)
       );
     }
-    if (RobotContainer.xbox2.getPOV() == 270) {
+    if (RobotContainer.xbox2.getPOV() == 270) { // Algae Processor
       RobotContainer.positionManager.updatePositions(
         RobotContainer.positionManager.calculateArmPivot(7),
         RobotContainer.positionManager.calculateHeight(RobotContainer.positionManager.calculateArmPivot(7),
         RobotContainer.positionManager.reefLevelToHeight(7)),
         0,
         RobotContainer.positionManager.calculateWristAngle(7)
+      );
+    }
+    if (RobotContainer.xbox2.getLeftBumperButton()) { // Algae Floor Pickup
+      RobotContainer.positionManager.updatePositions(
+        RobotContainer.positionManager.calculateArmPivot(8),
+        RobotContainer.positionManager.calculateHeight(RobotContainer.positionManager.calculateArmPivot(8),
+        RobotContainer.positionManager.reefLevelToHeight(8)),
+        0,
+        RobotContainer.positionManager.calculateWristAngle(8)
       );
     }
   }

@@ -128,8 +128,8 @@ public class RobotContainer {
     public static Command EndPosition = AutoCommands.endPosition;
 
     // Other?
-    static SlewRateLimiter xSlew = new SlewRateLimiter(2);
-    static SlewRateLimiter ySlew = new SlewRateLimiter(2);
+    static SlewRateLimiter xSlew = new SlewRateLimiter(4);
+    static SlewRateLimiter ySlew = new SlewRateLimiter(4);
     static SlewRateLimiter rSlew = new SlewRateLimiter(4);
 
     public static Command autoDriveCommand = new Command() {

@@ -8,6 +8,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.driveConstants;
 import frc.robot.Constants.manipulatorConstants;
 import frc.robot.RobotContainer;
 
@@ -41,14 +42,14 @@ public class Manipulator extends SubsystemBase {
   }
 
   public void setWristSpeed(double speed) {
-    if (Math.abs(RobotContainer.Deadzone(speed))>0) wristManualMode = true;
-    else if (wristManualMode && Math.abs(RobotContainer.Deadzone(speed)) == 0) {
-      targetWristAngle = getRotation(); 
+    if (Math.abs(RobotContainer.Deadzone(speed, driveConstants.Controller2Deadzone))>0) wristManualMode = true;
+    else if (wristManualMode && Math.abs(RobotContainer.Deadzone(speed, driveConstants.Controller2Deadzone)) == 0) {
+      targetWristAngle = getRotation();
       wristManualMode = false;
     }
 
     if(wristManualMode) {
-      wristSpeed = RobotContainer.Deadzone(speed) * manipulatorConstants.WristSpeedFactor;
+      wristSpeed = RobotContainer.Deadzone(speed, driveConstants.Controller2Deadzone) * manipulatorConstants.WristSpeedFactor;
       //if it's past the right limit and still moving right, stop moving and move back left
       if ((wristSpeed>0) && (getRotation()>manipulatorConstants.WristRightLimit)) {
         wristSpeed = 0;

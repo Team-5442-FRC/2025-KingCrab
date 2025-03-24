@@ -118,6 +118,7 @@ public class PositionManager extends SubsystemBase {
     if (reefLevel == 5) return fieldConstants.CoralStationHeight; // 5 is Coral Station
     if (reefLevel == 6) return fieldConstants.FloorPickupHeight; // 6 is Floor Pickup
     if (reefLevel == 7) return fieldConstants.ProcessorHeight; // 7 is Algae Processor
+    if (reefLevel == 8) return fieldConstants.AlgaeFloorHeight; // 8 is Algae Floor Pickup
     return fieldConstants.L2Height;
   }
 
@@ -146,6 +147,7 @@ public class PositionManager extends SubsystemBase {
     if (reefLevel == 5) return Math.toRadians(fieldConstants.CoralStationAngle); // 5 means Coral Station
     if (reefLevel == 6) return Math.toRadians(fieldConstants.FloorPickupAngle); // 6 means Floor Pickup
     if (reefLevel == 7) return Math.toRadians(fieldConstants.ProcessorAngle); // 7 means Algae Processor
+    if (reefLevel == 8) return Math.toRadians(fieldConstants.AlgaeFloorAngle); // 8 means Algae Floor Pickup
     
     return Math.toRadians(fieldConstants.ErrorAngle);
   }
@@ -153,7 +155,7 @@ public class PositionManager extends SubsystemBase {
   public double calculateWristAngle(int reefLevel) {
     if (isAlgae && (reefLevel >= 2 && reefLevel <= 4)) return Math.toRadians(90);
     if (!isAlgae && (reefLevel >= 2 && reefLevel <= 4)) return 0;
-    if (reefLevel == 1 || reefLevel == 5 || reefLevel == 6 || reefLevel == 7) return Math.toRadians(90);
+    if (reefLevel == 1 || reefLevel == 5 || reefLevel == 6 || reefLevel == 7 || reefLevel == 8) return Math.toRadians(90);
     return 0;
   }
 
@@ -280,7 +282,8 @@ public class PositionManager extends SubsystemBase {
     }
 
     // Upper level speed adjustment
-    if (reefLevel == 4) RobotContainer.driveSpeed = driveConstants.MaxSpeed / 2;
+    if (RobotContainer.elevator.getHeight() > 40) RobotContainer.driveSpeed = driveConstants.MaxSpeed / 2;
+    else RobotContainer.driveSpeed = driveConstants.MaxSpeed;
 
 
     SmartDashboard.putBoolean("Auto Drive Command Scheduled?", autoDriveToTag.isScheduled());
