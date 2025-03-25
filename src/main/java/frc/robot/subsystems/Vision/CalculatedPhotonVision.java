@@ -1,5 +1,7 @@
 package frc.robot.subsystems.Vision;
 
+import frc.robot.subsystems.Vision.TagLayouts;
+
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonUtils;
 import org.photonvision.targeting.PhotonPipelineResult;
@@ -18,6 +20,8 @@ public class CalculatedPhotonVision extends CalculatedCamera {
   PhotonCamera cam;
   Transform3d camOffset;
   PhotonPipelineResult result;
+
+  public static final AprilTagFieldLayout LAYOUT = TagLayouts.getTagLayoutFromPath("apriltagLayouts/onlyReef.json");
 
 
   public CalculatedPhotonVision(String camera, Transform3d camOffset) {
@@ -69,7 +73,7 @@ public class CalculatedPhotonVision extends CalculatedCamera {
     if (hasTarget()) {
       return PhotonUtils.estimateFieldToRobotAprilTag(
         new Transform3d(getTargetPose().getX(), getTargetPose().getY(), 0, new Rotation3d(getTargetPose().getRotation().unaryMinus().plus(new Rotation2d(Math.PI)))),
-        AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape).getTagPose((int)getTargetID()).get(),
+        LAYOUT.getTagPose((int)getTargetID()).get(),
         new Transform3d(0, 0, 0, new Rotation3d(0, 0, 0))
       ).toPose2d();
     }

@@ -5,7 +5,9 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.RobotContainer;
+import frc.robot.Constants.climberConstants;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class ClimberCommand extends Command {
@@ -33,6 +35,11 @@ public class ClimberCommand extends Command {
       RobotContainer.climber.setServoAngle(0);
     }
     else RobotContainer.climber.setClimbSpeed(0);
+
+
+    if (RobotContainer.xbox1.getPOV()==0 && !climberFlip.isScheduled()) {
+      climberFlip.schedule();
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -44,4 +51,25 @@ public class ClimberCommand extends Command {
   public boolean isFinished() {
     return false;
   }
+
+  public static Command climberFlip = new Command() {
+        WaitCommand wait = new WaitCommand(1);
+
+        @Override
+        public void initialize() {
+            wait.schedule();
+            RobotContainer.climber.flipperPID = true;
+            RobotContainer.climber.setFlipperTargetAngle(climberConstants.flipperAngle);
+        }
+
+        @Override
+        public void end(boolean interrupted) {
+          RobotContainer.climber.setFlipperTargetAngle(0);
+        }
+        
+        @Override
+        public boolean isFinished() {
+            return wait.isFinished();
+        }
+  };
 }

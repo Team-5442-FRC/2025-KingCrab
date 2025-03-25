@@ -117,7 +117,8 @@ public class ManipulatorCommand extends Command {
     
     ///// Coral Intake \\\\\
     if (state == 1) {
-      speed = manipulatorConstants.CoralIntakeSpeed;
+      if (RobotContainer.positionManager.isCoralStation) speed = manipulatorConstants.CoralIntakeSpeed;
+      else speed = manipulatorConstants.CoralIntakeFloorSpeed;
 
       if (RobotContainer.manipulatorProxSensor.get()) {
         speed = 0;

@@ -38,6 +38,7 @@ public class PositionManager extends SubsystemBase {
   SlewRateLimiter xSlew = new SlewRateLimiter(0.5);
   SlewRateLimiter ySlew = new SlewRateLimiter(0.5);
   SlewRateLimiter rSlew = new SlewRateLimiter(0.5);
+  public boolean isCoralStation; // Used for manipulator speed
 
   boolean lastAutoBoolean = false;
 
@@ -190,16 +191,22 @@ public class PositionManager extends SubsystemBase {
     double x = tagPose.getX() + (fieldConstants.PathfindOffset * Math.cos(tagPose.getRotation().getRadians()));
     double y = tagPose.getY() + (fieldConstants.PathfindOffset * Math.sin(tagPose.getRotation().getRadians()));
     Pose2d targetPose = new Pose2d(x, y, tagPose.getRotation().plus(new Rotation2d(Math.PI)));
-
+    
     return AutoBuilder.pathfindToPose(
       targetPose,
       new PathConstraints(0.5, 1, 180, 180),
       0
     );
   }
-
+  
   @Override
   public void periodic() {
+
+    // Upper level speed adjustment
+    if (RobotContainer.elevator.getHeight() > elevatorConstants.SpeedLimitHeight) RobotContainer.driveSpeed = driveConstants.MaxSpeed - (Math.pow(((RobotContainer.elevator.getHeight() - elevatorConstants.SpeedLimitHeight) / (elevatorConstants.ArmTopLimit - elevatorConstants.SpeedLimitHeight)), 0.25) * (driveConstants.MaxSpeed - elevatorConstants.MinSpeed));
+    else RobotContainer.driveSpeed = driveConstants.MaxSpeed;
+
+
     if (RobotContainer.isAutomaticPositioningMode && RobotContainer.vision.hasTarget()) {
       // // robotPose = RobotContainer.vision.getTagRelativePose(reefSideToAprilTag(reefSide));
       // robotPose = RobotContainer.vision.FrontRightM1Cam.getTargetPose();
@@ -249,11 +256,21 @@ public class PositionManager extends SubsystemBase {
 
     double xSpeedTemp = ((xOffset * Math.cos(rOffset)) - (yOffset * Math.sin(rOffset))) * fieldConstants.DrivekP;
     double ySpeedTemp = ((yOffset * Math.cos(rOffset)) + (xOffset * Math.sin(rOffset))) * fieldConstants.DrivekP;
-    xSpeed = RobotContainer.Deadzone(RobotContainer.Cosine(xSpeedTemp, ySpeedTemp, 0.5), fieldConstants.DriveMinAutoSpeedX);
-    ySpeed = RobotContainer.Deadzone(RobotContainer.Sine(xSpeedTemp, ySpeedTemp, 0.5), fieldConstants.DriveMinAutoSpeedY);
+    xSpeed = RobotContainer.Deadzone(RobotContainer.Cosine(xSpeedTemp, ySpeedTemp, 1), fieldConstants.DriveMinAutoSpeedX);
+    ySpeed = RobotContainer.Deadzone(RobotContainer.Sine(xSpeedTemp, ySpeedTemp, 1), fieldConstants.DriveMinAutoSpeedY);
     double rSpeedTemp = RobotContainer.Deadzone(rOffset * fieldConstants.RotatekP, fieldConstants.DriveminAutoSpeedR);
-    if (rSpeedTemp >= 0) rSpeed = Math.pow(rSpeedTemp, 0.5);
-    else rSpeed = -Math.pow(-rSpeedTemp, 0.5);
+    if (rSpeedTemp >= 0) rSpeed = Math.pow(rSpeedTemp, 1);
+    else rSpeed = -Math.pow(-rSpeedTemp, 1);
+
+    // Clamp speeds
+    if (xSpeed > fieldConstants.DriveMaxAutoSpeed) xSpeed = fieldConstants.DriveMaxAutoSpeed;
+    if (ySpeed > fieldConstants.DriveMaxAutoSpeed) ySpeed = fieldConstants.DriveMaxAutoSpeed;
+    if (rSpeed > fieldConstants.DriveMaxAutoSpeed) rSpeed = fieldConstants.DriveMaxAutoSpeed;
+
+    // Lower speeds if elevator up
+    xSpeed *= (RobotContainer.driveSpeed / driveConstants.MaxSpeed);
+    ySpeed *= (RobotContainer.driveSpeed / driveConstants.MaxSpeed);
+    rSpeed *= (RobotContainer.driveSpeed / driveConstants.MaxSpeed);
 
     // TODO - add slew limiter plz
     if (RobotContainer.isAutomaticDriveMode && !lastAutoBoolean) {
@@ -281,9 +298,6 @@ public class PositionManager extends SubsystemBase {
       autoDriveToTag.cancel();
     }
 
-    // Upper level speed adjustment
-    if (RobotContainer.elevator.getHeight() > 40) RobotContainer.driveSpeed = driveConstants.MaxSpeed / 2;
-    else RobotContainer.driveSpeed = driveConstants.MaxSpeed;
 
 
     SmartDashboard.putBoolean("Auto Drive Command Scheduled?", autoDriveToTag.isScheduled());

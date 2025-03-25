@@ -101,7 +101,8 @@ public class RobotContainer {
     // Climber variables
     public static Climber climber = new Climber();
     public static ClimberCommand climberCommand = new ClimberCommand();
-    public static SparkMax climberMotor = new SparkMax(25, MotorType.kBrushless);
+    public static SparkMax winchMotor = new SparkMax(25, MotorType.kBrushless);
+    public static SparkMax flipperMotor = new SparkMax(27, MotorType.kBrushless);
     public static Servo climberServo = new Servo(9);
 
     // Elevator variables
@@ -128,9 +129,9 @@ public class RobotContainer {
     public static Command EndPosition = AutoCommands.endPosition;
 
     // Other?
-    static SlewRateLimiter xSlew = new SlewRateLimiter(4);
-    static SlewRateLimiter ySlew = new SlewRateLimiter(4);
-    static SlewRateLimiter rSlew = new SlewRateLimiter(4);
+    static SlewRateLimiter xSlew = new SlewRateLimiter(16);
+    static SlewRateLimiter ySlew = new SlewRateLimiter(16);
+    static SlewRateLimiter rSlew = new SlewRateLimiter(20);
 
     public static Command autoDriveCommand = new Command() {
         @Override

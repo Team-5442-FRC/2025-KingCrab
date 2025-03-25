@@ -84,6 +84,10 @@ public class Constants {
 
         public final static double Side2SideOffset = 0; // Inches; offset if starting from center
 
+        //Drive speed limiting
+        public final static double SpeedLimitHeight = 17; //Inches; point at which speed should start being limited
+        public final static double MinSpeed = 1.25; //Meters per second; drive speed at max elevator extension
+
     }
 
     
@@ -121,7 +125,8 @@ public class Constants {
         // public final static double manipulatorIntakeSpeed = 0.3;
         // public final static double manipulatorOutakeSpeed = -0.3;
 
-        public final static double CoralIntakeSpeed = 0.7;
+        public final static double CoralIntakeSpeed = 0.45;
+        public final static double CoralIntakeFloorSpeed = 0.7;
         public final static double CoralPlaceSpeed = 0.3;
         public final static double AlgaeIntakeSpeed = 0.3;
         public final static double AlgaeShootSpeed = -0.6;
@@ -159,6 +164,9 @@ public class Constants {
         public final static double MaxPosition = 240;
         public final static double MinPosition = 15;
 
+        public final static double flipperMotorPIDkp = 0.2;
+        public final static double flipperAngle = Math.toRadians(80);
+
     }
 
     public static final class fieldConstants {
@@ -166,7 +174,7 @@ public class Constants {
         // Optimal Drive Distances: Meters
         public final static double DriveL1X = 0.825; // Meters; optimal x distance away from the tag
         public final static double DriveL2andL3X = 0.5875; // Meters; optimal x distance away from the tag
-        public final static double DriveL4X = 0.59; // Meters; optimal x distance away from the tag
+        public final static double DriveL4X = 0.55; // Meters; optimal x distance away from the tag
         public final static double DriveAlgaeX = 1; // Meters; optimal x distance away from the tag
         public final static double DriveCoralX = 0.65;
         public final static double DriveLeftY = 0.1 + Units.inchesToMeters(elevatorConstants.ArmLeftLimit); // Meters; optimal Y distance from tag for left pole
@@ -174,9 +182,10 @@ public class Constants {
 
         public final static double DriveMinAutoSpeedX = 0.1;
         public final static double DriveMinAutoSpeedY = 0.05;
-        public final static double DriveminAutoSpeedR = 0.5;
-        public final static double DrivekP = 4;
-        public final static double RotatekP = 5;
+        public final static double DriveminAutoSpeedR = 0.2;
+        public final static double DriveMaxAutoSpeed = 2;
+        public final static double DrivekP = 8;
+        public final static double RotatekP = 7;
 
         public final static double PathfindOffset = 1; // Meters; how far away from the tag Pathfind should aim for
 
@@ -186,7 +195,7 @@ public class Constants {
         public final static double L3Angle = 150;
         public final static double L4Angle = 150;
         public final static double AlgaeAngle = 80;
-        public final static double CoralStationAngle = 155;
+        public final static double CoralStationAngle = 160;
         public final static double ProcessorAngle = 100;
         public final static double BargeShootAngle = 160;
         public final static double FloorPickupAngle = 58;
@@ -210,7 +219,7 @@ public class Constants {
         public final static double CoralStationHeight = 25; // Bottom of station is 37.5 inches
         public final static double BargeShootHeight = 100;
         public final static double ProcessorHeight = 0;
-        public final static double FloorPickupHeight = 0;
+        public final static double FloorPickupHeight = 1;
         public final static double AlgaeFloorHeight = 8;
 
       

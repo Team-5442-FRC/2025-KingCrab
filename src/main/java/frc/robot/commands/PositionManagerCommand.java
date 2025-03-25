@@ -74,6 +74,7 @@ public class PositionManagerCommand extends Command {
         0,
         RobotContainer.positionManager.calculateWristAngle(5)
       );
+      RobotContainer.positionManager.isCoralStation = true; // Used for manipulator speed
     }
     if (RobotContainer.xbox2.getPOV() == 90) { // Set to starting/lowest position
       RobotContainer.positionManager.updatePositions(
@@ -91,6 +92,7 @@ public class PositionManagerCommand extends Command {
         0,
         RobotContainer.positionManager.calculateWristAngle(6)
       );
+      RobotContainer.positionManager.isCoralStation = false; // Used for manipulator speed
     }
     if (RobotContainer.xbox2.getPOV() == 270) { // Algae Processor
       RobotContainer.positionManager.updatePositions(
