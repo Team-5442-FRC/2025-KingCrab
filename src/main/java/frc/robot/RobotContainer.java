@@ -108,7 +108,9 @@ public class RobotContainer {
     // Elevator variables
     public static Elevator elevator = new Elevator();
     public static ElevatorCommand elevatorCommand = new ElevatorCommand();
-    public static SparkMax upAndDownMotor = new SparkMax(20, MotorType.kBrushless);
+    // public static SparkMax upAndDownMotor = new SparkMax(20, MotorType.kBrushless);
+    public static TalonFX upAndDownMotor = new TalonFX(20);
+    // public static TalonFX upAndDownMotor2 = new TalonFX(23);
     // public static SparkMax side2SideMotor = new SparkMax(23, MotorType.kBrushless);
     public static DutyCycleEncoder elevatorEncoder = new DutyCycleEncoder(1);
 
@@ -151,12 +153,6 @@ public class RobotContainer {
     };
 
     public static boolean hasFieldOriented = false;
-    // public static Trigger autoDriveToTag = new Trigger(new BooleanSupplier() {
-    //     @Override
-    //     public boolean getAsBoolean() {
-    //         return isAutomaticDriveMode;
-    //     };
-    // });
 
     public static void disableDefaultCommand() {
         drivetrain.setDefaultCommand(null);
@@ -229,28 +225,6 @@ public class RobotContainer {
         ));
 
         joystick.a().whileTrue(drivetrain.applyRequest(() -> DriveModes.brake));
-
-        // joystick.rightBumper().whileTrue(drivetrain.applyRequest(() ->
-        //     DriveModes.driveRobot
-        //         .withVelocityX(positionManager.xSpeed)
-        //         .withVelocityY(positionManager.ySpeed)
-        //         .withRotationalRate(positionManager.rSpeed)
-        // ));
-
-        // autoDriveToTag.whileTrue(drivetrain.applyRequest(() ->
-        //     DriveModes.driveRobot
-        //         .withVelocityX(positionManager.xSpeed)
-        //         .withVelocityY(positionManager.ySpeed)
-        //         .withRotationalRate(positionManager.rSpeed)
-        // ));
-        
-        // Run SysId routines when holding back/start and X/Y.
-        // Note that each routine should be run exactly once in a single log.
-        // What is this? We don't know! 2/6/25
-        // joystick.back().and(joystick.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
-        // joystick.back().and(joystick.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
-        // joystick.start().and(joystick.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
-        // joystick.start().and(joystick.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
 
         // reset the field-centric heading on left bumper press
         joystick.povDown().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));

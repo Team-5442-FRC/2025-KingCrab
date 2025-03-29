@@ -6,6 +6,7 @@ package frc.robot;
 
 import static edu.wpi.first.units.Units.*;
 
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.controller.PIDController;
@@ -15,6 +16,7 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.util.Units;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.Vision.TagLayouts;
 
 
 /** Add your docs here. */
@@ -72,8 +74,8 @@ public class Constants {
         public final static double ArmRightLimit = -6.5; // Inches; -Y
         public final static double ArmLeftLimit = 3; // Inches; +Y
 
-        public final static double ArmTopLimit = 61.5; // Was 59.5
-        public final static double ArmBottomLimit = 9.375 + 0.25;
+        public final static double ArmTopLimit = 61; // Was 59.5
+        public final static double ArmBottomLimit = 9.375 + 1;
 
         public final static double Side2SideSpeedFactor = 1;
         public final static double UpAndDownSpeedFactor = 0.4;
@@ -104,7 +106,7 @@ public class Constants {
         public final static double ExtendBackwardLimit = 0.25 + PivotToMinExtend + MinExtendToCoral; // WAS 16 //Inches; Minimum extention
         ///// ------ \\\\\
 
-        public final static double RotateUpLimit = Math.toRadians(160); //Hard limits (Was 170)
+        public final static double RotateUpLimit = Math.toRadians(165); //Hard limits (Was 170)
         public final static double RotateDownLimit = Math.toRadians(55); //Hard Limits (Was 10)
         public final static double RotateEncoderOffset = 0.459; //Offset in rotations at level (90 degrees)
         
@@ -129,7 +131,7 @@ public class Constants {
         public final static double CoralIntakeFloorSpeed = 0.7;
         public final static double CoralPlaceSpeed = 0.3;
         public final static double AlgaeIntakeSpeed = 0.3;
-        public final static double AlgaeShootSpeed = -0.6;
+        public final static double AlgaeShootSpeed = -0.7;
         public final static double AlgaeHoldSpeed = 0.6;
         public final static double IntakeReverseSpeed = -0.3;
 
@@ -145,7 +147,9 @@ public class Constants {
     
     public static final class visionConstants {
         
-        public final static double AngleDistrust = 10; // How much the angle should impact vision trust
+        public final static double AngleDistrust = 10; // UNUSED - How much the angle should impact vision trust
+
+        public static final AprilTagFieldLayout TagLayout = TagLayouts.getTagLayoutFromPath("apriltagLayouts/onlyReef.json");
 
         public final static Matrix<N3, N1> VisionStandardDeviationSingleTag = VecBuilder.fill(2,2,4);
         public final static Matrix<N3, N1> VisionStandardDeviationMultiTag = VecBuilder.fill(0.5,0.5,1);
@@ -172,9 +176,9 @@ public class Constants {
     public static final class fieldConstants {
 
         // Optimal Drive Distances: Meters
-        public final static double DriveL1X = 0.825; // Meters; optimal x distance away from the tag
+        public final static double DriveL1X = 0.85; // Meters; optimal x distance away from the tag
         public final static double DriveL2andL3X = 0.5875; // Meters; optimal x distance away from the tag
-        public final static double DriveL4X = 0.55; // Meters; optimal x distance away from the tag
+        public final static double DriveL4X = 0.6; // Meters; optimal x distance away from the tag
         public final static double DriveAlgaeX = 1; // Meters; optimal x distance away from the tag
         public final static double DriveCoralX = 0.65;
         public final static double DriveLeftY = 0.1 + Units.inchesToMeters(elevatorConstants.ArmLeftLimit); // Meters; optimal Y distance from tag for left pole
@@ -182,9 +186,9 @@ public class Constants {
 
         public final static double DriveMinAutoSpeedX = 0.1;
         public final static double DriveMinAutoSpeedY = 0.05;
-        public final static double DriveminAutoSpeedR = 0.2;
+        public final static double DriveminAutoSpeedR = 0.1;
         public final static double DriveMaxAutoSpeed = 2;
-        public final static double DrivekP = 8;
+        public final static double DrivekP = 6; // Was 8
         public final static double RotatekP = 7;
 
         public final static double PathfindOffset = 1; // Meters; how far away from the tag Pathfind should aim for
@@ -195,8 +199,8 @@ public class Constants {
         public final static double L3Angle = 150;
         public final static double L4Angle = 150;
         public final static double AlgaeAngle = 80;
-        public final static double CoralStationAngle = 160;
-        public final static double ProcessorAngle = 100;
+        public final static double CoralStationAngle = 165;
+        public final static double ProcessorAngle = 115;
         public final static double BargeShootAngle = 160;
         public final static double FloorPickupAngle = 58;
         public final static double AlgaeFloorAngle = 55;
@@ -216,10 +220,10 @@ public class Constants {
         public final static double L4Height = 100; // Was 71.75
         public final static double AlgaeL2Height = 32;
         public final static double AlgaeL3Height = 47;
-        public final static double CoralStationHeight = 25; // Bottom of station is 37.5 inches
+        public final static double CoralStationHeight = 27; // Bottom of station is 37.5 inches
         public final static double BargeShootHeight = 100;
         public final static double ProcessorHeight = 0;
-        public final static double FloorPickupHeight = 1;
+        public final static double FloorPickupHeight = 1.75;
         public final static double AlgaeFloorHeight = 8;
 
       

@@ -84,7 +84,7 @@ public class AutoCommands {
 
         @Override
         public boolean isFinished() { // Finish if in poistion; if it takes more than 2 seconds, ends early
-            return timeout.isFinished() || (RobotContainer.positionManager.xSpeed <= 0.05 && RobotContainer.positionManager.ySpeed <= 0.05 && RobotContainer.positionManager.rSpeed <= 1);
+            return timeout.isFinished() || (Math.abs(RobotContainer.positionManager.xSpeed) <= 0.05 && Math.abs(RobotContainer.positionManager.ySpeed) <= 0.05 && Math.abs(RobotContainer.positionManager.rSpeed) <= 1);
         }
     };
 
@@ -108,7 +108,7 @@ public class AutoCommands {
 
 
     public static Command backUpR4 = new Command() {
-        WaitCommand wait = new WaitCommand(1.5);
+        WaitCommand wait = new WaitCommand(1);
 
         @Override
         public void initialize() {
@@ -158,14 +158,14 @@ public class AutoCommands {
 
         @Override
         public boolean isFinished() {
-            return timeout.isFinished() || (RobotContainer.positionManager.xSpeed <= 0.05 && RobotContainer.positionManager.ySpeed <= 0.05 && RobotContainer.positionManager.rSpeed <= 1);
+            return timeout.isFinished() || (Math.abs(RobotContainer.positionManager.xSpeed) <= 0.05 && Math.abs(RobotContainer.positionManager.ySpeed) <= 0.05 && Math.abs(RobotContainer.positionManager.rSpeed) <= 1);
         }
     };
 
 
 
     public static Command grabAlgae4 = new Command() {
-        WaitCommand wait = new WaitCommand(1.5);
+        WaitCommand wait = new WaitCommand(0.75);
 
         @Override
         public void initialize() {
@@ -217,7 +217,7 @@ public class AutoCommands {
 
 
     public static Command bargeAlgae = new Command() {
-        WaitCommand shootWait = new WaitCommand(0.25);
+        WaitCommand shootWait = new WaitCommand(0.5);
 
         @Override
         public void initialize() {

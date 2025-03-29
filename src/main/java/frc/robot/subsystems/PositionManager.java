@@ -220,6 +220,7 @@ public class PositionManager extends SubsystemBase {
 
     }
 
+    ///// Auto Drive Mode \\\\\
     if (!driveLeftCoralStation && !driveRightCoralStation) {
       Pose2d tempPose = RobotContainer.drivetrain.getState().Pose;
       robotPose = RobotContainer.vision.getTagRelativePose(tempPose, positionToAprilTag(tempPose));
@@ -263,16 +264,17 @@ public class PositionManager extends SubsystemBase {
     else rSpeed = -Math.pow(-rSpeedTemp, 1);
 
     // Clamp speeds
-    if (xSpeed > fieldConstants.DriveMaxAutoSpeed) xSpeed = fieldConstants.DriveMaxAutoSpeed;
-    if (ySpeed > fieldConstants.DriveMaxAutoSpeed) ySpeed = fieldConstants.DriveMaxAutoSpeed;
-    if (rSpeed > fieldConstants.DriveMaxAutoSpeed) rSpeed = fieldConstants.DriveMaxAutoSpeed;
+    if (RobotContainer.driveSpeed < fieldConstants.DriveMaxAutoSpeed) { // Elevator-based speed clamp
+      if (xSpeed > RobotContainer.driveSpeed) xSpeed = RobotContainer.driveSpeed;
+      if (ySpeed > RobotContainer.driveSpeed) ySpeed = RobotContainer.driveSpeed;
+      if (rSpeed > RobotContainer.driveSpeed) rSpeed = RobotContainer.driveSpeed;
+    }
+    else { // Normal speed clamp
+      if (xSpeed > fieldConstants.DriveMaxAutoSpeed) xSpeed = fieldConstants.DriveMaxAutoSpeed;
+      if (ySpeed > fieldConstants.DriveMaxAutoSpeed) ySpeed = fieldConstants.DriveMaxAutoSpeed;
+      if (rSpeed > fieldConstants.DriveMaxAutoSpeed) rSpeed = fieldConstants.DriveMaxAutoSpeed;
+    }
 
-    // Lower speeds if elevator up
-    xSpeed *= (RobotContainer.driveSpeed / driveConstants.MaxSpeed);
-    ySpeed *= (RobotContainer.driveSpeed / driveConstants.MaxSpeed);
-    rSpeed *= (RobotContainer.driveSpeed / driveConstants.MaxSpeed);
-
-    // TODO - add slew limiter plz
     if (RobotContainer.isAutomaticDriveMode && !lastAutoBoolean) {
       RobotContainer.disableDefaultCommand(); // Disable auto drive so you can go nyoom
       RobotContainer.autoDriveCommand.schedule();
@@ -290,13 +292,13 @@ public class PositionManager extends SubsystemBase {
     lastAutoBoolean = RobotContainer.isAutomaticDriveMode; // Update boolean for memory
 
     
-    if (RobotContainer.xbox1.getYButtonPressed() && !autoDriveToTag.isScheduled()) {
-      autoDriveToTag = generatePathToTag(reefSideToAprilTag(reefSide));
-      autoDriveToTag.schedule();
-    }
-    else if (!RobotContainer.xbox1.getYButton()) {
-      autoDriveToTag.cancel();
-    }
+    // if (RobotContainer.xbox1.getYButtonPressed() && !autoDriveToTag.isScheduled()) {
+    //   autoDriveToTag = generatePathToTag(reefSideToAprilTag(reefSide));
+    //   autoDriveToTag.schedule();
+    // }
+    // else if (!RobotContainer.xbox1.getYButton()) {
+    //   autoDriveToTag.cancel();
+    // }
 
 
 

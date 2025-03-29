@@ -20,9 +20,7 @@ public class CalculatedPhotonVision extends CalculatedCamera {
   PhotonCamera cam;
   Transform3d camOffset;
   PhotonPipelineResult result;
-
-  public static final AprilTagFieldLayout LAYOUT = TagLayouts.getTagLayoutFromPath("apriltagLayouts/onlyReef.json");
-
+  
 
   public CalculatedPhotonVision(String camera, Transform3d camOffset) {
     super(camera);
@@ -73,7 +71,7 @@ public class CalculatedPhotonVision extends CalculatedCamera {
     if (hasTarget()) {
       return PhotonUtils.estimateFieldToRobotAprilTag(
         new Transform3d(getTargetPose().getX(), getTargetPose().getY(), 0, new Rotation3d(getTargetPose().getRotation().unaryMinus().plus(new Rotation2d(Math.PI)))),
-        LAYOUT.getTagPose((int)getTargetID()).get(),
+        AprilTagFieldLayout.loadField(AprilTagFields.k2025Reefscape).getTagPose((int)getTargetID()).get(),
         new Transform3d(0, 0, 0, new Rotation3d(0, 0, 0))
       ).toPose2d();
     }

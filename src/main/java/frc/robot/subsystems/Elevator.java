@@ -48,11 +48,12 @@ double combinedHeight = 0;
     side2SideCurrentPos = getSideToSide();
     
     RobotContainer.upAndDownMotor.set(upAndDownSpeed);
+    // RobotContainer.upAndDownMotor2.set(-upAndDownSpeed);
     // RobotContainer.side2SideMotor.set(-side2SideSpeed);
     // RobotContainer.side2SideMotor.set(0);
     
     SmartDashboard.putNumber("Elevator Height", getHeight());
-    SmartDashboard.putNumber("Elevator Encoder", RobotContainer.upAndDownMotor.getEncoder().getPosition());
+    SmartDashboard.putNumber("Elevator Encoder", RobotContainer.upAndDownMotor.getPosition().getValueAsDouble());
     SmartDashboard.putNumber("Elevator Speed", upAndDownSpeed);
 
     SmartDashboard.putNumber("Elevator Side To Side Value", getSideToSide());
@@ -142,7 +143,10 @@ double combinedHeight = 0;
     
     //PID to determine speed when in computer controlled mode
     if (!upAndDownManualMode) {
-      upAndDownSpeed = upAndDownLimiter.calculate(upAndDownPID.calculate(upAndDownCurrentPos - upAndDownTargetPos));
+      upAndDownSpeed = upAndDownPID.calculate(upAndDownCurrentPos - upAndDownTargetPos);
+      if (upAndDownSpeed > 1) upAndDownSpeed = 1;
+      if (upAndDownSpeed < -1) upAndDownSpeed = -1;
+      upAndDownSpeed = upAndDownLimiter.calculate(upAndDownSpeed);
       if (upAndDownSpeed > 0 && upAndDownCurrentPos > elevatorConstants.ArmTopLimit) upAndDownSpeed = 0;
       if (upAndDownSpeed < 0 && upAndDownCurrentPos < elevatorConstants.ArmBottomLimit) upAndDownSpeed = 0;
     }
@@ -151,7 +155,8 @@ double combinedHeight = 0;
   /**Height of the pivot point in inches from floor*/
   public double getHeight() {
     // return (combinedHeight * elevatorConstants.InchesPerRotation) + elevatorConstants.PivotToFloorOffset; // Absolute Encoder, removed 2/20/25
-    return ((RobotContainer.upAndDownMotor.getEncoder().getPosition() * elevatorConstants.InchesPerRotation) / 25) + elevatorConstants.PivotToFloorOffset;
+    // return ((RobotContainer.upAndDownMotor.getEncoder().getPosition() * elevatorConstants.InchesPerRotation) / 25) + elevatorConstants.PivotToFloorOffset;
+    return ((RobotContainer.upAndDownMotor.getPosition().getValueAsDouble() * elevatorConstants.InchesPerRotation) / 16) + elevatorConstants.PivotToFloorOffset;
   }
 
   public double getSideToSide() {

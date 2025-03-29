@@ -141,10 +141,16 @@ public class ManipulatorCommand extends Command {
     ///// Algae Intake \\\\\
     if (state == 3) {
       speed = manipulatorConstants.AlgaeIntakeSpeed;
+      RobotContainer.xbox1.setRumble(RumbleType.kBothRumble, 0.5);
+      RobotContainer.xbox2.setRumble(RumbleType.kBothRumble, 0.5);
 
       if (RobotContainer.manipulatorProxSensor.get()) state = 4; // Go to Algae Hold
       else if (bReleased) state = 4; // Go to Algae Hold
-      else if (yPressed) state = 0; // Return to At Rest
+      else if (yPressed) {
+        state = 0; // Return to At Rest
+        RobotContainer.xbox1.setRumble(RumbleType.kBothRumble, 0);
+        RobotContainer.xbox2.setRumble(RumbleType.kBothRumble, 0);
+      }
     }
 
     ///// Algae Hold \\\\\
@@ -159,7 +165,11 @@ public class ManipulatorCommand extends Command {
       speed = manipulatorConstants.AlgaeShootSpeed;
       if (yPressed) dropArmAlgae.schedule();
 
-      if (yReleased) state = 0;
+      if (yReleased) {
+        state = 0;
+        RobotContainer.xbox1.setRumble(RumbleType.kBothRumble, 0);
+        RobotContainer.xbox2.setRumble(RumbleType.kBothRumble, 0);
+      }
     }
 
     ///// Reverse Intake \\\\\
