@@ -162,6 +162,36 @@ public class AutoCommands {
         }
     };
 
+    public static Command positionAlgae5 = new Command() {
+        WaitCommand timeout = new WaitCommand(2);
+
+        @Override
+        public void initialize() {
+            timeout.schedule();
+
+            RobotContainer.isAutomaticDriveMode = true;
+
+            RobotContainer.positionManager.setReefTarget(false, 3, 5, true);
+            RobotContainer.positionManager.updatePositions(
+                RobotContainer.positionManager.calculateArmPivot(3),
+                RobotContainer.positionManager.calculateHeight(RobotContainer.positionManager.calculateArmPivot(3),
+                RobotContainer.positionManager.reefLevelToHeight(3)),
+                0,
+                RobotContainer.positionManager.calculateWristAngle(3)
+            );
+        }
+        
+        @Override
+        public void end(boolean interrupted) {
+            RobotContainer.isAutomaticDriveMode = false;
+        }
+
+        @Override
+        public boolean isFinished() {
+            return timeout.isFinished() || (Math.abs(RobotContainer.positionManager.xSpeed) <= 0.05 && Math.abs(RobotContainer.positionManager.ySpeed) <= 0.05 && Math.abs(RobotContainer.positionManager.rSpeed) <= 1);
+        }
+    };
+
 
 
     public static Command grabAlgae4 = new Command() {

@@ -26,12 +26,12 @@ public class Constants {
 
     public static final class driveConstants {
 
-        public final static double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
+        public final static double MaxSpeed = 2.5; //4 -> 3.5 -> 2.5 //TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
         public final static double MaxAngularRate = RotationsPerSecond.of(Math.PI / 4).in(RadiansPerSecond); // 2 rotations per second max angular velocity
 
         // public final static double MaxSpeed = 5; //Max targeted speed in M/S (15 NORMALLY)
         // public final static double MaxAngularRate = 1.5 * Math.PI * 3; //Max targeted rotations / second -- 3/4ths of a rotation for now
-        public final static double MaxAcceleration = 2; //Max acceleration in M/s/s;
+        public final static double MaxAcceleration = 1; //2 -> 1.5 -> 1  //Max acceleration in M/s/s;
         public final static double MaxAngularAcceleration = 4 * Math.PI;
         public final static double SpeedDeadbandPercentage = 0; //Deadband or Deadzone of requested speed, as a percentage of the maximum speed;
 
@@ -74,8 +74,8 @@ public class Constants {
         public final static double ArmRightLimit = -6.5; // Inches; -Y
         public final static double ArmLeftLimit = 3; // Inches; +Y
 
-        public final static double ArmTopLimit = 61; // Was 59.5
-        public final static double ArmBottomLimit = 9.375 + 1;
+        public final static double ArmTopLimit = 63.75; // Was 59.5
+        public final static double ArmBottomLimit = 10.5;
 
         public final static double Side2SideSpeedFactor = 1;
         public final static double UpAndDownSpeedFactor = 0.4;
@@ -131,7 +131,7 @@ public class Constants {
         public final static double CoralIntakeFloorSpeed = 0.7;
         public final static double CoralPlaceSpeed = 0.3;
         public final static double AlgaeIntakeSpeed = 0.3;
-        public final static double AlgaeShootSpeed = -0.7;
+        public final static double AlgaeShootSpeed = -0.75;
         public final static double AlgaeHoldSpeed = 0.6;
         public final static double IntakeReverseSpeed = -0.3;
 

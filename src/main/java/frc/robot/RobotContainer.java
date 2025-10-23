@@ -13,6 +13,7 @@ import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.util.sendable.SendableRegistry;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -124,7 +125,8 @@ public class RobotContainer {
     public static Command PlaceReef = AutoCommands.placeReef4R4;
     public static Command DropR4 = AutoCommands.dropOnReefR4;
     public static Command BackUp = AutoCommands.backUpR4;
-    public static Command PositionAlgae = AutoCommands.positionAlgae4;
+    public static Command PositionAlgae4 = AutoCommands.positionAlgae4;
+    public static Command PositionAlgae5 = AutoCommands.positionAlgae5;
     public static Command GrabAlgae = AutoCommands.grabAlgae4;
     public static Command ArmUpAlgae = AutoCommands.armUpAlgae;
     public static Command BargeAlgae = AutoCommands.bargeAlgae;
@@ -188,11 +190,13 @@ public class RobotContainer {
         NamedCommands.registerCommand("Place Reef", PlaceReef);
         NamedCommands.registerCommand("Drop R4", DropR4);
         NamedCommands.registerCommand("Back Up", BackUp);
-        NamedCommands.registerCommand("Position Algae", PositionAlgae);
+        NamedCommands.registerCommand("Position Algae 4", PositionAlgae4);
+        NamedCommands.registerCommand("Position Algae 5", PositionAlgae5);
         NamedCommands.registerCommand("Grab Algae", GrabAlgae);
         NamedCommands.registerCommand("Arm Up Algae", ArmUpAlgae);
         NamedCommands.registerCommand("Barge Algae", BargeAlgae);
         NamedCommands.registerCommand("End Position", EndPosition);
+      
 
         autoChooser = AutoBuilder.buildAutoChooser("Blue Center");
         // autoChooser.addOption("Blue Center", "Blue Center");
